@@ -9,7 +9,7 @@ export function createGarmentScene(host: HTMLDivElement, onInteraction: (view?: 
   renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.75));
   renderer.outputColorSpace=THREE.SRGBColorSpace;
   renderer.toneMapping=THREE.NeutralToneMapping;
-  renderer.setClearColor('#e8ebe0',1);
+  renderer.setClearColor('#eee8d8',1);
   renderer.domElement.setAttribute('aria-label','Interactive 3D garment. Drag to rotate; pinch to zoom. View buttons are available below.');
   renderer.domElement.setAttribute('role','img');
   host.appendChild(renderer.domElement);
@@ -22,7 +22,7 @@ export function createGarmentScene(host: HTMLDivElement, onInteraction: (view?: 
   for (const [position,intensity] of [[[2,3,4],2.5],[[-3,1,1],1.1],[[1,2,-3],2]] as const) {
     const light = new THREE.DirectionalLight('#ffffff',intensity);light.position.set(position[0],position[1],position[2]);scene.add(light);
   }
-  const floor = new THREE.Mesh(new THREE.CircleGeometry(1.05,64),new THREE.MeshBasicMaterial({color:'#d4d9c9',transparent:true,opacity:.55}));
+  const floor = new THREE.Mesh(new THREE.CircleGeometry(1.05,64),new THREE.MeshBasicMaterial({color:'#d2c7ac',transparent:true,opacity:.55}));
   floor.rotation.x=-Math.PI/2;floor.position.y=-1.35;scene.add(floor);
   let model: GarmentModel | null=null, frame=0, disposed=false, version=0, spinning=false, visible=true, last=0, showForm=true;
   function requestRender() { if (!frame && !disposed && !document.hidden) frame=requestAnimationFrame(render); }

@@ -3,17 +3,17 @@
   --font: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --serif: 'Libre Caslon Display', Georgia, serif;
   --indigo: #155456;
-  --paper: #ffffff;
-  --line: #dcdccd;
-  --muted: #67716a;
+  --paper: #fbf8ef;
+  --line: #d8d0ba;
+  --muted: #656957;
   --ink: #203b36;
-  --surface: #e8ebe0;
+  --surface: #eee8d8;
   --selection: #e5ece2;
   font-family: var(--font);
   color: var(--ink);
-  background: #f6f7ef;
+  background: #f3efe3;
 }
-body { background: #f6f7ef; }
+body { background: #f3efe3; }
 button, input, select { font-family: var(--font); }
 button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
   outline: 3px solid #bb9652;
@@ -36,11 +36,11 @@ em { font-style: normal; font-weight: inherit; }
 .step.active .step-number { background: var(--indigo); color: white; border-color: var(--indigo); }
 .primary-button, .secondary-button { font-size: 13px; font-weight: 550; border-radius: 7px; padding: 12px 18px; min-height: 44px; gap: 18px; }
 .primary-button:hover:not(:disabled) { background: #103e40; }
-.secondary-button { background: white; border-color: #c9cebe; }
+.secondary-button { background: var(--paper); border-color: #c9cebe; }
 .secondary-button:hover:not(:disabled) { background: #f0f2e9; }
 .text-button { font-size: 12px; min-height: 36px; color: var(--indigo); }
 .small-note { font-size: 12px; line-height: 1.6; color: var(--muted); }
-.message { border-radius: 7px; font-size: 13px; background: #f0f5ff; border-color: #cbd9f8; }
+.message { border-radius: 7px; font-size: 13px; background: #edf1e3; border-color: #b8c7a8; }
 .message.error { background: #fff2ef; border-color: #efc8c0; }
 .status-dot { background: #44866f; }
 .app-shell .session-footer { margin: 10px 0; min-height: 28px; }
@@ -50,7 +50,7 @@ em { font-style: normal; font-weight: inherit; }
 .site-footer > span:first-child { font-size: 11px; letter-spacing: 0; font-weight: 500; }
 
 /* One workspace with a step rail, a decision area, and a live product preview. */
-.guided-studio { height: calc(100dvh - 252px); min-height: 480px; max-height: 820px; max-width: none; background: white; border-radius: 4px; border-color: var(--line); }
+.guided-studio { height: calc(100dvh - 252px); min-height: 480px; max-height: 820px; max-width: none; background: var(--paper); border-radius: 4px; border-color: var(--line); }
 .guide-topbar { padding: 0 24px; min-height: 54px; font-size: 13px; font-weight: 500; color: var(--ink); border-bottom: 1px solid var(--line); flex-shrink: 0; }
 .guide-topbar .text-button { font-size: 12px; font-weight: 400; }
 .guide-workspace { flex: 1; min-height: 0; display: grid; grid-template-columns: 148px minmax(0,1fr); }
@@ -61,7 +61,7 @@ em { font-style: normal; font-weight: inherit; }
 .guide-progress > div[aria-current=step] { background: var(--selection); color: var(--indigo); font-weight: 600; }
 .guide-progress .guide-step-index { width: 21px; height: 21px; border-color: #c9cebe; flex-shrink: 0; font-size: 10px; }
 .guide-progress > div .progress-name { width: auto; height: auto; border: none; border-radius: 0; display: block; background: transparent; color: inherit; font-size: inherit; }
-.guide-progress .reached .guide-step-index { background: white; color: var(--indigo); border-color: #a9c1b7; }
+.guide-progress .reached .guide-step-index { background: var(--paper); color: var(--indigo); border-color: #a9c1b7; }
 .guide-progress [aria-current=step] .guide-step-index { background: var(--indigo); border-color: var(--indigo); color: white; }
 .guide-body { display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,1fr); flex: initial; min-height: 0; }
 .guide-content { padding: 34px 30px; }
@@ -73,7 +73,7 @@ em { font-style: normal; font-weight: inherit; }
 .guide-fabric { width: 100%; padding-top: 15px; border-top: 1px solid #d4d9c9; font-size: 13px; gap: 12px; }
 .guide-fabric > img { height: 44px; width: 44px; border-radius: 4px; }
 .guide-fabric small { font-size: 11px; color: var(--muted); line-height: 1.6; }
-.guide-footer { min-height: 70px; padding: 14px 24px; background: white; border-color: var(--line); }
+.guide-footer { min-height: 70px; padding: 14px 24px; background: var(--paper); border-color: var(--line); }
 .guide-footer > span { font-size: 12px; color: var(--muted); }
 .guide-footer .primary-button { min-width: 150px; }
 .guide-footer .text-button { font-size: 12px; }
@@ -84,9 +84,9 @@ em { font-style: normal; font-weight: inherit; }
 .welcome-route li::marker { color: var(--muted); font-size: 12px; }
 .welcome-route small { font-size: 12px; font-weight: 400; color: var(--muted); line-height: 1.6; margin-top: 5px; }
 .guide-wearer, .guide-motifs, .guide-palettes, .guide-shapes { gap: 12px; }
-.guide-wearer button, .guide-motifs button, .guide-palettes button, .guide-shapes button { background: white; border: 1px solid #d4d9c9; border-radius: 8px; padding: 7px; }
+.guide-wearer button, .guide-motifs button, .guide-palettes button, .guide-shapes button { background: var(--paper); border: 1px solid #d4d9c9; border-radius: 8px; padding: 7px; }
 .guide-wearer button:hover, .guide-motifs button:hover, .guide-palettes button:hover, .guide-shapes button:hover { border-color: #799c8b; }
-.guide-wearer button[aria-pressed=true], .guide-motifs button[aria-pressed=true], .guide-palettes button[aria-pressed=true], .guide-shapes button[aria-pressed=true] { background: white; border-color: var(--indigo); box-shadow: 0 0 0 1px var(--indigo); }
+.guide-wearer button[aria-pressed=true], .guide-motifs button[aria-pressed=true], .guide-palettes button[aria-pressed=true], .guide-shapes button[aria-pressed=true] { background: var(--paper); border-color: var(--indigo); box-shadow: 0 0 0 1px var(--indigo); }
 .guide-wearer img { height: 168px; border-radius: 4px; }
 .guide-wearer strong { padding: 12px 5px 0; font-size: 14px; font-weight: 600; }
 .guide-wearer small { padding: 7px 5px 5px; font-size: 12px; color: var(--muted); }
@@ -113,54 +113,54 @@ em { font-style: normal; font-weight: inherit; }
 .app-shell .page-intro h1 { font-family: var(--serif); font-size: 43px; font-weight: 400; line-height: 1.2; letter-spacing: -.8px; }
 .page-intro .eyebrow, .studio-stamp { display: none; }
 .intro-copy { font-size: 13px; color: var(--muted); line-height: 1.6; margin-top: 10px; }
-.preview-studio { border-radius: 10px; background: white; max-width: none; }
+.preview-studio { border-radius: 10px; background: var(--paper); max-width: none; }
 .preview-model-column, .three-error { background: var(--surface); }
 .preview-viewbar { padding: 16px 22px; font-size: 13px; font-weight: 500; }
-.preview-viewbar button, .three-controls button, .preview-placement button { background: white; border-color: #c9cebe; border-radius: 6px; font-size: 12px; min-height: 40px; }
-.three-badge { background: #ffffffdb; color: var(--muted); border-color: #dcdccd; font-size: 11px; }
+.preview-viewbar button, .three-controls button, .preview-placement button { background: var(--paper); border-color: #c9cebe; border-radius: 6px; font-size: 12px; min-height: 40px; }
+.three-badge { background: #fbf8efed; color: var(--muted); border-color: #dcdccd; font-size: 11px; }
 .three-gesture { font-size: 12px; color: var(--muted); }
 .preview-accuracy { font-size: 12px; color: var(--muted); }
-.preview-settings { background: white; padding: 26px; }
+.preview-settings { background: var(--paper); padding: 26px; }
 .preview-fabric-summary h2 { font-family: var(--font); font-size: 20px; font-weight: 600; letter-spacing: -.4px; }
 .preview-fabric-summary p { font-size: 12px; color: var(--muted); }
 .preview-fabric-summary > img { width: 48px; height: 48px; border-radius: 4px; }
 .studio-select, .studio-range, .garment-controls label { font-size: 13px; }
-.studio-select select, .garment-controls select, .brush-settings select { background: white; color: var(--ink); border-color: #c9cebe; border-radius: 6px; min-height: 40px; font-size: 12px; }
+.studio-select select, .garment-controls select, .brush-settings select { background: var(--paper); color: var(--ink); border-color: #c9cebe; border-radius: 6px; min-height: 40px; font-size: 12px; }
 .preview-palette legend, .preview-placement legend { font-size: 13px; font-weight: 500; }
-.photo-wizard { background: white; border-radius: 10px; max-height: none; }
+.photo-wizard { background: var(--paper); border-radius: 10px; max-height: none; }
 .guided-photo, .photo-design-preview { background: var(--surface); }
 .photo-design-preview { border-color: var(--line); }
 .photo-step-toolbar { padding: 16px 22px; }
 .photo-step-toolbar h2 { font-size: 13px; font-weight: 550; letter-spacing: 0; }
-.guided-photo-empty { background: white; border-color: #c7d1df; padding: 24px; gap: 18px; }
+.guided-photo-empty { background: var(--paper); border-color: #c8bea4; padding: 24px; gap: 18px; }
 .guided-photo-empty h3 { font-family: var(--font); font-size: 23px; font-weight: 600; color: var(--ink); letter-spacing: -.6px; }
 .guided-photo-empty p { font-size: 13px; color: var(--muted); }
 .guided-photo-empty > .text-button { font-size: 12px; }
 .photo-choice-buttons button { font-size: 12px; }
 .photo-design-label { font-size: 13px; }
 .photo-design-label small { font-size: 12px; color: var(--muted); }
-.photo-step-footer { background: white; padding: 18px 24px; }
+.photo-step-footer { background: var(--paper); padding: 18px 24px; }
 .photo-generation-copy p { font-size: 12px; color: var(--muted); }
 .photo-generation-copy small { font-size: 11px; color: var(--muted); }
 .camera-toolbar strong { font-size: 14px !important; font-weight: 600; }
 .camera-setup li { font-size: 13px; }
 .camera-setup li span { font-size: 12px; color: var(--muted); }
-.camera-setup li::before { background: white; color: var(--indigo); border: 1px solid #a9c1b7; }
+.camera-setup li::before { background: var(--paper); color: var(--indigo); border: 1px solid #a9c1b7; }
 .camera-setup .small-note { font-size: 12px; }
 .guided-camera > .small-note { font-size: 11px; color: var(--muted); }
 .camera-timer-options, .camera-timer-options button { font-size: 12px; }
 .camera-timer-options button { min-height: 38px; border-radius: 6px; }
 .camera-review p { font-size: 13px; }
-.studio-controls { background: white; border-radius: 9px; }
+.studio-controls { background: var(--paper); border-radius: 9px; }
 .settings-content h2 { font-family: var(--font); font-size: 23px; font-weight: 600; line-height: 1.2; }
 .settings-content .control-hint { font-size: 12px; color: var(--muted); }
 .settings-tabs button { font-size: 12px; }
 .settings-tabs button[aria-pressed=true] { background: var(--selection); color: var(--indigo); }
 .studio-preview, .studio-toolbar, .drawing-tools { background: var(--surface); }
-.studio-preview .preview-footer { background: white; }
+.studio-preview .preview-footer { background: var(--paper); }
 .batik-motifs span, .batik-palettes button, .placement-options button { font-size: 12px; }
-.batik-motifs button[aria-pressed=true], .batik-palettes button[aria-pressed=true], .placement-options button[aria-pressed=true] { background: white; border-color: var(--indigo); }
-.result-card, .reveal-details { background: white; }
+.batik-motifs button[aria-pressed=true], .batik-palettes button[aria-pressed=true], .placement-options button[aria-pressed=true] { background: var(--paper); border-color: var(--indigo); }
+.result-card, .reveal-details { background: var(--paper); }
 .reveal-details h2 { font-family: var(--font); font-size: 32px; font-weight: 650; line-height: 1.25; letter-spacing: -.8px; }
 .reveal-details > p { font-size: 13px; color: var(--muted); }
 .result-toolbar .eyebrow, .reveal-details .eyebrow, .source-pattern .eyebrow { font-size: 11px; letter-spacing: 0; text-transform: none; }
@@ -189,8 +189,8 @@ em { font-style: normal; font-weight: inherit; }
   .guide-topbar { min-height: 48px; padding: 0 16px; font-size: 12px; }
   .guide-topbar .text-button { font-size: 11px; }
   .guide-workspace { display: flex; flex-direction: column; }
-  .guide-progress { display: flex; flex-direction: row; gap: 4px; padding: 0; height: 3px; min-height: 3px; background: white; border: 0; }
-  .guide-progress > div { flex: 1; min-height: 3px; height: 3px; padding: 0; border-radius: 0; background: #e8edf5; }
+  .guide-progress { display: flex; flex-direction: row; gap: 4px; padding: 0; height: 3px; min-height: 3px; background: var(--paper); border: 0; }
+  .guide-progress > div { flex: 1; min-height: 3px; height: 3px; padding: 0; border-radius: 0; background: #e2dbc8; }
   .guide-progress > div.reached, .guide-progress > div[aria-current=step] { background: var(--indigo); }
   .guide-progress .guide-step-index, .guide-progress > div .progress-name { display: none; }
   .guide-body { flex: 1; display: flex; flex-direction: column-reverse; min-height: 0; }
@@ -263,7 +263,7 @@ em { font-style: normal; font-weight: inherit; }
 /* The selvedge frames the garment without competing with its pattern. */
 body::before { content: ''; display: block; height: 12px; background: url('/artifacts/batik-border.svg') center / 80px; }
 .app-shell .site-header { height: 64px; }
-.guide-topbar { background: #f3f5ed; }
+.guide-topbar { background: #f4efe0; }
 .guide-progress { position: relative; color: #dce5d5; overflow: hidden; }
 .guide-progress::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 145px; background: url('/artifacts/batik-border.svg') center / 145px; opacity: .55; pointer-events: none; mask-image: linear-gradient(transparent, black 45%); }
 .guide-progress > div, .guide-progress > div.reached { color: #d4dfd4; }
@@ -271,7 +271,7 @@ body::before { content: ''; display: block; height: 12px; background: url('/arti
 .guide-progress .guide-step-index { border-color: #6d9382; }
 .guide-progress .reached .guide-step-index { background: transparent; color: #e8ce91; border-color: #6d9382; }
 .guide-progress [aria-current=step] .guide-step-index { background: #e8ce91; color: #173f3b; border-color: #e8ce91; }
-.guide-preview { position: relative; border-inline: 24px solid transparent; border-image: url('/artifacts/batik-border.svg') 0 32 repeat; background: #e8ebe0; }
+.guide-preview { position: relative; border-inline: 24px solid transparent; border-image: url('/artifacts/batik-border.svg') 0 32 repeat; background: #eee8d8; }
 .guide-preview-label { color: #36554a; }
 .guide-fabric { border-color: #c5cdbb; }
 .guide-fabric > img { border: 1px solid #b7c1ab; }
@@ -292,3 +292,53 @@ body::before { content: ''; display: block; height: 12px; background: url('/arti
 
 .guide-progress > div { position: relative; z-index: 1; }
 .guide-footer { border-top: 1px solid #b9c5ad; }
+
+/* Cloth borders and wax-colour details carry through every stage. */
+:root { --brass: #98733e; --wax: #e8ce91; --cloth-border: url('/artifacts/batik-border.svg'); }
+.preview-studio, .photo-wizard, .studio-controls, .studio-preview, .result-card, .reveal-details { border-radius: 4px; border-color: var(--line); }
+.preview-model-column, .photo-design-preview, .studio-preview, .result-card { position: relative; border-top: 10px solid transparent; border-image: var(--cloth-border) 24 0 0 / 10px 0 0 repeat; }
+.preview-viewbar, .studio-toolbar, .result-toolbar { background: #163f3d; color: #f5edda; }
+.preview-viewbar > div button, .studio-toolbar .segmented button, .result-toolbar .segmented button { background: transparent; color: #eee5cf; border-color: #749083; }
+.preview-viewbar > div button[aria-pressed=true], .studio-toolbar .segmented button[aria-pressed=true], .result-toolbar .segmented button[aria-pressed=true] { background: #e8ce91; border-color: #e8ce91; color: #233c32; }
+.studio-toolbar .live-label { color: #d6e1c9; }
+.settings-tabs { background: #163f3d; border-color: #163f3d; padding: 8px; gap: 3px; }
+.settings-tabs button { color: #eee5cf; border-radius: 3px; }
+.settings-tabs button[aria-pressed=true] { background: #e8ce91; color: #233c32; }
+.settings-content h2, .preview-fabric-summary h2, .guided-photo-empty h3, .reveal-details h2 { font-family: var(--serif); font-weight: 400; letter-spacing: -.45px; }
+.settings-content h2 { font-size: 31px; }
+.preview-fabric-summary h2 { font-size: 29px; }
+.guided-photo-empty h3 { font-size: 32px; }
+.reveal-details h2 { font-size: 44px; }
+.batik-motifs button, .batik-palettes button, .placement-options button, .preview-palette button, .garment-grid button { border-radius: 3px; background: var(--paper); border-color: #cdc2a9; }
+.batik-motifs button[aria-pressed=true], .batik-palettes button[aria-pressed=true], .placement-options button[aria-pressed=true] { background: #e9eddf; }
+.dye-colours label, .source-pattern { background: #f0eadb; border-color: var(--line); }
+.preview-settings, .reveal-details { background: var(--paper); }
+.preview-fabric-summary, .source-pattern { border-bottom: 1px solid #cdbb94; padding-bottom: 16px; }
+.photo-design-preview { border-inline-end: 14px solid transparent; border-image: var(--cloth-border) 24 24 0 0 / 10px 14px 0 0 repeat; }
+.photo-step-toolbar { border-color: #cdbb94; }
+.photo-step-toolbar h2 { color: #284d3e; }
+.guided-photo-empty { background: #fbf8ef; border-style: solid; border-color: #d6c5a1; }
+.guided-photo-empty > svg { color: #98733e; }
+.camera-toolbar { padding-bottom: 14px; border-bottom: 1px solid #c9b687; }
+.camera-setup li::before { background: #163f3d; color: #e8ce91; border-color: #163f3d; }
+.camera-timer-options button { background: var(--paper); border-color: #b8ac8f; }
+.camera-timer-options button[aria-pressed=true] { background: #163f3d; color: #f5edda; }
+.camera-framing, .camera-review img { border: 2px solid #ad925d; border-radius: 4px; }
+.three-controls { border-top: 1px solid #c9b687; }
+.three-badge { border-color: #bda77b; color: #526347; }
+.primary-button, .secondary-button { border-radius: 4px; }
+.spinner { border-top-color: #e8ce91; }
+.heritage-note { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 13px; font-size: 12px; color: var(--muted); line-height: 1.6; }
+.heritage-note summary { cursor: pointer; color: var(--indigo); }
+.heritage-note summary:focus-visible { outline: 3px solid #bb9652; outline-offset: 3px; }
+.heritage-note p { margin: 10px 0; }
+.heritage-note > div { display: flex; flex-direction: column; gap: 9px; }
+.heritage-note a { text-underline-offset: 3px; }
+@media (max-width: 700px) {
+  .settings-content h2 { font-size: 29px; }
+  .preview-fabric-summary h2 { font-size: 27px; }
+  .guided-photo-empty h3 { font-size: 28px; }
+  .reveal-details h2 { font-size: 36px; }
+  .photo-design-preview { border: 0; border-bottom: 1px solid #cdbb94; border-image: none; }
+  .preview-viewbar, .studio-toolbar, .result-toolbar { gap: 8px; }
+}

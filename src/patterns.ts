@@ -40,6 +40,8 @@ export const DEFAULT_DESIGN: Design = {
   arrangement: 'staggered', texture: 'dots', placement: 'allover',
   mode: 'motifs', underlay: false, strokes: [], sleeve: 'short', collar: 'classic', fit: 'regular',
 };
+// New sessions begin with empty cloth; the original design remains a motif preset.
+export const BLANK_DESIGN: Design = { ...DEFAULT_DESIGN, mode: 'draw', underlay: false, texture: 'plain', strokes: [] };
 export const safeColor = (value: string) => /^#[\da-f]{6}$/i.test(value) ? value : '#283c65';
 const n = (value: number, fallback = 0) => Number.isFinite(value) ? value : fallback;
 

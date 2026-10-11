@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "eventId": "common-ground-2026-10-11",
+  "ownerEmail": "haziq.halifi@gmail.com",
+  "status": "draft",
+  "project": {
+    "name": "Wear Your Batik",
+    "overview": "Wear Your Batik turns appreciation of batik into a personal creative experience. Inspired by Malaysian botanical batik, it invites people who have never designed textiles to choose motifs, mix colours and add their own digital marks. Their pattern becomes a garment preview, with an AI photo try-on to help them imagine wearing it. The idea is to make cultural expression participatory: a visitor moves from admiring a finished textile to creating something of their own. These are original contemporary batik-inspired designs, not reproductions of artisan textiles or a simulation of traditional wax-resist production.",
+    "build": "Built with Codex, React, TypeScript, SVG, Three.js and a server-side OpenAI image-editing integration. The local prototype supports guided creation, botanical motifs, drawing, garment placement, PNG exports and a 3D concept viewer. A recorded synthetic-person try-on succeeded; the current hosted editor works, but hosted generation is not yet connected and its latest 3D update is pending. We explored translating one design across cloth, garment and AI previews while keeping the exact source visible. All 17 tests and the production build pass. Next: verify the deployed end-to-end flow, test real-device capture and refine fidelity with artisan feedback.",
+    "demo": "https://wear-your-batik.vercel.app/",
+    "video": "",
+    "source": "https://github.com/haziqhalifi/wear-your-batik",
+    "prototype": "",
+    "supporting": "For the hosted demo, choose Create my batik, then select a style, motif, colour palette and garment. The current public deployment demonstrates creation and garment previews; live hosted AI try-on is not connected yet.\n\nFor the latest local prototype, use Node.js 22 or newer, run npm install and npm run dev, then open http://127.0.0.1:5180. Configure your own OPENAI_API_KEY in .env.local for live generation. The editor and 3D preview work without a key. Start with an adult office shirt and the labelled synthetic sample person. Generation is an explicit action and uses the paid OpenAI API. Photos remain in application session memory; external provider retention policies apply.\n\nAI output is an appearance approximation. Pattern details can vary, and fit is not guaranteed. Camera framing is guided, not automatically detected. The 3D viewer is a concept shape, not a fabric or tailoring simulation.",
+    "collaboration": "Our team is Haziq Halifi and Timothy Lee. Haziq directed the concept and prototype development with Codex assistance. Timothy helped with ideation and testing. Together, these contributions connected the creative idea with a working experience that could be tried and reviewed. Codex assisted with the guided workflow, shared pattern rendering, image-service integration, tests and iterative fixes. An important prototype finding was that the locally rendered pattern can be exact, while the AI wearing preview is an approximation, so both remain visible. The prototype has not yet been reviewed by batik artisans; their feedback is a next step.",
+    "attribution": "- OpenAI Codex: assisted with scoping, coding, debugging and verification of the React/TypeScript interface, SVG pattern and garment rendering, Three.js concept viewer, server integration and tests. The participant directed the concept and design choices.\n- OpenAI gpt-image-2 API: generates approximate wearing previews from the explicitly selected person image and current garment image. The successful recorded test used a synthetic person.\n- Built-in OpenAI image generation tool: created the fictional sample-person asset. No real person's reference photo was used for that asset.\n- React, TypeScript, Vite, Express, Sharp and Three.js: interface, development/build tooling, API handling, image processing and 3D rendering.\n- Mobbin: interface references from Canva, FLORA and Magnific informed guided creative onboarding. These were design references, not copied product assets.\n- Participant-supplied Malaysian floral batik and shirt visual references informed the botanical direction. Six original vector motif compositions are digital interpretations, not reproductions of a named artisan's textile; traditional meanings or provenance are not claimed.\n- Google Fonts: Libre Caslon Display and DM Sans for typography.",
+    "designReflection": "",
+    "cultureReflection": "",
+    "tracks": [
+      "Culture × Tech",
+      "Best Use of Tech"
+    ],
+    "noCode": false
+  },
+  "team": {},
+  "updatedAt": "2026-10-11T06:55:21.070Z"
+}

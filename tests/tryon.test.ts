@@ -76,7 +76,7 @@ test('hosted API accepts its public hostname and still rejects other browser ori
   await new Promise<void>(r => server.once('listening', r));
   const { port } = server.address() as { port: number };
   const url = `http://127.0.0.1:${port}`;
-  const host = 'wear-your-story.vercel.app';
+  const host = 'wear-your-batik.vercel.app';
   const request = (path: string, origin?: string) => new Promise<{ status: number; body: any }>((resolve, reject) => {
     const req = httpRequest(`${url}${path}`, { method: origin ? 'POST' : 'GET', headers: { Host: host, ...(origin ? { Origin: origin, 'Content-Type': 'application/json' } : {}) } }, res => {
       let body = ''; res.on('data', chunk => { body += chunk; });

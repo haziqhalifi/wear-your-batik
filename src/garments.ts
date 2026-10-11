@@ -30,6 +30,7 @@ export const GARMENTS: readonly Garment[] = [
   { value:'romper', label:'Kids’ romper', hint:'One piece with short legs', group:'kids', region:'full', sleeves:['short','sleeveless'], collars:['round'], sleeve:'short', collar:'round', fit:'relaxed' },
 ];
 export const garmentInfo = (value: GarmentType) => GARMENTS.find(g => g.value === value)!;
+export const garmentName = (value: GarmentType) => ({ shirt:'Shirt', blouse:'Blouse', sarong:'Sarong', kebaya:'Kebaya', tunic:'Tunic', gown:'Gown', dress:'A-line dress', maxi:'Maxi dress', blazer:'Blazer', skirt:'Midi skirt', palazzo:'Palazzo', jacket:'Bomber', 'kids-shirt':'Kids’ shirt', 'kids-dress':'Kids’ dress', romper:'Romper' })[value];
 export const isGarmentType = (value: unknown): value is GarmentType => GARMENTS.some(g => g.value === value);
 export function garmentDefaults(garment: GarmentType) {
   const { sleeve, collar, fit } = garmentInfo(garment);

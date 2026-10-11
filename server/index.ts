@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(vite.middlewares);
 }
 const port = Number(process.env.PORT || 5180);
-app.listen(port, '127.0.0.1', () => console.log(`Wear Your Story: http://127.0.0.1:${port}`)).on('error', (error) => {
-  console.error(`Could not start Wear Your Story on port ${port}: ${error.message}`);
+app.listen(port, '127.0.0.1', () => console.log(`Wear Your Batik: http://127.0.0.1:${port}`)).on('error', (error) => {
+  console.error(`Could not start Wear Your Batik on port ${port}: ${error.message}`);
   process.exit(1);
 });

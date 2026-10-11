@@ -22,7 +22,7 @@
 - Stage: Start, gathering existing brief and refining suggestions.
 
 ## Update after participant scope selection
-- Participant explicitly selected Wear Your Story, pattern creation and seeing it on their own photo, and requested a buildable PRD for five hours.
+- Participant explicitly selected Wear Your Batik, pattern creation and seeing it on their own photo, and requested a buildable PRD for five hours.
 - Draft PRD saved as PRD.md and as https://chatgpt.com/space/page_e99279042e848191a5e741d59d28c71a . Page content read back successfully.
 - The update supersedes the earlier notes that no Page exists and the concept is wholly provisional. Audience and detailed implementation remain proposed.
 - Proposed MVP: three vector motifs, palette/scale/repeat controls, one exact shirt mockup, personal-photo try-on, PNG exports, errors and transparent fallback. Wax-pen drawing is optional after the full journey works.

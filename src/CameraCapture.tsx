@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { startCaptureTimer } from './captureTimer';
 
 export default function CameraCapture({ onCapture, onClose }: { onCapture: (file: File) => void; onClose: () => void }) {
+  const dialog = useRef<HTMLDialogElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   const nativeInput = useRef<HTMLInputElement>(null);
   const [phase, setPhase] = useState<'setup' | 'live' | 'review'>('setup');
@@ -15,6 +17,15 @@ export default function CameraCapture({ onCapture, onClose }: { onCapture: (file
   const mounted = useRef(true);
   const cancelTimer = useRef<(() => void) | null>(null);
   const captureLock = useRef(false);
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    dialog.current?.showModal();
+    document.body.style.overflow = 'hidden';
+    return () => {
+      dialog.current?.close();
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
   useEffect(() => {
     mounted.current = true;
     return () => { mounted.current = false; cancelTimer.current?.(); };
@@ -76,19 +87,19 @@ export default function CameraCapture({ onCapture, onClose }: { onCapture: (file
     cancelTimer.current = startCaptureTimer(delay, setRemaining, capture);
   }
   const counting = remaining !== null;
-  return <div className={`camera-panel guided-camera camera-phase-${phase}`}>
-    <div className="camera-toolbar"><strong>{phase === 'setup' ? 'Get ready for a full-body photo' : phase === 'review' ? 'Check your photo' : 'Head to shoes, all in view'}</strong><button className="text-button" onClick={() => { stopCountdown(); onClose(); }}>Close camera</button></div>
-    {phase === 'setup' && <div className="camera-setup"><ol><li><strong>Set your phone down.</strong><span>Place it upright on a stable surface, around waist height. Use good light.</span></li><li><strong>Leave room to step back.</strong><span>Start about 2–3 metres away. Keep your head and both shoes in the frame.</span></li><li><strong>Let the timer do the work.</strong><span>Face the camera, stand naturally, and keep your arms slightly away from your sides.</span></li></ol><p className="small-note">You’ll have 10 seconds to get into position, then you can check or retake the photo.</p><button className="primary-button" onClick={() => setPhase('live')}>Open camera</button></div>}
+  return createPortal(<dialog ref={dialog} className="camera-dialog" aria-labelledby="camera-title" onCancel={event => { event.preventDefault(); stopCountdown(); onClose(); }}><div className={`camera-panel guided-camera camera-phase-${phase}`}>
+    <div className="camera-toolbar"><strong id="camera-title">{phase === 'setup' ? 'Set up your photo' : phase === 'review' ? 'Check your photo' : 'Full-body photo'}</strong><button className="text-button camera-close" aria-label="Close camera" onClick={() => { stopCountdown(); onClose(); }}><span aria-hidden="true">×</span></button></div>
+    {phase === 'setup' && <div className="camera-setup"><ol><li><strong>Place your phone.</strong><span>Upright at waist height, in good light.</span></li><li><strong>Step back.</strong><span>About 2–3 metres, with head and shoes in view.</span></li><li><strong>Face forward.</strong><span>Stand naturally, arms away from your sides.</span></li></ol><p className="small-note">The timer gives you time to get into position.</p><button className="primary-button" onClick={() => setPhase('live')}>Open camera</button></div>}
     {phase === 'live' && <>
       {error && <p className="camera-error" role="alert">{error}</p>}
       <div className="camera-framing"><video ref={video} autoPlay muted playsInline className={facing === 'user' ? 'camera-video mirrored' : 'camera-video'} onLoadedData={() => setReady(true)} onEmptied={() => { setReady(false); stopCountdown(); }}/><svg className="body-framing-guide" viewBox="0 0 180 300" fill="none" aria-hidden="true"><rect x="15" y="7" width="150" height="286" rx="18" stroke="white" strokeDasharray="5 6"/><circle cx="90" cy="39" r="20"/><path d="M73 60Q90 70 107 60L122 89L143 153Q147 166 138 166L115 111L111 172L120 267L105 277L90 196L75 277L60 267L69 172L65 111L42 166Q33 166 37 153L58 89Z"/><path d="M58 281H78M102 281H122"/></svg>{counting && <div className="camera-countdown" aria-hidden="true"><strong>{remaining || '✓'}</strong><span>Get into position</span></div>}<span className="camera-frame-caption">Keep your head and both shoes inside the guide</span></div>
-      <p className="small-note">{ready ? 'Step back until your whole body is visible. The guide helps with framing; it does not detect your body.' : 'Opening camera…'}</p>
-      <div className="camera-timer-options" role="group" aria-label="Photo timer"><span>Timer</span>{[5,10].map(seconds => <button key={seconds} aria-pressed={delay === seconds} disabled={counting || capturing} onClick={() => setDelay(seconds)}>{seconds} seconds</button>)}</div>
-      <div className="camera-buttons">{counting ? <button className="primary-button" onClick={stopCountdown}>Cancel timer</button> : <button className="primary-button" disabled={!ready || capturing} onClick={startTimer}>{capturing ? 'Capturing…' : `Start ${delay}-second timer`}</button>}<button className="secondary-button" disabled={counting || capturing} onClick={() => { stopCountdown(); setFacing(facing === 'user' ? 'environment' : 'user'); }}>Switch camera</button></div>
+      <p className="small-note" role="status">{error ? 'Use your device camera below, or close and try again.' : ready ? 'Step back until your whole body is visible.' : 'Opening camera…'}</p>
+      <div className="camera-timer-options" role="group" aria-label="Photo timer"><span>Timer</span>{[5,10].map(seconds => <button key={seconds} aria-pressed={delay === seconds} disabled={counting || capturing} onClick={() => setDelay(seconds)}>{seconds}s</button>)}</div>
+      <div className="camera-buttons">{counting ? <button className="primary-button" onClick={stopCountdown}>Cancel timer</button> : <button className="primary-button" disabled={!ready || capturing} onClick={startTimer}>{capturing ? 'Capturing…' : `Start ${delay}s timer`}</button>}<button className="secondary-button" disabled={counting || capturing} onClick={() => { stopCountdown(); setFacing(facing === 'user' ? 'environment' : 'user'); }}>Switch camera</button></div>
       <span className="visually-hidden" role="status" aria-live="assertive">{counting ? `${remaining} seconds until photo` : ''}</span>
       <p className="small-note">The selfie preview is mirrored. Your saved photo is unmirrored.</p>
     </>}
-    {phase === 'review' && captured && <div className="camera-review"><img src={captured.url} alt="Your captured photo to review"/><p>Can you see your head, both hands, and both shoes?</p><div className="camera-buttons"><button className="primary-button" onClick={() => onCapture(captured.file)}>Use this photo</button><button className="secondary-button" onClick={() => { setCaptured(null); setPhase('live'); }}>Retake</button></div></div>}
-    {phase !== 'review' && <><button className="text-button" disabled={counting || capturing} onClick={() => nativeInput.current?.click()}>Use device camera instead</button><p className="small-note">For the device camera, set its own timer to 10 seconds.</p><input ref={nativeInput} className="visually-hidden" type="file" accept="image/jpeg,image/png" capture={facing} aria-label="Take a full-body photo with device camera" onChange={e => { const file = e.currentTarget.files?.[0]; if (file) { setCaptured({ file, url: URL.createObjectURL(file) }); setPhase('review'); } e.currentTarget.value = ''; }}/></>}
-  </div>;
+    {phase === 'review' && captured && <div className="camera-review"><img src={captured.url} alt="Your captured photo to review"/><p>Head, hands and shoes in view?</p><div className="camera-buttons"><button className="primary-button" onClick={() => onCapture(captured.file)}>Use this photo</button><button className="secondary-button" onClick={() => { setCaptured(null); setPhase('live'); }}>Retake</button></div></div>}
+    {phase !== 'review' && <><button className="text-button" disabled={counting || capturing} onClick={() => nativeInput.current?.click()}>Device camera</button><p className="small-note">For the device camera, set its own timer to 10 seconds.</p><input ref={nativeInput} className="visually-hidden" type="file" accept="image/jpeg,image/png" capture={facing} aria-label="Take a full-body photo with device camera" onChange={e => { const file = e.currentTarget.files?.[0]; if (file) { setCaptured({ file, url: URL.createObjectURL(file) }); setPhase('review'); } e.currentTarget.value = ''; }}/></>}
+  </div></dialog>, document.body);
 }

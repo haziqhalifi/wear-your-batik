@@ -1,0 +1,330 @@
+/* Shared atelier language, extending the living-cloth introduction. */
+:is(.atelier-shell, .camera-dialog) { --paper:#14273e; --surface:#1b324c; --ink:#f8edcf; --muted:#afbfca; --line:#ffffff24; --indigo:#edc87e; --selection:#2a4055; --atelier-height:78px; color:var(--ink); background:#101f36; }
+.atelier-header { height:var(--atelier-height); padding:0 28px; display:flex; align-items:center; justify-content:space-between; gap:25px; border-bottom:1px solid var(--line); background:#101f36; }
+.atelier-brand { display:flex; align-items:center; gap:10px; border:0; background:none; color:#f8edcf; text-align:left; padding:0; flex-shrink:0; }
+.atelier-brand svg { width:32px; height:40px; }
+.atelier-brand>span { font:25px/1 var(--serif); }
+.atelier-brand small { display:block; margin-top:7px; font:9px/1.4 var(--font); color:#afbfca; }
+.atelier-steps { display:flex; align-items:center; gap:22px; height:100%; }
+.atelier-steps button { display:flex; gap:9px; align-items:center; height:100%; border:0; border-bottom:2px solid transparent; background:none; color:#aebfcc; padding:0 2px; font-size:12px; }
+.atelier-steps button[aria-current=step] { color:#f8edcf; border-bottom-color:#edc87e; }
+.atelier-step-number { font-size:10px; width:23px; height:23px; border:1px solid #ffffff30; border-radius:50%; display:grid; place-items:center; }
+.atelier-steps [aria-current=step] .atelier-step-number { background:#edc87e; color:#101f36; border-color:#edc87e; }
+.atelier-header-note { color:#93aabb; font-size:10px; }
+:is(.atelier-shell, .camera-dialog)>main { min-height:calc(100dvh - var(--atelier-height)); }
+:is(.atelier-shell, .camera-dialog) .guided-studio:not(.welcome-studio), :is(.atelier-shell, .camera-dialog) .guided-studio.personalise-step, :is(.atelier-shell, .camera-dialog) .preview-studio, :is(.atelier-shell, .camera-dialog) .photo-wizard, :is(.atelier-shell, .camera-dialog) .reveal-layout { height:calc(100dvh - var(--atelier-height)); background:#14273e; }
+:is(.atelier-shell, .camera-dialog) .guide-navigation { background:#14273e; padding:10px 28px; border-color:var(--line); }
+.atelier-stage-note { font:20px/1.2 var(--serif); color:#c5d0d5; }
+:is(.atelier-shell, .camera-dialog) .guide-workspace, :is(.atelier-shell, .camera-dialog) .guide-content, :is(.atelier-shell, .camera-dialog) .preview-settings, :is(.atelier-shell, .camera-dialog) .reveal-details { background:#14273e; color:#f8edcf; }
+:is(.atelier-shell, .camera-dialog) .guide-content h1, .atelier-preview-intro h1, :is(.atelier-shell, .camera-dialog) .reveal-details h2 { font:400 clamp(36px,3.5vw,54px)/1.05 var(--serif); letter-spacing:-.025em; color:#f8edcf; }
+:is(.atelier-shell, .camera-dialog) .guide-description { color:#aebfcc; margin:10px 0 22px; font-size:12px; }
+:is(.atelier-shell, .camera-dialog) .primary-button { background:#f8edcf; color:#14273e; border:1px solid #f8edcf; border-radius:3px; min-height:44px; box-shadow:none; }
+:is(.atelier-shell, .camera-dialog) .primary-button:hover:not(:disabled) { background:#edc87e; border-color:#edc87e; }
+:is(.atelier-shell, .camera-dialog) .secondary-button { background:transparent; color:#f8edcf; border:1px solid #8c9aab; border-radius:3px; }
+:is(.atelier-shell, .camera-dialog) .secondary-button:hover:not(:disabled) { background:#2a4055; }
+:is(.atelier-shell, .camera-dialog) .text-button { color:#edc87e; }
+:is(.atelier-shell, .camera-dialog) .icon-control { color:#c5d0d5; border-radius:5px; }
+:is(.atelier-shell, .camera-dialog) .icon-control:hover:not(:disabled), :is(.atelier-shell, .camera-dialog) .brush-more summary:hover { background:#2a4055; }
+:is(.atelier-shell, .camera-dialog) .icon-control[aria-pressed=true], :is(.atelier-shell, .camera-dialog) .drawing-tools .icon-control[aria-pressed=true] { color:#101f36; background:#edc87e; border-color:#edc87e; }
+:is(.atelier-shell, .camera-dialog) .icon-control[data-tooltip]::after { color:#101f36; background:#f8edcf; }
+:is(.atelier-shell, .camera-dialog) .personalise-tabs { background:transparent; border-bottom:1px solid var(--line); border-radius:0; padding:0; gap:22px; }
+:is(.atelier-shell, .camera-dialog) .personalise-tabs button { color:#aebfcc; background:none; border:0; border-bottom:2px solid transparent; border-radius:0; padding:11px 0; min-height:44px; }
+:is(.atelier-shell, .camera-dialog) .personalise-tabs button[aria-pressed=true] { color:#f8edcf; border-bottom-color:#edc87e; background:none; box-shadow:none; }
+:is(.atelier-shell, .camera-dialog) .journey-paint-actions { margin-top:12px; }
+:is(.atelier-shell, .camera-dialog) .journey-paint-actions button { font-size:11px; }
+:is(.atelier-shell, .camera-dialog) .drawing-tools { background:#1d344d; border-radius:6px; }
+:is(.atelier-shell, .camera-dialog) .canvas-workbench { background:transparent; border:0; }
+:is(.atelier-shell, .camera-dialog) .canvas-surface { background:#0f2036; border:1px solid #ffffff19; border-radius:4px; padding:14px; }
+:is(.atelier-shell, .camera-dialog) .drawing-canvas { border-color:#ffffff40; border-radius:1px; box-shadow:0 10px 35px #020c1944; }
+:is(.atelier-shell, .camera-dialog) .canvas-caption { color:#aebfcc; font-size:10px; }
+:is(.atelier-shell, .camera-dialog) .brush-settings, :is(.atelier-shell, .camera-dialog) .brush-more, :is(.atelier-shell, .camera-dialog) .brush-settings label { color:#c9d3d9; }
+:is(.atelier-shell, .camera-dialog) .brush-settings select, :is(.atelier-shell, .camera-dialog) select { background:#1b324c; color:#f8edcf; border:1px solid #ffffff32; border-radius:3px; min-height:40px; }
+:is(.atelier-shell, .camera-dialog) input[type=range] { accent-color:#edc87e; }
+:is(.atelier-shell, .camera-dialog) .guide-preview { background:radial-gradient(ellipse at 50% 40%,#f8f0dd,#d8d4c7); border:0; position:relative; isolation:isolate; color:#253e4b; }
+:is(.atelier-shell, .camera-dialog) .guide-preview::before { content:''; position:absolute; inset:8% 10%; border:1px solid #273e4b19; border-radius:50%; pointer-events:none; z-index:-1; }
+:is(.atelier-shell, .camera-dialog) .guide-preview-label { color:#334e5b; font-size:11px; }
+:is(.atelier-shell, .camera-dialog) .status-dot { background:#a47934; }
+:is(.atelier-shell, .camera-dialog) .guide-fabric { color:#253e4b; border-top:1px solid #273e4b22; }
+:is(.atelier-shell, .camera-dialog) .guide-fabric small { color:#536671; }
+:is(.atelier-shell, .camera-dialog) .guide-shirt { filter:drop-shadow(0 14px 20px #20354415); }
+:is(.atelier-shell, .camera-dialog) .guide-motifs button, :is(.atelier-shell, .camera-dialog) .guide-palettes button, :is(.atelier-shell, .camera-dialog) .garment-grid button { color:#f8edcf; border-radius:3px; border:1px solid transparent; background:transparent; padding:7px; }
+:is(.atelier-shell, .camera-dialog) .guide-motifs button:hover, :is(.atelier-shell, .camera-dialog) .guide-palettes button:hover, :is(.atelier-shell, .camera-dialog) .garment-grid button:hover { background:#1b324c; }
+:is(.atelier-shell, .camera-dialog) .guide-motifs button[aria-pressed=true], :is(.atelier-shell, .camera-dialog) .guide-palettes button[aria-pressed=true], :is(.atelier-shell, .camera-dialog) .garment-grid button[aria-pressed=true] { border-color:#edc87e; background:#243b50; box-shadow:none; }
+:is(.atelier-shell, .camera-dialog) .garment-grid img { background:#e8e4d8; border-radius:1px; }
+:is(.atelier-shell, .camera-dialog) .guide-motifs img, :is(.atelier-shell, .camera-dialog) .guide-swatches { border-radius:1px; }
+:is(.atelier-shell, .camera-dialog) .cloth-motifs h2, :is(.atelier-shell, .camera-dialog) .cloth-palettes h2, :is(.atelier-shell, .camera-dialog) .journey-customization h2 { color:#f8edcf; font:26px/1.2 var(--serif); letter-spacing:0; }
+:is(.atelier-shell, .camera-dialog) .wearer-toggle button, :is(.atelier-shell, .camera-dialog) .garment-categories button, :is(.atelier-shell, .camera-dialog) .placement-options button { background:transparent; color:#bdcbd3; border-color:#ffffff30; border-radius:3px; min-height:44px; }
+:is(.atelier-shell, .camera-dialog) .wearer-toggle button[aria-pressed=true], :is(.atelier-shell, .camera-dialog) .garment-categories button[aria-pressed=true], :is(.atelier-shell, .camera-dialog) .placement-options button[aria-pressed=true] { background:#edc87e; color:#101f36; border-color:#edc87e; }
+:is(.atelier-shell, .camera-dialog) .studio-disclosure { border-color:var(--line); }
+:is(.atelier-shell, .camera-dialog) .studio-disclosure summary { color:#f8edcf; min-height:44px; display:flex; align-items:center; gap:10px; }
+:is(.atelier-shell, .camera-dialog) .studio-disclosure summary::after { content:'+'; margin-left:auto; color:#edc87e; }
+:is(.atelier-shell, .camera-dialog) .studio-disclosure[open] summary::after { content:'−'; }
+:is(.atelier-shell, .camera-dialog) .small-note, :is(.atelier-shell, .camera-dialog) .guide-selection { color:#afbfca; }
+:is(.atelier-shell, .camera-dialog) .preview-settings { padding:30px; border-left:1px solid var(--line); }
+.atelier-preview-intro p { color:#aebfcc; font-size:12px; line-height:1.7; margin-top:12px; }
+:is(.atelier-shell, .camera-dialog) .preview-fabric-summary { padding:16px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+:is(.atelier-shell, .camera-dialog) .preview-fabric-summary h2 { font:27px/1.2 var(--serif); color:#f8edcf; }
+:is(.atelier-shell, .camera-dialog) .preview-next { background:#14273e; }
+:is(.atelier-shell, .camera-dialog) .preview-viewbar { color:#284250; background:#eeeade; border-bottom:1px solid #273e4b20; padding:18px 24px; }
+:is(.atelier-shell, .camera-dialog) .preview-model-column { background:#eeece4; }
+:is(.atelier-shell, .camera-dialog) .preview-viewbar button, :is(.atelier-shell, .camera-dialog) .three-controls button { color:#284250; background:transparent; border:1px solid #9aaba9; border-radius:3px; }
+:is(.atelier-shell, .camera-dialog) .preview-viewbar button[aria-pressed=true], :is(.atelier-shell, .camera-dialog) .three-controls button[aria-pressed=true] { background:#14273e; color:#f8edcf; border-color:#14273e; }
+:is(.atelier-shell, .camera-dialog) .three-controls { padding-bottom:5px; }
+:is(.atelier-shell, .camera-dialog) .preview-placement button { color:#f8edcf; border-color:#ffffff30; background:transparent; }
+:is(.atelier-shell, .camera-dialog) .preview-placement button[aria-pressed=true] { background:#edc87e; color:#101f36; }
+:is(.atelier-shell, .camera-dialog) .preview-accuracy, :is(.atelier-shell, .camera-dialog) .three-gesture, :is(.atelier-shell, .camera-dialog) .preview-flat>span { color:#52636b; }
+:is(.atelier-shell, .camera-dialog) .guided-photo { background:#14273e; }
+:is(.atelier-shell, .camera-dialog) .photo-step-toolbar { padding:20px 26px; }
+:is(.atelier-shell, .camera-dialog) .photo-step-toolbar h2 { font:28px/1.1 var(--serif); color:inherit; }
+:is(.atelier-shell, .camera-dialog) .guided-photo-empty { border:1px dashed #819aa966; background:radial-gradient(ellipse at 50% 50%,#1c3b51,#14273e); border-radius:4px; gap:20px; color:#edc87e; }
+:is(.atelier-shell, .camera-dialog) .guided-photo-empty h3 { color:#f8edcf; font:40px/1.1 var(--serif); letter-spacing:-.02em; }
+:is(.atelier-shell, .camera-dialog) .guided-photo-empty p { color:#bccbd4; }
+:is(.atelier-shell, .camera-dialog) .photo-design-preview { background:radial-gradient(ellipse at 50% 40%,#f8f0dd,#d8d4c7); color:#253e4b; border-color:#ffffff22; }
+:is(.atelier-shell, .camera-dialog) .photo-design-preview .text-button { color:#284a60; }
+:is(.atelier-shell, .camera-dialog) .photo-design-label small { color:#536671; }
+:is(.atelier-shell, .camera-dialog) .photo-step-footer { background:#101f36; border-color:var(--line); padding:18px 26px; }
+:is(.atelier-shell, .camera-dialog) .photo-generation-copy p, :is(.atelier-shell, .camera-dialog) .photo-generation-copy small { color:#b4c4ce; }
+:is(.atelier-shell, .camera-dialog) .photo-service-note { color:#f4b29c!important; }
+:is(.atelier-shell, .camera-dialog) .camera-setup li, :is(.atelier-shell, .camera-dialog) .camera-review p { color:#f8edcf; }
+:is(.atelier-shell, .camera-dialog) .camera-setup li span, :is(.atelier-shell, .camera-dialog) .camera-timer-options { color:#b4c4ce; }
+:is(.atelier-shell, .camera-dialog) .camera-setup li::before { background:#edc87e; color:#101f36; }
+:is(.atelier-shell, .camera-dialog) .camera-timer-options button { border-color:#ffffff40; color:#f8edcf; }
+:is(.atelier-shell, .camera-dialog) .camera-timer-options button[aria-pressed=true] { background:#edc87e; color:#101f36; }
+:is(.atelier-shell, .camera-dialog) .camera-error { color:#ffb39e; }
+:is(.atelier-shell, .camera-dialog) .result-card { border:0; border-radius:0; background:#e9e5da; color:#284250; }
+:is(.atelier-shell, .camera-dialog) .result-toolbar { border-bottom:1px solid #28425025; }
+:is(.atelier-shell, .camera-dialog) .result-toolbar .eyebrow { color:#284250; font-size:12px; text-transform:none; letter-spacing:0; }
+:is(.atelier-shell, .camera-dialog) .segmented { border-color:#28425044; border-radius:3px; }
+:is(.atelier-shell, .camera-dialog) .segmented button { color:#284250; }
+:is(.atelier-shell, .camera-dialog) .segmented button[aria-pressed=true] { background:#14273e; color:#f8edcf; }
+:is(.atelier-shell, .camera-dialog) .reveal-details { padding:40px; }
+:is(.atelier-shell, .camera-dialog) .source-pattern { border-color:var(--line); }
+:is(.atelier-shell, .camera-dialog) .source-pattern p, :is(.atelier-shell, .camera-dialog) .source-pattern .eyebrow { color:#c5d0d5; }
+:is(.atelier-shell, .camera-dialog) .message { background:#203e51; color:#f8edcf; border-color:#718b9b; }
+:is(.atelier-shell, .camera-dialog) .message.error { background:#512e35; color:#ffe0cd; border-color:#a57370; }
+:is(.atelier-shell, .camera-dialog) :focus-visible { outline:2px solid #edc87e; outline-offset:4px; }
+:is(.atelier-shell, .camera-dialog) .guide-content, :is(.atelier-shell, .camera-dialog) .preview-settings, :is(.atelier-shell, .camera-dialog) .photo-step-content, :is(.atelier-shell, .camera-dialog) .reveal-details { scrollbar-width:thin; scrollbar-color:#52677a transparent; }
+.atelier-preview-intro, :is(.atelier-shell, .camera-dialog) .photo-wizard-body, :is(.atelier-shell, .camera-dialog) .reveal-details { animation:atelier-enter .55s ease both; }
+@keyframes atelier-enter { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+@media(max-width:1100px) { .atelier-header-note { display:none; }.atelier-steps { gap:18px; } }
+@media(max-width:760px) {
+ :is(.atelier-shell, .camera-dialog) { --atelier-height:116px; }.atelier-header { height:116px; padding:14px 20px 0; flex-wrap:wrap; gap:10px; }.atelier-brand>span { font-size:22px; }.atelier-brand svg { width:27px; height:30px; }.atelier-brand small { font-size:8px; margin-top:4px; }.atelier-steps { width:100%; height:45px; justify-content:space-between; gap:8px; }.atelier-steps button { font-size:11px; gap:6px; }.atelier-step-number { width:20px; height:20px; font-size:9px; }
+ :is(.atelier-shell, .camera-dialog) .guide-navigation { padding:8px 16px; gap:8px; flex-wrap:nowrap; }.atelier-stage-note { font-size:16px; }:is(.atelier-shell, .camera-dialog) .guide-navigation-actions { width:auto; gap:2px; }:is(.atelier-shell, .camera-dialog) .guide-navigation-actions .icon-control { width:36px; flex-basis:36px; }:is(.atelier-shell, .camera-dialog) .guide-navigation-actions .primary-button { font-size:10px; padding:8px 10px; gap:8px; }
+ :is(.atelier-shell, .camera-dialog) .guide-content h1 { font-size:37px; }:is(.atelier-shell, .camera-dialog) .guide-description { font-size:11px; margin:8px 0 16px; }:is(.atelier-shell, .camera-dialog) .personalise-tabs { gap:15px; }:is(.atelier-shell, .camera-dialog) .personalise-tabs button { font-size:11px; }:is(.atelier-shell, .camera-dialog) .guide-preview::before { display:none; }:is(.atelier-shell, .camera-dialog) .guide-preview { border-bottom:1px solid #ffffff20; }
+ :is(.atelier-shell, .camera-dialog) .preview-settings { padding:18px 20px; max-height:43%; gap:14px; }.atelier-preview-intro h1 { font-size:30px; }.atelier-preview-intro p { display:none; }:is(.atelier-shell, .camera-dialog) .preview-viewbar { padding:10px 18px; }:is(.atelier-shell, .camera-dialog) .preview-fabric-summary { display:none; }
+ :is(.atelier-shell, .camera-dialog) .photo-step-toolbar { padding:14px 18px; }:is(.atelier-shell, .camera-dialog) .photo-step-toolbar h2 { font-size:23px; }:is(.atelier-shell, .camera-dialog) .photo-design-preview .photo-step-toolbar { padding:0; }:is(.atelier-shell, .camera-dialog) .photo-design-preview .photo-step-toolbar h2 { font-size:17px; }:is(.atelier-shell, .camera-dialog) .guided-photo-empty { gap:14px; padding:20px 12px; }:is(.atelier-shell, .camera-dialog) .guided-photo-empty h3 { font-size:31px; }:is(.atelier-shell, .camera-dialog) .photo-step-footer { padding:14px 18px; }:is(.atelier-shell, .camera-dialog) .reveal-details { padding:24px; height:42%; }:is(.atelier-shell, .camera-dialog) .reveal-details h2 { font-size:40px; }
+}
+@media(max-width:380px) { .atelier-stage-note { display:none; }:is(.atelier-shell, .camera-dialog) .guide-navigation-actions { width:100%; justify-content:flex-end; }:is(.atelier-shell, .camera-dialog) .personalise-tabs { gap:12px; }:is(.atelier-shell, .camera-dialog) .personalise-tabs button { font-size:10px; } }
+/* Small and landscape screens scroll naturally instead of compressing the creative tools. */
+@media(max-height:700px) and (max-width:900px) {
+ :is(.atelier-shell, .camera-dialog) .photo-wizard { height:auto; min-height:calc(100dvh - var(--atelier-height)); }:is(.atelier-shell, .camera-dialog) .photo-wizard-body { min-height:470px; }:is(.atelier-shell, .camera-dialog) .preview-studio { height:auto; min-height:calc(100dvh - var(--atelier-height)); }:is(.atelier-shell, .camera-dialog) .preview-model-column { min-height:440px; }:is(.atelier-shell, .camera-dialog) .preview-settings { max-height:none; }:is(.atelier-shell, .camera-dialog) .three-stage { min-height:290px; }:is(.atelier-shell, .camera-dialog) .reveal-layout { height:auto; }:is(.atelier-shell, .camera-dialog) .result-card { min-height:460px; }:is(.atelier-shell, .camera-dialog) .reveal-details { height:auto; }
+}
+:is(.atelier-shell, .camera-dialog) .preview-flat { min-height:0; overflow:hidden; flex:1; }
+:is(.atelier-shell, .camera-dialog) .preview-flat img { height:0; min-height:0; flex:1; padding:16px; }
+:is(.atelier-shell, .camera-dialog) .preview-flat>span { flex-shrink:0; padding:0 0 7px; }
+:is(.atelier-shell, .camera-dialog) .preview-accuracy { flex-shrink:0; }
+:is(.atelier-shell, .camera-dialog) .result-toolbar { background:#101f36; }
+:is(.atelier-shell, .camera-dialog) .result-toolbar .eyebrow, :is(.atelier-shell, .camera-dialog) .result-toolbar .segmented button { color:#f8edcf; }
+:is(.atelier-shell, .camera-dialog) .result-toolbar .segmented { border-color:#ffffff40; }
+:is(.atelier-shell, .camera-dialog) .result-toolbar .segmented button[aria-pressed=true] { background:#edc87e; color:#101f36; }
+:is(.atelier-shell, .camera-dialog) .guided-photo-empty>svg { color:#edc87e; }
+:is(.atelier-shell, .camera-dialog) .guide-preview, :is(.atelier-shell, .camera-dialog) .photo-design-preview { background:#eee8d8; }
+@media(max-width:700px) {
+ :is(.atelier-shell, .camera-dialog) .personalise-step .guide-preview { height:84px; }
+ :is(.atelier-shell, .camera-dialog) .personalise-step .guide-content h1 { font-size:30px; }
+ :is(.atelier-shell, .camera-dialog) .personalise-step .guide-description { display:none; }
+ :is(.atelier-shell, .camera-dialog) .personalise-step .personalise-tabs { margin-top:12px; }
+}
+
+.camera-dialog { background:#14273e; color:#f8edcf; border-color:#718b9b; }
+.camera-dialog::backdrop { background:#081326dd; }
+
+/* Exhibition proportions: fewer competing lines, considered space, tactile selections. */
+.atelier-header { padding-inline:clamp(22px,3.2vw,54px); }
+.atelier-steps { gap:30px; }
+.atelier-steps button { font-size:12px; }
+.atelier-shell .guide-navigation { padding:12px clamp(22px,3.2vw,54px); background:#101f36; border-bottom-color:#ffffff12; }
+.atelier-stage-note { color:#9eafbc; font-family:var(--font); font-size:11px; }
+.atelier-shell .guide-navigation-actions { gap:14px; }
+.atelier-shell .primary-button { min-height:48px; padding:13px 22px; font-size:12px; font-weight:550; border-radius:4px; transition:background .2s,box-shadow .2s,transform .2s; }
+.atelier-shell .primary-button:hover:not(:disabled) { box-shadow:0 4px 20px #edc87e17; transform:translateY(-1px); }
+.atelier-shell .guide-content { background:linear-gradient(140deg,#172e44,#11253a); }
+.atelier-shell .guided-studio:not(.welcome-studio) .guide-content { padding:32px clamp(24px,3vw,48px); }
+.atelier-shell .garment-step .guide-body { grid-template-columns:minmax(420px,1fr) minmax(0,1.08fr); }
+.atelier-shell .garment-step .guide-content h1 { font-size:clamp(38px,3.6vw,58px); max-width:12ch; line-height:1.02; letter-spacing:-.025em; margin:3px 0 0; }
+.atelier-shell .garment-step .guide-description { font-size:12px; margin:15px 0 28px; color:#aebfcc; max-width:none; }
+.garment-cut-label { font-size:10px; color:#acbcc8; margin-bottom:10px; }
+.atelier-shell .wearer-toggle { display:inline-flex; align-self:flex-start; width:auto; gap:4px; padding:4px; margin:0 0 24px; border:1px solid #ffffff1b; border-radius:6px; background:#0c1d3066; }
+.atelier-shell .wearer-toggle button { padding:10px 23px; min-height:40px; border:0; border-radius:3px; font-size:11px; color:#aebfcc; background:transparent; }
+.atelier-shell .wearer-toggle button[aria-pressed=true] { background:#f8edcf; color:#14273e; border:0; box-shadow:0 2px 5px #0002; }
+.atelier-shell .garment-categories { display:flex; flex-wrap:nowrap; gap:22px; margin:0 0 23px; padding:0; border-bottom:1px solid #ffffff1c; }
+.atelier-shell .garment-categories button { flex:none; padding:11px 0 14px; min-height:44px; border:0; border-bottom:2px solid transparent; border-radius:0; color:#aebfcc; background:none; font-size:11px; }
+.atelier-shell .garment-categories button[aria-pressed=true] { color:#edc87e; border-bottom-color:#edc87e; background:none; }
+.atelier-shell .garment-step .garment-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px 16px; }
+.atelier-shell .garment-grid button { min-width:0; padding:0 0 10px; border:0; border-radius:0; background:none; text-align:left; position:relative; }
+.atelier-shell .garment-grid button:hover, .atelier-shell .garment-grid button[aria-pressed=true] { background:none; border:0; }
+.garment-card-art { position:relative; background:radial-gradient(ellipse at 50% 35%,#f8f1df,#ddd9cb); border-radius:5px; overflow:hidden; transition:box-shadow .25s; }
+.atelier-shell .garment-step .garment-grid img { width:100%; height:clamp(130px,17vh,185px); object-fit:contain; padding:8px 0; background:transparent; transition:transform .4s cubic-bezier(.2,.7,.3,1); }
+.atelier-shell .garment-grid button:hover img { transform:scale(1.065); }
+.atelier-shell .garment-grid button[aria-pressed=true] .garment-card-art { box-shadow:0 0 0 2px #edc87e,0 8px 20px #0002; }
+.garment-card-choice { position:absolute; right:8px; bottom:8px; width:23px; height:23px; display:grid; place-items:center; border-radius:50%; background:#14273e; color:#f8edcf; font-size:12px; }
+.garment-grid [aria-pressed=true] .garment-card-choice { background:#edc87e; color:#14273e; }
+.atelier-shell .garment-step .garment-grid strong { font-size:11px; font-weight:500; line-height:1.55; padding:12px 0 0; display:block; color:#f8edcf; }
+.garment-card-hint { display:block; color:#93a9ba; font-size:9px; line-height:1.6; padding-top:5px; }
+.atelier-shell .guide-selection { color:#9bb0bf; font-size:10px; line-height:1.8; margin:22px 0; }
+.atelier-shell .garment-step .studio-disclosure { margin-top:26px; padding:14px 0; }
+.atelier-shell .guide-downloads { margin-top:18px; gap:26px; }
+.atelier-shell .guide-downloads button { font-size:11px; }
+.atelier-shell .guide-preview { background:radial-gradient(ellipse at 50% 43%,#fcf5e5 0,#eee8d8 56%,#ddd8c9 100%); padding:30px 40px; }
+.atelier-shell .guide-preview::before { inset:15% 13% 17%; border-color:#243e4b12; }
+.atelier-shell .guide-preview-label { font-size:10px; gap:9px; color:#6a726e; }
+.garment-preview-heading { text-align:center; padding:25px 10px 0; }
+.garment-preview-heading h2 { font:400 clamp(30px,3vw,46px)/1.15 var(--serif); letter-spacing:-.025em; color:#233c48; }
+.garment-preview-heading p { font-size:11px; line-height:1.7; margin-top:10px; color:#6b7679; }
+.atelier-shell .garment-step .guide-shirt { height:0; flex:1; width:100%; object-fit:contain; padding:0; margin:0; animation:silhouette-arrive .65s cubic-bezier(.2,.7,.2,1) both; filter:drop-shadow(0 18px 16px #21394b18); }
+.atelier-shell .guide-fabric { padding-top:20px; gap:15px; border-top-color:#243e4b1b; }
+.atelier-shell .guide-fabric>img { width:46px; height:52px; border-radius:2px; }
+.atelier-shell .guide-fabric>span { font-size:12px; }
+.atelier-shell .guide-fabric small { font-size:10px; margin-top:6px; }
+.atelier-shell .preview-settings { padding:40px clamp(25px,3vw,48px); gap:26px; }
+.atelier-preview-intro h1 { font-size:clamp(38px,3.5vw,54px); max-width:9ch; }
+.atelier-preview-intro p { font-size:12px; max-width:27ch; line-height:1.9; margin:18px 0 4px; }
+.atelier-shell .studio-select select, .atelier-shell .garment-controls select { min-height:46px; border-color:#ffffff26; background:#102238; padding:10px 13px; font-size:12px; }
+.atelier-shell .preview-viewbar { background:#eeece4; padding:20px 30px; }
+.atelier-shell .preview-next { gap:12px; }
+.atelier-shell .photo-step-toolbar { padding:25px 30px; }
+.atelier-shell .photo-step-toolbar h2 { font-size:34px; }
+.atelier-shell .guided-photo-empty { border-color:#ffffff28; padding:32px; background:radial-gradient(ellipse at 50% 45%,#214357,#14273e 75%); }
+.atelier-shell .guided-photo-empty h3 { max-width:12ch; font-size:48px; }
+.atelier-shell .photo-choice-buttons { gap:12px; }
+.atelier-shell .photo-choice-buttons button { padding:13px 22px; min-height:48px; }
+.atelier-shell .photo-design-preview { background:radial-gradient(ellipse at 50% 43%,#fcf5e5,#e3dece); }
+.atelier-shell .reveal-details { padding:clamp(28px,5vw,80px); }
+.atelier-shell .reveal-details h2 { font-size:clamp(48px,5vw,76px); line-height:.98; }
+@keyframes silhouette-arrive { from { opacity:0; transform:translateY(12px) scale(.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+
+/* Keep the cloth central; controls sit in narrow rails beside it. */
+/* A quiet garment display opens into a dedicated detail viewer. */
+.atelier-shell .guide-preview:has(.live-garment-showroom) { padding:18px; }
+.atelier-shell .guide-preview:has(.live-garment-showroom)::before,
+.atelier-shell .guide-preview:has(.live-garment-showroom) > .guide-preview-label,
+.atelier-shell .guide-preview:has(.live-garment-showroom) > .guide-fabric { display:none; }
+.live-garment-showroom { display:flex; flex-direction:column; width:100%; flex:1; min-height:0; z-index:1; }
+.live-garment-heading { text-align:center; padding:12px 0 0; color:#233c48; }
+.live-garment-heading h2 { font:400 clamp(23px,2.3vw,36px)/1.15 var(--serif); margin:0; }
+.live-garment-viewer { display:flex; flex:1; min-height:0; position:relative; }
+.live-garment-flat { width:100%; height:100%; min-height:0; object-fit:contain; }
+.garment-3d-compact { width:100%; min-width:0; min-height:0; }
+.atelier-shell .garment-3d-compact .three-stage { min-height:0; }
+.live-garment-expand { position:absolute; inset:0; width:100%; border:0; background:transparent; cursor:zoom-in; color:#29444e; }
+.live-garment-expand > svg { position:absolute; top:12px; right:0; width:20px; height:20px; opacity:.6; transition:opacity .2s; }
+.live-garment-expand:hover > svg { opacity:1; }
+.live-garment-expand:focus-visible { outline:2px solid #29444e; outline-offset:2px; }
+.garment-detail-dialog { position:fixed; inset:0; width:100vw; height:100dvh; max-width:none; max-height:none; margin:0; padding:0; border:0; color:#233c48; background:radial-gradient(ellipse at 50% 40%,#fcf5e5,#e4dece); overflow:hidden; }
+.garment-detail-dialog::backdrop { background:#101f36; }
+.garment-detail-dialog header { position:absolute; top:0; left:0; right:0; z-index:2; display:flex; align-items:center; justify-content:space-between; padding:24px max(24px,env(safe-area-inset-right)); pointer-events:none; }
+.garment-detail-dialog h2 { font:400 clamp(23px,3vw,36px)/1.2 var(--serif); margin:0; }
+.garment-detail-close { pointer-events:auto; }
+.garment-detail-close, .garment-detail-controls button { display:inline-flex; justify-content:center; align-items:center; width:44px; height:44px; border:0; border-radius:50%; background:#faf4e6bf; color:#233c48; cursor:pointer; font-size:24px; }
+.garment-detail-close svg, .garment-detail-controls svg { width:22px; height:22px; }
+.garment-detail-close:hover, .garment-detail-controls button:hover { background:#fffaf0; }
+.garment-detail-close:focus-visible, .garment-detail-controls button:focus-visible { outline:2px solid #233c48; outline-offset:3px; }
+.garment-detail-controls button:disabled { opacity:.35; cursor:default; }
+.garment-detail-body { position:absolute; inset:60px 12px 64px; display:flex; }
+.garment-detail-body .garment-3d { height:100%; }
+.garment-detail-body .three-stage { min-height:0; }
+.garment-detail-body .three-stage:focus-visible { outline:1px solid #233c4840; outline-offset:-2px; }
+.garment-detail-body .three-canvas canvas { cursor:grab; }
+.garment-detail-body .three-canvas canvas:active { cursor:grabbing; }
+.garment-detail-controls { position:absolute; bottom:0; left:50%; transform:translateX(-50%); display:flex; gap:4px; padding:4px; border:1px solid #233c4814; border-radius:32px; background:#f5efdfb3; backdrop-filter:blur(12px); }
+.garment-detail-hint { position:absolute; bottom:max(20px,env(safe-area-inset-bottom)); width:100%; text-align:center; font-size:11px; color:#77817c; margin:0; pointer-events:none; }
+@media(max-width:700px) {
+ .atelier-shell .guide-preview:has(.live-garment-showroom) { display:flex; padding:4px 16px; }
+ .live-garment-showroom { height:100%; flex-direction:row; align-items:center; }
+ .live-garment-heading { width:60%; text-align:left; padding:0; }
+ .live-garment-heading h2 { font-size:22px; }
+ .live-garment-viewer { height:100%; }
+ .live-garment-expand > svg { width:16px; height:16px; top:6px; right:0; }
+ .garment-detail-dialog header { padding:16px; }
+ .garment-detail-body { inset:56px 0 64px; }
+ .garment-detail-hint { font-size:10px; }
+}
+.atelier-shell .personalise-step .personalise-tabs { margin:0 0 6px; }
+.atelier-shell .personalise-step .personalise-tabs button { padding:7px 0; min-height:34px; font-size:11px; }
+.atelier-shell .personalise-step .journey-paint-actions { margin:0 0 8px; gap:8px; }
+.atelier-shell .personalise-step .journey-paint-actions button { min-height:28px; font-size:10px; padding:4px 8px; }
+@media (max-width:700px) {
+ .atelier-shell .guided-studio.personalise-step .guide-content { padding:12px; }
+ .atelier-shell .personalise-step .guide-content > h1 { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+ .atelier-shell .personalise-step .drawing-tools { padding:3px; gap:3px; }
+ .atelier-shell .personalise-step .drawing-tools .icon-control { width:36px; height:36px; min-height:36px; flex:0 0 36px; padding:7px; }
+ .atelier-shell .personalise-step .canvas-workbench { padding:6px 0; gap:8px; }
+ .atelier-shell .personalise-step .canvas-surface { grid-row:1; }
+ .atelier-shell .personalise-step .brush-settings { grid-row:2; }
+ .atelier-shell .personalise-step .brush-settings { gap:8px 12px; }
+ .atelier-shell .personalise-step .brush-settings > label { width:100px; font-size:10px; }
+ .atelier-shell .personalise-step .brush-settings > .ink-picker { width:28px; }
+ .atelier-shell .personalise-step .ink-picker input { width:28px; height:28px; }
+ .atelier-shell .personalise-step .ink-swatches { gap:6px; }
+ .atelier-shell .personalise-step .ink-swatches button { width:24px; height:24px; min-width:24px; min-height:24px; }
+ .atelier-shell .personalise-step .stamp-design-picker { max-width:340px; }
+ .atelier-shell .personalise-step .stamp-design-picker > span { font-size:10px; margin-bottom:4px; }
+ .atelier-shell .personalise-step .stamp-design-options { grid-template-columns:repeat(6,minmax(0,1fr)); gap:5px; }
+ .atelier-shell .personalise-step .stamp-design-options button { padding:2px; }
+ .atelier-shell .personalise-step .stamp-design-check { width:13px; height:13px; right:3px; bottom:3px; font-size:9px; }
+ .atelier-shell .personalise-step .canvas-surface { padding:6px; }
+ .atelier-shell .personalise-step .drawing-canvas { width:100%; height:auto; max-height:none; }
+ .atelier-shell .personalise-step .brush-more summary { width:32px; height:32px; padding:6px; }
+ .atelier-shell .personalise-step .canvas-actions { padding:4px 0; gap:4px; }
+}
+@media (min-width:701px) {
+ .atelier-shell .personalise-step .guide-body { grid-template-columns:minmax(0,2.6fr) minmax(0,1fr); }
+ .atelier-shell .guided-studio.personalise-step .guide-content { padding:16px; }
+ .atelier-shell .personalise-step .canvas-editor { display:grid; grid-template-columns:36px minmax(0,1fr) 104px; grid-template-rows:minmax(0,1fr) 36px; gap:8px 10px; }
+ .atelier-shell .personalise-step .canvas-workbench { display:contents; }
+ .atelier-shell .personalise-step .drawing-tools { grid-column:1; grid-row:1; flex-direction:column; flex-wrap:nowrap; align-self:start; gap:3px; padding:3px; }
+ .atelier-shell .personalise-step .drawing-tools .icon-control { width:30px; height:34px; min-height:34px; flex:0 0 34px; padding:6px; }
+ .atelier-shell .personalise-step .drawing-tools .studio-icon { width:20px; height:20px; }
+ .atelier-shell .personalise-step .canvas-surface { grid-column:2; grid-row:1; position:relative; container-type:size; padding:8px; justify-content:center; }
+ .atelier-shell .personalise-step .drawing-canvas { width:min(100cqw, calc(100cqh - 24px)); height:auto; max-width:100%; max-height:none; aspect-ratio:1; flex:none; margin-bottom:24px; }
+ .atelier-shell .personalise-step .canvas-caption { position:absolute; bottom:8px; left:8px; width:calc(100% - 16px); margin:0; padding:0; min-height:16px; font-size:9px; }
+ .atelier-shell .personalise-step .brush-settings { grid-column:3; grid-row:1; display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; flex-wrap:nowrap; gap:10px; overflow-y:auto; overflow-x:hidden; padding:2px; }
+ .atelier-shell .personalise-step .brush-settings > label { width:100%; font-size:10px; }
+ .atelier-shell .personalise-step .brush-settings > .ink-picker { width:28px; }
+ .atelier-shell .personalise-step .ink-picker input { width:28px; height:28px; }
+ .atelier-shell .personalise-step .ink-swatches { gap:6px; }
+ .atelier-shell .personalise-step .ink-swatches button { width:24px; height:24px; min-width:24px; min-height:24px; }
+ .atelier-shell .personalise-step .stamp-design-picker { flex-basis:auto; }
+ .atelier-shell .personalise-step .stamp-design-picker > span { font-size:10px; margin-bottom:6px; }
+ .atelier-shell .personalise-step .stamp-design-options { grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; }
+ .atelier-shell .personalise-step .stamp-design-options button { padding:2px; border-radius:4px; }
+ .atelier-shell .personalise-step .stamp-design-check { width:13px; height:13px; font-size:9px; right:3px; bottom:3px; }
+ .atelier-shell .personalise-step .brush-more summary { width:32px; height:32px; padding:6px; }
+ .atelier-shell .personalise-step .brush-more[open] { display:flex; flex-direction:column; align-items:stretch; padding:4px; gap:8px; }
+ .atelier-shell .personalise-step .brush-more[open] label { width:100%; }
+ .atelier-shell .personalise-step .canvas-actions { grid-column:2; grid-row:2; padding:0; gap:6px; }
+ .atelier-shell .personalise-step .canvas-actions .icon-control { width:34px; height:34px; min-height:34px; flex:0 0 34px; padding:6px; }
+}
+@media(min-width:701px) and (max-width:1050px) {
+ .atelier-shell .garment-step .guide-body { grid-template-columns:minmax(350px,1fr) minmax(0,1fr); }
+ .atelier-shell .garment-step .garment-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .atelier-shell .garment-categories { gap:15px; }
+}
+@media(max-width:760px) {
+ .atelier-header { padding:13px 20px 0; }.atelier-steps { gap:8px; }.atelier-steps button { font-size:11px; }
+ .atelier-shell .guide-navigation { padding:8px 16px; }.atelier-stage-note { display:none; }.atelier-shell .guide-navigation-actions { width:100%; gap:8px; }.atelier-shell .guide-navigation-actions .primary-button { margin-left:auto; padding:10px 16px; min-height:44px; font-size:11px; }
+ .atelier-shell .guided-studio:not(.welcome-studio) .guide-content { padding:24px 20px; }
+ .atelier-shell .garment-step .guide-content h1 { font-size:38px; max-width:none; }
+ .atelier-shell .garment-step .guide-description { margin:12px 0 22px; font-size:11px; }
+ .atelier-shell .wearer-toggle { margin-bottom:22px; }.atelier-shell .wearer-toggle button { padding:10px 22px; }
+ .atelier-shell .garment-categories { gap:19px; margin-bottom:22px; }.atelier-shell .garment-categories button { font-size:10px; }
+ .atelier-shell .garment-step .garment-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px 16px; }
+ .atelier-shell .garment-step .garment-grid img { height:155px; }.atelier-shell .garment-step .garment-grid strong { font-size:12px; }.garment-card-hint { font-size:10px; }
+ .atelier-shell .guide-preview { padding:12px 20px; }.garment-preview-heading { display:none; }
+ .atelier-shell .garment-step .guide-shirt { height:100%; padding:0; flex:none; }
+ .atelier-shell .guide-fabric { padding-top:8px; gap:10px; }.atelier-shell .guide-fabric>img { width:32px; height:36px; }
+ .atelier-shell .preview-settings { padding:22px; gap:16px; }.atelier-preview-intro h1 { font-size:32px; max-width:none; }.atelier-shell .preview-viewbar { padding:12px 20px; }
+ .atelier-shell .studio-select select { min-height:42px; font-size:11px; }.atelier-shell .photo-step-toolbar { padding:16px 20px; }.atelier-shell .photo-step-toolbar h2 { font-size:27px; }
+ .atelier-shell .guided-photo-empty { padding:22px 12px; }.atelier-shell .guided-photo-empty h3 { font-size:36px; }.atelier-shell .photo-choice-buttons { gap:8px; }.atelier-shell .photo-choice-buttons button { padding:11px 14px; font-size:11px; }
+ .atelier-shell .reveal-details { padding:26px; }.atelier-shell .reveal-details h2 { font-size:46px; }
+}

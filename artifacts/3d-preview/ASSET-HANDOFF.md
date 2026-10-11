@@ -1,6 +1,6 @@
 # Replacing concept garments with product assets
 
-The current Three.js viewer uses original procedural meshes for shirt, A-line dress and sarong. No licensed/purchased third-party models, body measurements or sewing patterns were supplied. The viewer is an appearance concept, not a digital twin or fit recommendation. No cloth dynamics are simulated.
+The current Three.js viewer uses original procedural meshes for all 15 garment types. No product-specific garment models, body measurements or sewing patterns were supplied. The human reference meshes are derived from CC0 MakeHuman assets, documented in `public/models/README.md`; these reference bodies are not personal-fit avatars. The viewer is an appearance concept, not a digital twin or fit recommendation. No cloth dynamics are simulated. The upgraded concepts include shaped panels, static folds, construction details, cloth sheen, micro-weave bump maps and studio shadows. These appearance improvements do not validate size, physical fabric behaviour or seam matching.
 
 For purchase-grade assets, provide each actual product's approved sewing pattern, measurements and material reference. Author the garment on a neutral form in garment software and prepare a web-ready GLB with:
 

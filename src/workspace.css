@@ -257,7 +257,7 @@ em { font-style: normal; font-weight: inherit; }
   .camera-timer-options button { font-size: 11px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition: none !important; animation: none !important; }
+  :not(.batik-intro, .batik-intro *, .atelier-shell, .atelier-shell *), :not(.batik-intro, .batik-intro *, .atelier-shell, .atelier-shell *)::before, :not(.batik-intro, .batik-intro *, .atelier-shell, .atelier-shell *)::after { transition: none !important; animation: none !important; }
 }
 
 /* The selvedge frames the garment without competing with its pattern. */
@@ -341,4 +341,470 @@ body::before { content: ''; display: block; height: 12px; background: url('/arti
   .reveal-details h2 { font-size: 36px; }
   .photo-design-preview { border: 0; border-bottom: 1px solid #cdbb94; border-image: none; }
   .preview-viewbar, .studio-toolbar, .result-toolbar { gap: 8px; }
+}
+
+/* Full cloth customization belongs to the creation steps. */
+.guide-progress > div { padding: 0; min-height: 44px; }
+.guide-step-link { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 10px 8px; background: transparent; color: inherit; border: 0; border-radius: 4px; text-align: left; font-size: inherit; }
+.guide-step-link:hover { background: #ffffff12; }
+.guide-progress { gap: 5px; min-height: 0; overflow-y: auto; }
+.guide-topbar-note { color: var(--muted); font-size: 11px; font-weight: 400; }
+.journey-customization { margin-top: 24px; }
+.journey-customization h2 { font-size: 16px; letter-spacing: -.2px; margin-bottom: 16px; }
+.journey-customization .dye-colours { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.journey-customization .dye-colours label { min-width: 0; }
+.journey-customization .garment-controls { flex-wrap: wrap; }
+.journey-customization .garment-controls label { min-width: 120px; flex: 1; }
+.journey-customization .placement-options { grid-template-columns: 1fr; }
+.journey-customization .placement-options img { width: 52px; height: 52px; }
+.guide-step-4 { grid-template-columns: minmax(0, 1.7fr) minmax(240px, .8fr); }
+.guided-studio.painting-step { height: auto; max-height: none; }
+.painting-step .guide-content { overflow: visible; }
+.painting-step .guide-progress { overflow: visible; }
+.painting-step .guide-preview { position: sticky; top: 20px; align-self: start; height: 500px; }
+.guide-step-4 .guide-content { padding: 24px; }
+.journey-paint-actions { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 16px; }
+.journey-paint .canvas-workbench { grid-template-columns: minmax(0, 1fr) 170px; padding: 16px; gap: 18px; }
+.journey-paint .brush-settings { display: flex; flex-direction: column; gap: 14px; }
+.journey-paint .brush-settings > label, .journey-paint .brush-settings .ink-swatches { margin: 0; }
+.journey-paint .brush-settings .small-note { grid-column: 1 / -1; }
+.journey-paint .drawing-tools { flex-wrap: wrap; padding: 10px; gap: 4px; }
+.journey-paint .drawing-tools button { flex: 1; min-height: 44px; padding: 8px 5px; font-size: 11px; }
+.journey-paint .canvas-actions { flex-wrap: wrap; padding: 0 16px 12px; gap: 8px 16px; }
+.journey-paint .drawing-canvas { max-width: none; }
+@media (max-width: 1100px) and (min-width: 701px) {
+  .guide-step-4 { grid-template-columns: minmax(0, 1.5fr) minmax(200px, .8fr); }
+  .guide-step-link { gap: 7px; padding: 8px 5px; }
+  .journey-paint .canvas-workbench { grid-template-columns: minmax(0, 1fr); }
+  .journey-paint .brush-settings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .guide-topbar-note { display: none; }
+  .guide-progress { height: auto; min-height: 44px; gap: 0; flex-shrink: 0; overflow-x: auto; overflow-y: hidden; }
+  .guide-progress > div { flex: 1 0 72px; height: auto; min-height: 44px; background: var(--paper); }
+  .guide-progress .guide-step-index { display: none; }
+  .guide-progress > div .progress-name { display: block; }
+  .guide-progress > div, .guide-progress > div.reached { color: var(--indigo); background: var(--paper); }
+  .guide-progress > div[aria-current=step] { background: var(--indigo); color: var(--paper); }
+  .guide-step-link { justify-content: center; min-height: 44px; padding: 8px; font-size: 11px; }
+  .guide-step-4 .guide-content { padding: 22px 18px; }
+  .painting-step .guide-preview { position: static; height: 126px; align-self: stretch; }
+  .painting-step .guide-progress { overflow-x: auto; }
+  .journey-paint .canvas-workbench { grid-template-columns: minmax(0, 1fr); }
+  .journey-paint .brush-settings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .journey-customization .garment-controls label { min-width: 110px; }
+  .journey-paint-actions .secondary-button { font-size: 12px; }
+}
+
+/* Camera capture occupies the viewport so preview and controls stay together. */
+.camera-dialog {
+  width: min(720px, calc(100vw - 32px));
+  height: min(850px, calc(100dvh - 32px));
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  overflow: hidden;
+}
+.camera-dialog::backdrop { background: #142824c9; }
+.camera-dialog .guided-camera { height: 100%; min-height: 0; padding: 16px; gap: 8px; }
+.camera-dialog .camera-toolbar { flex-shrink: 0; padding-bottom: 8px; }
+.camera-dialog .camera-toolbar .text-button { min-height: 44px; flex-shrink: 0; }
+.camera-dialog .camera-framing { height: 0; min-height: 0; flex: 1; }
+.camera-dialog .camera-video { height: 100%; max-height: none; object-fit: contain; }
+.camera-dialog .camera-error { flex-shrink: 0; margin: 0; }
+.camera-dialog .camera-buttons { flex-wrap: nowrap; }
+.camera-dialog .camera-buttons button { min-height: 44px; }
+.camera-dialog .camera-timer-options button { min-height: 44px; }
+.camera-dialog .camera-review { min-height: 0; gap: 8px; }
+.camera-dialog .camera-review img { height: 0; min-height: 0; flex: 1; }
+.camera-dialog .camera-review p, .camera-dialog .camera-review .camera-buttons { flex-shrink: 0; }
+.camera-dialog .camera-setup { min-height: 0; overflow: auto; }
+.camera-dialog .guided-camera > .text-button { min-height: 44px; flex-shrink: 0; }
+@media (max-width: 600px) {
+  .camera-dialog { width: 100%; height: 100dvh; border: 0; border-radius: 0; }
+  .camera-dialog .guided-camera {
+    padding: max(8px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+    gap: 6px;
+  }
+}
+@media (max-height: 500px) and (min-width: 601px) {
+  .camera-dialog { width: calc(100vw - 16px); height: calc(100dvh - 16px); }
+  .camera-dialog .camera-phase-live { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, .8fr); grid-template-rows: auto repeat(7, auto); column-gap: 16px; row-gap: 4px; }
+  .camera-dialog .camera-phase-live .camera-toolbar { grid-column: 1 / -1; }
+  .camera-dialog .camera-phase-live .camera-framing { grid-column: 1; grid-row: 2 / -1; height: 100%; }
+  .camera-dialog .camera-phase-live > :not(.camera-toolbar):not(.camera-framing) { grid-column: 2; }
+}
+
+/* Quiet studio: keep the cloth expressive and the surrounding tools restrained. */
+body::before { height: 6px; }
+.app-shell { max-width: 1440px; }
+.app-shell .site-header { height: 72px; }
+.app-shell .steps { gap: 24px; margin: 16px 0 22px; }
+.step, .step.active { background: transparent; border-radius: 0; border-bottom: 1px solid transparent; padding: 8px 0; }
+.step.active { border-bottom-color: var(--indigo); }
+.step:hover:not(:disabled):not(.active) { background: transparent; color: var(--ink); }
+.guided-studio { height: calc(100dvh - 236px); min-height: 540px; max-height: 900px; border: 1px solid var(--line); }
+.guide-topbar { min-height: 42px; background: var(--paper); font-size: 12px; font-weight: 400; color: var(--muted); }
+.guide-workspace { display: flex; flex-direction: column; }
+.guide-progress { flex-direction: row; flex-shrink: 0; gap: 20px; padding: 0 28px; border: 0; border-bottom: 1px solid var(--line); background: var(--paper); overflow-x: auto; }
+.guide-progress::after { display: none; }
+.guide-progress > div, .guide-progress > div.reached { color: var(--muted); background: transparent; border-radius: 0; flex: 0 0 auto; }
+.guide-progress > div[aria-current=step] { color: var(--indigo); background: transparent; border-bottom: 2px solid var(--indigo); }
+.guide-step-link { padding: 10px 0; min-height: 44px; }
+.guide-step-link:hover { background: transparent; color: var(--ink); }
+.guide-progress .guide-step-index { display: none; }
+.guide-body { flex: 1; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); }
+.guide-content { padding: 36px; }
+.guide-content h1 { font-size: clamp(36px, 3.4vw, 49px); }
+.guide-description { margin: 10px 0 26px; max-width: 36ch; }
+.guide-preview { border: 0; border-left: 8px solid transparent; border-image: var(--cloth-border) 0 24 / 0 0 0 8px repeat; padding: 26px 30px; background: #eee9db; }
+.guide-fabric { border-top: 0; padding-top: 12px; }
+.guide-fabric > img { border-radius: 2px; }
+.guide-shirt { min-height: 0; }
+.guide-footer { min-height: 72px; border-top-color: var(--line); }
+.guide-selection { border: 0; padding: 0; font-size: 12px; }
+.guide-selection:empty { display: none; }
+.guide-wearer button, .guide-motifs button, .guide-palettes button, .garment-grid button { border-color: transparent; background: transparent; box-shadow: none; padding: 8px; }
+.guide-wearer button[aria-pressed=true], .guide-motifs button[aria-pressed=true], .guide-palettes button[aria-pressed=true], .garment-grid button[aria-pressed=true] { box-shadow: none; border-color: var(--indigo); background: #eef0e5; }
+.guide-wearer strong { padding-bottom: 10px; }
+.guide-motifs img { height: 105px; }
+.guide-palettes { gap: 16px; }
+.guide-review strong { font-size: 13px; line-height: 1.5; }
+.journey-customization h2 { font-size: 14px; font-weight: 500; }
+.dye-colours label { background: transparent; border-color: transparent; padding: 6px 0; }
+.guide-downloads { display: flex; gap: 22px; }
+.welcome-studio .guide-progress { display: none; }
+.welcome-studio .guide-content { display: flex; flex-direction: column; justify-content: center; padding: 48px; }
+.welcome-studio .guide-content h1 { font-size: clamp(48px, 5vw, 70px); max-width: 8ch; line-height: 1.04; }
+.welcome-studio .guide-description { font-size: 15px; margin: 22px 0 38px; }
+.welcome-studio .welcome-route { max-width: 330px; }
+.welcome-studio .heritage-note { border: 0; padding: 0; margin: 0; }
+.welcome-studio .guide-preview { position: relative; padding: 0; border: 0; overflow: hidden; }
+.guide-cloth { width: 100%; height: 100%; object-fit: cover; min-height: 0; }
+.welcome-studio .guide-fabric { position: absolute; bottom: 20px; left: 20px; width: auto; max-width: calc(100% - 40px); background: var(--paper); padding: 12px 16px; border: 0; }
+.welcome-studio .guide-fabric > img { display: none; }
+.welcome-studio .guide-fabric > span { font-size: 12px; }
+.welcome-studio .guide-fabric small { font-size: 12px; color: var(--ink); }
+.welcome-studio .guide-footer { justify-content: flex-end; }
+.welcome-studio .guide-footer > .text-button { display: none; }
+.app-shell .page-intro { margin: 8px 0 24px; }
+.page-intro h1 { font-family: var(--serif); font-size: 44px; font-weight: 400; }
+.preview-viewbar, .result-toolbar { background: var(--paper); color: var(--ink); }
+.preview-viewbar > div button, .result-toolbar .segmented button { color: var(--muted); border-color: var(--line); }
+.preview-viewbar > div button[aria-pressed=true], .result-toolbar .segmented button[aria-pressed=true] { background: var(--indigo); color: var(--paper); border-color: var(--indigo); }
+.preview-model-column, .result-card { border-top-width: 6px; border-image-width: 6px 0 0; }
+.preview-fabric-summary { border: 0; padding-bottom: 0; }
+.preview-fabric-summary h2 { font-size: 24px; }
+.guided-photo-empty { background: transparent; border-style: dashed; border-color: var(--line); }
+.photo-design-preview { border: 0; border-left: 1px solid var(--line); border-image: none; }
+.photo-step-toolbar { border-color: var(--line); }
+.source-pattern { border: 0; background: transparent; }
+.site-footer { border: 0; }
+
+@media (max-width: 1100px) and (min-width: 701px) {
+  .guide-workspace { display: flex; }
+  .guide-progress { padding: 0 22px; gap: 17px; }
+  .guide-content { padding: 28px; }
+  .welcome-studio .guide-content { padding: 34px; }
+  .guide-preview { padding: 22px; }
+}
+@media (max-width: 700px) {
+  .app-shell .site-header { height: 60px; }
+  .app-shell .steps { margin: 10px 0 16px; gap: 18px; justify-content: flex-start; }
+  .step { min-height: 36px; font-size: 12px; }
+  .guided-studio { height: calc(100dvh - 172px); min-height: 490px; }
+  .guide-topbar { min-height: 36px; padding: 0 18px; font-size: 11px; }
+  .guide-progress { padding: 0 18px; gap: 18px; min-height: 44px; }
+  .guide-progress > div { flex: 0 0 auto; }
+  .guide-progress > div .progress-name { display: block; }
+  .guide-step-link { font-size: 11px; padding: 10px 0; }
+  .guide-body { display: flex; }
+  .guide-preview { height: 112px; padding: 10px 16px; border: 0; border-bottom: 1px solid var(--line); border-image: none; }
+  .guide-content { padding: 24px 20px; }
+  .guide-content h1 { font-size: 35px; }
+  .guide-description { margin: 8px 0 22px; }
+  .guide-footer { min-height: 66px; padding: 12px 18px; }
+  .guide-motifs img { height: 74px; }
+  .welcome-studio .guide-body { flex-direction: column-reverse; }
+  .welcome-studio .guide-preview { display: block; height: 38%; min-height: 150px; flex-shrink: 0; }
+  .welcome-studio .guide-content { padding: 26px 24px; overflow-y: auto; justify-content: flex-start; }
+  .welcome-studio .guide-content h1 { font-size: 44px; max-width: none; }
+  .welcome-studio .guide-description { font-size: 13px; margin: 14px 0 22px; }
+  .welcome-studio .guide-fabric { bottom: 12px; left: 12px; padding: 8px 12px; }
+  .welcome-studio .guide-fabric small { font-size: 10px; }
+  .welcome-studio .heritage-note { font-size: 11px; }
+  .painting-step .guide-preview { height: 112px; }
+  .page-intro h1, .app-shell .page-intro h1 { font-size: 35px; }
+  .photo-design-preview { border-left: 0; border-bottom: 1px solid var(--line); }
+}
+
+/* Creation tools and garment choices, with details available when needed. */
+.cloth-choices { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 24px; }
+.cloth-choices h2 { font: 500 12px var(--font); letter-spacing: 0; margin-bottom: 12px; }
+.cloth-choices .guide-motifs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.cloth-choices .guide-motifs img { height: 76px; }
+.cloth-choices .guide-motifs button > span { font-size: 11px; padding-top: 7px; }
+.cloth-choices .guide-palettes { grid-template-columns: 1fr; gap: 7px; }
+.cloth-choices .guide-swatches { height: 24px; }
+.cloth-choices .guide-palettes button > span:last-child { padding-top: 6px; font-size: 11px; }
+.studio-disclosure { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px; font-size: 12px; }
+.studio-disclosure summary { cursor: pointer; color: var(--indigo); min-height: 28px; }
+.studio-disclosure summary:focus-visible { outline: 3px solid var(--brass); outline-offset: 3px; }
+.studio-disclosure .journey-customization { margin-top: 12px; }
+.studio-disclosure .journey-customization > h2 { display: none; }
+.personalise-tabs, .wearer-toggle { display: flex; gap: 16px; margin-bottom: 12px; flex-shrink: 0; }
+.personalise-tabs button, .wearer-toggle button { border: 0; border-bottom: 2px solid transparent; background: transparent; padding: 8px 0; min-height: 36px; font-size: 12px; color: var(--muted); }
+.personalise-tabs button[aria-pressed=true], .wearer-toggle button[aria-pressed=true] { border-bottom-color: var(--indigo); color: var(--indigo); }
+.journey-paint-actions .text-button { padding: 4px 8px; min-height: 32px; }
+.journey-paint-actions button[aria-pressed=true] { background: var(--selection); }
+.garment-step .garment-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.garment-step .garment-grid img { height: 86px; }
+.garment-step .guide-selection { margin-top: 8px; }
+.garment-step .guide-downloads { margin-top: 8px; }
+
+@media (min-width: 701px) {
+  .guided-studio:not(.welcome-studio) { min-height: 480px; }
+  .guided-studio:not(.welcome-studio) .guide-topbar { display: none; }
+  .guide-progress { min-height: 44px; }
+  .guided-studio:not(.welcome-studio) .guide-content { padding: 20px 24px; }
+  .guided-studio:not(.welcome-studio) .guide-content h1 { font-size: 34px; }
+  .guided-studio:not(.welcome-studio) .guide-description { margin: 6px 0 18px; font-size: 12px; }
+  .personalise-step .guide-body { grid-template-columns: minmax(0,1.5fr) minmax(0,1fr); }
+  .personalise-step .guide-content { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+  .personalise-step .guide-description { display: none; }
+  .personalise-step .personalise-tabs { margin: 8px 0; }
+  .personalise-step .journey-paint:not([hidden]) { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+  .personalise-step .journey-paint-actions { margin-bottom: 6px; }
+  .personalise-step .canvas-editor { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+  .personalise-step .drawing-tools { padding: 6px; flex-shrink: 0; }
+  .personalise-step .drawing-tools button { min-height: 34px; padding: 4px; }
+  .personalise-step .canvas-workbench { flex: 1; min-height: 0; grid-template-columns: minmax(0,1fr) 148px; padding: 10px; gap: 14px; }
+  .personalise-step .canvas-surface { display: flex; flex-direction: column; align-items: center; min-height: 0; min-width: 0; }
+  .personalise-step .drawing-canvas { height: calc(100% - 22px); width: auto; max-width: 100%; aspect-ratio: 1; flex-shrink: 1; min-height: 0; }
+  .personalise-step .canvas-caption { padding: 6px 0 0; min-height: 22px; font-size: 10px; width: 100%; }
+  .personalise-step .canvas-caption > span:last-child { display: none; }
+  .personalise-step .brush-settings { gap: 8px; overflow-y: auto; min-height: 0; font-size: 11px; }
+  .personalise-step .brush-settings label { font-size: 11px; }
+  .personalise-step .brush-settings select { min-height: 30px; padding: 5px; font-size: 11px; }
+  .personalise-step .brush-settings .secondary-button { min-height: 32px; padding: 6px; font-size: 11px; }
+  .personalise-step .brush-settings .small-note { display: none; }
+  .personalise-step .canvas-actions { padding: 0 10px 6px; gap: 14px; flex-shrink: 0; }
+  .personalise-step .canvas-actions .text-button { min-height: 28px; font-size: 11px; }
+  .personalise-step .journey-customization { overflow-y: auto; min-height: 0; margin-top: 8px; }
+}
+@media (max-width: 700px) {
+  .cloth-choices { gap: 16px; }
+  .cloth-choices .guide-motifs img { height: 55px; }
+  .cloth-choices .guide-motifs button { padding: 5px; }
+  .cloth-choices .guide-motifs button > span { font-size: 10px; }
+  .cloth-choices .guide-palettes button { padding: 5px; }
+  .cloth-choices .guide-palettes button > span:last-child { font-size: 10px; }
+  .cloth-choices .guide-swatches { height: 21px; }
+  .guide-progress { gap: 28px; }
+  .garment-step .garment-grid img { height: 74px; }
+}
+.cloth-choices .guide-palettes { grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; }
+.cloth-choices .guide-palettes button > span:last-child { min-height: 24px; line-height: 1.4; }
+.brush-more { font-size: 11px; }
+.brush-more summary { cursor: pointer; padding: 8px 0; color: var(--indigo); }
+.brush-more summary:focus-visible { outline: 3px solid var(--brass); outline-offset: 2px; }
+.brush-more[open] { display: grid; gap: 12px; }
+@media (min-width: 701px) {
+  .personalise-step .ink-swatches { gap: 4px; flex-wrap: nowrap; }
+  .personalise-step .ink-swatches button { width: 18px; height: 18px; min-width: 18px; }
+  .cloth-choices .guide-motifs button { padding: 5px; }
+  .cloth-choices .guide-motifs img { height: clamp(52px, 8vh, 76px); }
+}
+@media (max-width: 700px) {
+  .cloth-choices { grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); gap: 12px; }
+  .cloth-choices .guide-palettes { grid-template-columns: 1fr; }
+  .cloth-choices .guide-motifs img { height: 52px; }
+  .journey-paint .brush-more { grid-column: 1 / -1; }
+}
+@media (min-width: 701px) {
+  .personalise-step .guide-content > h1 { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .personalise-step .personalise-tabs { margin-top: 0; }
+}
+@media (min-width: 701px) and (max-height: 800px) {
+  .app-shell .site-header { height: 52px; }
+  .app-shell .steps { margin: 8px 0 12px; }
+  .guided-studio { height: calc(100dvh - 190px); min-height: 450px; }
+  .guide-footer { min-height: 60px; padding: 8px 20px; }
+  .guided-studio:not(.welcome-studio) .guide-content { padding: 14px 20px; }
+  .personalise-step .personalise-tabs button { min-height: 30px; padding: 5px 0; }
+  .personalise-step .journey-paint-actions { margin-bottom: 4px; }
+  .personalise-step .drawing-tools button { min-height: 30px; }
+  .app-shell .site-footer { padding: 8px 0; }
+  .cloth-choices .guide-motifs img { height: 50px; }
+  .cloth-choices .guide-motifs button > span { padding-top: 4px; }
+}
+.wearer-toggle { margin: 0 0 8px; }
+.wearer-toggle button, .wearer-toggle button[aria-pressed=true] { flex: none; width: auto; background: transparent; border-radius: 0; border: 0; border-bottom: 2px solid transparent; padding: 6px 0; min-height: 30px; }
+.wearer-toggle button[aria-pressed=true] { color: var(--indigo); border-bottom-color: var(--indigo); }
+@media (min-width: 701px) {
+  .garment-step .garment-grid { grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; }
+  .garment-step .garment-grid img { height: 65px; }
+  .garment-step .garment-grid button { padding: 5px; }
+  .garment-step .garment-grid strong { font-size: 11px; line-height: 1.4; }
+  .garment-step .studio-disclosure { margin-top: 10px; padding-top: 8px; }
+  .guided-studio .garment-step .guide-description { margin-bottom: 10px; }
+}
+@media (min-width: 701px) and (max-height: 800px) {
+  .guided-mode .site-footer { display: none; }
+  .garment-step .garment-grid img { height: 50px; }
+  .garment-step .guide-downloads .text-button { min-height: 28px; }
+}
+
+/* The entire window is the workshop; only the current task remains. */
+body::before { display: none; }
+.app-shell, .guided-mode.app-shell, .stage-preview.app-shell, .stage-try-on.app-shell { max-width: none; width: 100%; padding: 0; }
+.app-shell > main { min-height: 100dvh; }
+.guided-studio, .guided-studio:not(.welcome-studio), .guided-studio.personalise-step { width: 100%; height: 100dvh; min-height: 0; max-height: none; margin: 0; border: 0; border-radius: 0; }
+.guide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); padding: 12px 28px; flex-shrink: 0; }
+.guide-navigation .guide-progress { border: 0; padding: 0; min-height: 44px; gap: 28px; }
+.guide-navigation-actions { display: flex; align-items: center; gap: 22px; flex-shrink: 0; }
+.guide-navigation-actions .primary-button { min-width: 130px; }
+.welcome-studio .guide-navigation { display: none; }
+.welcome-studio .guide-content { padding: clamp(32px,6vw,90px); }
+.welcome-start { margin-bottom: 28px; }
+.welcome-studio .guide-description { margin-bottom: 28px; }
+.welcome-studio .guide-content h1 { font-size: clamp(52px,6vw,86px); }
+.guided-studio:not(.welcome-studio) .guide-content { padding: 30px; }
+.guide-preview { padding: 30px; }
+.personalise-step .canvas-workbench { padding: 16px; grid-template-columns: minmax(0,1fr) 170px; }
+.personalise-step .drawing-canvas { max-height: min(62dvh, 620px); }
+.personalise-step .brush-settings { gap: 12px; }
+.personalise-step .canvas-caption { margin-top: auto; }
+.cloth-choices .guide-motifs img { height: clamp(70px,13vh,130px); }
+.cloth-choices .guide-palettes { gap: 12px; }
+.cloth-choices .guide-swatches { height: 36px; }
+.garment-step .garment-grid img { height: clamp(65px,12vh,120px); }
+.preview-studio { height: 100dvh; border: 0; border-radius: 0; margin: 0; }
+.preview-model-column { min-height: 0; display: flex; flex-direction: column; }
+.preview-settings { overflow-y: auto; }
+.three-stage { flex: 1; min-height: 0; }
+.photo-wizard { height: 100dvh; min-height: 0; border: 0; border-radius: 0; }
+.reveal-layout { min-height: 100dvh; margin: 0; }
+.app-shell > main > .message { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); width: min(600px,calc(100% - 32px)); z-index: 20; }
+@media (min-width: 701px) {
+  .cloth-choices { gap: 28px; }
+  .garment-step .garment-grid { gap: 14px; }
+}
+@media (max-width: 700px) {
+  .app-shell, .guided-mode.app-shell, .stage-preview.app-shell, .stage-try-on.app-shell { padding: 0; }
+  .guide-navigation { padding: 10px 16px; gap: 10px; flex-wrap: wrap; }
+  .guide-navigation .guide-progress { flex: 1; gap: 22px; min-height: 36px; }
+  .guide-navigation-actions { width: 100%; justify-content: flex-end; gap: 16px; }
+  .guide-navigation-actions .primary-button { min-height: 38px; padding: 8px 12px; font-size: 11px; min-width: 120px; }
+  .guide-navigation-actions > .text-button:first-child { margin-right: auto; }
+  .guided-studio:not(.welcome-studio) .guide-content { padding: 24px 20px; }
+  .guide-preview { height: 112px; padding: 10px 16px; }
+  .welcome-studio .guide-content { padding: 30px 24px; }
+  .welcome-studio .guide-content h1 { font-size: 48px; }
+  .welcome-studio .guide-preview { height: 42%; }
+  .cloth-choices .guide-motifs img { height: 65px; }
+  .cloth-choices .guide-swatches { height: 26px; }
+  .garment-step .garment-grid img { height: 80px; }
+  .personalise-step .canvas-workbench { grid-template-columns: 1fr; }
+  .personalise-step .drawing-canvas { max-height: none; }
+  .preview-studio { height: auto; min-height: 100dvh; }
+  .photo-wizard { height: 100dvh; }
+}
+.preview-settings { display: flex; flex-direction: column; gap: 20px; }
+.preview-settings > .studio-select, .preview-settings .preview-fabric-summary, .preview-settings .studio-disclosure { margin: 0; }
+.preview-adjustment-fields { display: grid; gap: 20px; margin-top: 16px; }
+.preview-next { margin-top: auto; padding-top: 16px; position: sticky; bottom: 0; background: var(--paper); z-index: 1; }
+.garment-3d { min-height: 0; }
+.reveal-layout { height: 100dvh; min-height: 0; }
+.result-card { min-height: 0; display: flex; flex-direction: column; }
+.result-image { height: 0; flex: 1; min-height: 0; width: 100%; object-fit: contain; }
+.reveal-details { min-height: 0; overflow-y: auto; }
+@media (max-width: 760px) {
+  .preview-studio { display: flex; flex-direction: column; height: 100dvh; min-height: 0; }
+  .preview-model-column { flex: 1; min-height: 0; }
+  .preview-model-column .three-stage { flex: 1; height: auto; min-height: 0; }
+  .preview-model-column .three-controls { flex-shrink: 0; }
+  .preview-settings { max-height: 42dvh; padding: 16px 20px; gap: 12px; overflow-y: auto; flex-shrink: 0; }
+  .preview-fabric-summary { display: none; }
+  .preview-settings > .studio-select { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .preview-settings > .studio-select select { width: min(65%,260px); }
+  .preview-accuracy { padding: 8px 16px; font-size: 10px; }
+  .preview-next { margin-top: 0; padding-top: 8px; }
+  .reveal-layout { display: flex; flex-direction: column; height: 100dvh; }
+  .result-card { flex: 1; }
+  .reveal-details { height: 40dvh; flex-shrink: 0; }
+}
+.stage-title-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+@media (min-width: 701px) {
+  .personalise-step .cloth-choices { flex: 1; min-height: 0; overflow-y: auto; align-content: start; }
+}
+
+/* Compact, recognisable tools; the cloth gets the working space. */
+.studio-icon { display: block; width: 23px; height: 23px; flex-shrink: 0; }
+.icon-control { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; min-height: 44px; padding: 10px; border: 1px solid transparent; border-radius: 9px; background: transparent; color: var(--indigo); cursor: pointer; flex: 0 0 44px; }
+.icon-control:hover:not(:disabled) { background: var(--selection); }
+.icon-control[aria-pressed=true] { background: var(--indigo); color: white; }
+.icon-control:focus-visible, .brush-more summary:focus-visible { outline: 2px solid var(--indigo); outline-offset: 3px; }
+.icon-control:disabled { opacity: .3; cursor: default; }
+.icon-control[data-tooltip]::after { content: attr(data-tooltip); position: absolute; top: calc(100% + 7px); left: 50%; transform: translateX(-50%); padding: 6px 9px; border-radius: 5px; background: var(--indigo); color: white; font-size: 11px; font-weight: 400; line-height: 1.4; white-space: nowrap; pointer-events: none; opacity: 0; z-index: 10; }
+.icon-control:hover::after, .icon-control:focus-visible::after { opacity: 1; }
+.guide-navigation-actions { gap: 10px; }
+.journey-paint .drawing-tools { display: flex; justify-content: center; gap: 8px; padding: 7px; border: 0; border-radius: 12px; align-self: center; }
+.journey-paint .drawing-tools .icon-control { flex: 0 0 44px; width: 44px; height: 44px; min-height: 44px; padding: 10px; }
+.personalise-step .canvas-workbench { display: grid; grid-template-columns: minmax(0,1fr); grid-template-rows: auto minmax(0,1fr); padding: 12px 0; gap: 16px; }
+.personalise-step .canvas-surface { grid-row: 2; }
+.journey-paint .brush-settings { grid-row: 1; display: flex; flex-direction: row; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px 18px; overflow: visible; }
+.journey-paint .brush-settings > label { display: flex; flex-direction: column; gap: 5px; width: 130px; min-width: 0; font-size: 11px; }
+.journey-paint .brush-settings > .ink-picker { width: 36px; }
+.journey-paint .ink-picker input { width: 36px; height: 36px; padding: 3px; border: 1px solid var(--line); border-radius: 50%; background: transparent; cursor: pointer; }
+.journey-paint .ink-picker input::-webkit-color-swatch-wrapper { padding: 0; }
+.journey-paint .ink-picker input::-webkit-color-swatch { border: 0; border-radius: 50%; }
+.personalise-step .ink-swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+.personalise-step .ink-swatches button { width: 28px; height: 28px; min-width: 28px; min-height: 28px; border-radius: 50%; }
+.personalise-step .ink-swatches button[aria-pressed=true] { outline: 2px solid var(--indigo); outline-offset: 3px; }
+.ink-swatches button:disabled { opacity: .35; cursor: default; }
+.journey-paint .brush-settings .small-note { display: none; }
+.journey-paint .brush-more { position: relative; grid-column: auto; }
+.brush-more summary { list-style: none; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 10px; border-radius: 9px; }
+.brush-more summary::-webkit-details-marker { display: none; }
+.brush-more summary:hover { background: var(--selection); }
+.journey-paint .brush-more[open] { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 8px; border: 1px solid var(--line); border-radius: 9px; }
+.brush-more[open] label { width: 130px; }
+.personalise-step .drawing-canvas { width: auto; height: calc(100% - 28px); max-width: 100%; max-height: none; object-fit: contain; }
+.journey-paint .canvas-actions { display: flex; justify-content: center; gap: 8px; padding: 0 0 12px; border: 0; }
+.canvas-actions .starter-visibility { margin-left: 12px; }
+.canvas-actions .icon-control[data-tooltip]::after { top: auto; bottom: calc(100% + 7px); }
+@media (max-width: 700px) {
+  .guide-navigation-actions { width: auto; gap: 4px; }
+  .guide-navigation { padding: 8px 12px; }
+  .guide-navigation .guide-progress { gap: 16px; }
+  .guide-navigation-actions .primary-button { min-width: 0; }
+  .guided-studio:not(.welcome-studio) .guide-content { padding: 16px; }
+  .journey-paint .brush-settings { gap: 12px; }
+  .personalise-step .canvas-workbench { grid-template-rows: auto auto; }
+  .personalise-step .drawing-canvas { width: 100%; height: auto; }
+  .journey-paint .brush-more[open] { flex-basis: 100%; }
+}
+.journey-paint .drawing-tools .icon-control[aria-pressed=true] { background: var(--indigo); color: white; border-color: var(--indigo); }
+
+.brush-settings .stamp-design-picker { width: 100%; min-width: 0; }
+.stamp-design-picker > span { display: block; margin-bottom: 8px; font-size: 11px; }
+.stamp-design-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.stamp-design-options button { position: relative; min-width: 0; padding: 4px; border: 1px solid var(--line); border-radius: 6px; background: transparent; cursor: pointer; }
+.stamp-design-options svg { display: block; width: 100%; aspect-ratio: 1; border-radius: 3px; }
+.stamp-design-options button:hover { border-color: var(--indigo); }
+.stamp-design-options button[aria-pressed=true] { border-color: var(--indigo); box-shadow: 0 0 0 1px var(--indigo); }
+.stamp-design-options button:focus-visible { outline: 2px solid var(--indigo); outline-offset: 3px; }
+.stamp-design-check { position: absolute; right: 7px; bottom: 7px; display: none; width: 18px; height: 18px; align-items: center; justify-content: center; border-radius: 50%; background: var(--indigo); color: var(--paper); font-size: 11px; }
+.stamp-design-options button[aria-pressed=true] .stamp-design-check { display: flex; }
+.journey-paint .stamp-design-picker { flex-basis: 100%; max-width: 540px; }
+.journey-paint .stamp-design-options { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+@media (max-width: 700px) {
+  .journey-paint .stamp-design-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }

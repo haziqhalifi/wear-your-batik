@@ -1,6 +1,6 @@
-# Wear Your Story Five Hour Prototype PRD
+# Wear Your Batik Five Hour Prototype PRD
 
-Wear Your Story lets someone create a contemporary batik-inspired pattern and see themselves wearing it. The five-hour prototype should deliver one complete creative journey: make a pattern, apply it to a shirt, upload a photo, and reveal a personal wearing preview.
+Wear Your Batik lets someone create a contemporary batik-inspired pattern and see themselves wearing it. The five-hour prototype should deliver one complete creative journey: make a pattern, apply it to a shirt, upload a photo, and reveal a personal wearing preview.
 
 Status: Draft ready for team review. The participant has confirmed the concept and focus on pattern creation and personal preview. Detailed scope, targets, and implementation below are proposed build decisions.
 
@@ -129,7 +129,7 @@ The key line: “From a pattern I create to a look I can imagine wearing.”
 
 ## Open dependencies and workshop progress
 
-Confirmed: Wear Your Story, pattern creation, personal preview, and a five-hour hackathon scope.
+Confirmed: Wear Your Batik, pattern creation, personal preview, and a five-hour hackathon scope.
 
 Pending: try-on provider access and cost, actual pattern fidelity, permitted sample photo, usable garment template, and team review of this brief. Culture × Tech positioning and the demo audience remain suggestions.
 

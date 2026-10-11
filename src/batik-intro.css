@@ -1,0 +1,77 @@
+/* A living cloth: the existing vector collection becomes the opening exhibition. */
+.guided-studio.welcome-studio { height:auto; overflow:visible; display:block; background:#101f36; }
+.guide-workspace[hidden] { display:none; }
+.batik-intro { --ivory:#f8edcf; --gold:#edc87e; color:var(--ivory); background:#101f36; overflow:hidden; width:100%; }
+.intro-header { position:relative; z-index:2; padding:26px 4.5%; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #f8edcf20; }
+.intro-brand { display:flex; align-items:center; gap:12px; text-decoration:none; font:26px/1 var(--serif); }
+.intro-brand svg { width:38px; height:43px; }
+.intro-brand small { display:block; font:10px/1.5 var(--font); letter-spacing:.08em; margin-top:7px; color:#b7c4cf; }
+.intro-explore { font-size:12px; text-decoration:none; display:flex; align-items:center; gap:30px; }
+.intro-explore span { font-size:24px; color:var(--gold); }
+.intro-stage { min-height:650px; height:min(760px,76svh); position:relative; isolation:isolate; }
+.intro-art { position:absolute; inset:0; overflow:hidden; z-index:-1; background:radial-gradient(ellipse at 76% 42%,var(--textile),#101f36 78%); }
+.intro-fabric { position:absolute; inset:-8% -8% -8% 36%; background-size:660px; opacity:.13; transform:rotate(-12deg); mask-image:linear-gradient(90deg,transparent,#000); animation:cloth-arrive 2s ease both; }
+.intro-botanical { position:absolute; width:580px; height:580px; filter:drop-shadow(0 14px 35px #07152955); overflow:visible; }
+.botanical-main { right:5%; top:-1%; transform:rotate(12deg); animation:botanical-float 8.5s ease-in-out infinite; }
+.botanical-echo { width:330px; height:330px; right:31%; bottom:-17%; transform:rotate(-35deg); opacity:.7; }
+.intro-botanical path { stroke-dasharray:1; stroke-dashoffset:0; animation:wax-draw 3.6s cubic-bezier(.25,.1,.25,1) both; }
+.intro-botanical circle { animation:colour-bloom 3.6s ease both; }
+.intro-orbit { position:absolute; width:590px; height:590px; border:1px solid #f8edcf16; border-radius:50%; right:3%; top:0; transform:rotate(-30deg) scaleX(.85); }
+.orbit-two { transform:rotate(35deg) scaleX(.92); width:660px; height:660px; right:0; top:-35px; }
+.intro-copy-block { padding:62px 0 100px 6%; position:relative; width:58%; }
+.intro-invitation { font-size:11px; color:#d3d3c6; display:flex; align-items:center; gap:10px; margin-bottom:25px; }
+.intro-invitation>span { width:20px; height:1px; background:var(--gold); }
+.batik-intro h1 { font:400 clamp(68px,7.3vw,112px)/.91 var(--serif); letter-spacing:-.045em; color:var(--ivory); }
+.intro-description { font-size:13px; line-height:1.85; color:#c3cbd1; margin:27px 0; }
+.intro-actions { display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
+.intro-primary { background:var(--ivory); color:#14273b; border:0; border-radius:2px; min-height:52px; padding:15px 23px; display:flex; gap:42px; align-items:center; font-size:13px; font-weight:550; }
+.intro-primary:hover { background:var(--gold); }
+.intro-primary>span { font-size:21px; }
+.intro-actions>span { font-size:10px; color:#98adb9; }
+.intro-art-caption { position:absolute; right:7%; bottom:55px; display:flex; gap:17px; max-width:260px; }
+.intro-caption-mark { font-size:40px; color:var(--gold); }
+.intro-art-caption div>span { font-size:10px; color:#c0c9ce; }
+.intro-art-caption strong { display:block; font:30px/1.3 var(--serif); margin:4px 0; }
+.intro-art-caption p { font-size:11px; line-height:1.65; color:#b4c5cd; }
+.intro-motion { position:absolute; right:4.5%; bottom:13px; border:0; background:transparent; color:#c3cbd1; font-size:10px; min-height:36px; display:flex; align-items:center; gap:8px; }
+.intro-motion>span { font-size:12px; }
+.intro-collection { padding:28px 4.5% 30px; background:#12243c; border-top:1px solid #f8edcf22; position:relative; }
+.intro-collection-heading { display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:22px; }
+.intro-collection h2 { font:400 29px/1.2 var(--serif); letter-spacing:-.015em; }
+.intro-collection-heading p { font-size:11px; color:#aabdc9; margin-top:8px; }
+.intro-use { background:transparent; border:1px solid #d5d6bd55; border-radius:2px; min-height:44px; padding:11px 15px; color:var(--ivory); font-size:11px; display:flex; align-items:center; gap:20px; }
+.intro-use:hover { background:#ffffff0c; }
+.intro-swatches { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:15px; }
+.intro-swatch { min-width:0; padding:0 0 12px; border:0; text-align:left; position:relative; background:none; color:var(--ivory); border-bottom:1px solid #f8edcf24; }
+.intro-swatch-image { height:112px; background-size:245px; position:relative; box-shadow:inset 0 0 0 1px #ffffff16; transition:background-size .5s; }
+.intro-swatch:hover .intro-swatch-image { background-size:275px; }
+.intro-swatch-image>span { position:absolute; right:8px; bottom:8px; border-radius:50%; background:#101f36d9; display:grid; place-items:center; width:25px; height:25px; font-size:12px; }
+.intro-swatch[aria-pressed=true] .intro-swatch-image { outline:2px solid var(--gold); outline-offset:3px; }
+.intro-swatch-label { display:block; font-size:12px; padding-top:13px; }
+.intro-swatch-label small { display:block; color:#99aeba; font-size:10px; margin-top:5px; }
+.intro-swatch-progress { position:absolute; bottom:-1px; left:0; height:2px; background:var(--gold); width:100%; transform:scaleX(0); transform-origin:left; }
+.intro-swatch[aria-pressed=true] .intro-swatch-progress { animation:collection-time 8.5s linear both; }
+.is-paused .intro-swatch[aria-pressed=true] .intro-swatch-progress { transform:scaleX(1); animation:none; }
+.is-paused .intro-art *, .is-paused .intro-swatch-progress { animation-play-state:paused; }
+/* Selecting a motif reveals its finished artwork even while the exhibition is paused. */
+.is-paused .intro-botanical path, .is-paused .intro-botanical circle, .is-paused .intro-fabric { animation:none; }
+.intro-footer { display:flex; align-items:flex-start; justify-content:space-between; gap:25px; padding:22px 4.5%; color:#99aeba; font-size:10px; line-height:1.8; }
+.intro-footer details { max-width:430px; text-align:right; }
+.intro-footer summary { cursor:pointer; min-height:28px; color:#c5d0d5; }
+.intro-footer details p { margin:10px 0; }
+.intro-footer nav { display:flex; justify-content:flex-end; flex-wrap:wrap; gap:18px; }
+.batik-intro :focus-visible { outline:2px solid var(--gold); outline-offset:5px; }
+@keyframes wax-draw { 0% { stroke-dashoffset:1; fill-opacity:0; } 48% { fill-opacity:0; } 80%,100% { stroke-dashoffset:0; fill-opacity:1; } }
+@keyframes colour-bloom { 0%,45% { opacity:0; } 100% { opacity:1; } }
+@keyframes botanical-float { 0%,100% { transform:translateY(0) rotate(12deg); } 50% { transform:translateY(12px) rotate(15deg); } }
+@keyframes cloth-arrive { from { opacity:0; } to { opacity:.13; } }
+@keyframes collection-time { to { transform:scaleX(1); } }
+@media(min-width:1600px) { .intro-copy-block { padding-left:10%; }.botanical-main { right:12%; }.intro-art-caption { right:15%; } }
+@media(max-width:1000px) { .intro-botanical { width:490px; height:490px; right:-12%; top:35px; }.botanical-echo { width:280px; height:280px; right:17%; top:auto; }.intro-art-caption { right:4%; }.intro-swatches { gap:12px; }.intro-swatch-image { height:95px; }.intro-orbit { right:-20%; } }
+@media(max-width:650px) {
+  .intro-header { padding:18px 22px; }.intro-brand { font-size:23px; }.intro-brand small { font-size:9px; }.intro-brand svg { width:31px; }.intro-explore { font-size:0; gap:0; }.intro-explore span { font-size:25px; }
+  .intro-stage { height:auto; min-height:840px; }.intro-copy-block { width:100%; padding:35px 25px 0; }.intro-invitation { font-size:10px; margin-bottom:22px; }.batik-intro h1 { font-size:76px; max-width:360px; }.intro-description { font-size:12px; margin:22px 0; }.intro-primary { min-height:50px; }.intro-actions { gap:11px; }
+  .botanical-main { width:370px; height:370px; right:-45px; top:auto; bottom:50px; }.botanical-echo { width:190px; height:190px; right:auto; left:-58px; bottom:0; top:auto; }.intro-fabric { inset:43% -10% -10% -15%; background-size:460px; mask-image:linear-gradient(transparent,#000); }.intro-orbit { width:350px; height:350px; right:-22px; top:auto; bottom:70px; }.orbit-two { bottom:50px; right:-50px; }.intro-art-caption { left:25px; right:auto; bottom:35px; gap:10px; max-width:210px; }.intro-art-caption p { display:none; }.intro-art-caption strong { font-size:24px; }.intro-caption-mark { font-size:30px; }.intro-motion { bottom:16px; right:20px; }
+  .intro-collection { padding:27px 23px; }.intro-collection-heading { align-items:flex-start; flex-direction:column; gap:17px; }.intro-collection h2 { font-size:28px; }.intro-collection-heading p { font-size:10px; }.intro-use { width:100%; justify-content:space-between; }.intro-swatches { grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px 14px; }.intro-swatch-image { height:115px; }.intro-footer { padding:20px 23px; flex-direction:column; gap:10px; }.intro-footer details { text-align:left; }.intro-footer nav { justify-content:flex-start; }
+}
+@media(max-width:360px) { .batik-intro h1 { font-size:65px; }.intro-copy-block { padding-left:20px; padding-right:20px; }.intro-invitation { font-size:9px; }.intro-description { font-size:11px; }.intro-stage { min-height:810px; } }

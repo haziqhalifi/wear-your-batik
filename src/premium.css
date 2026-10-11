@@ -1,0 +1,115 @@
+/* Quiet chrome, generous artwork, controls revealed when needed. */
+.atelier-shell { --atelier-height:64px; }
+.atelier-header { height:var(--atelier-height); padding-inline:24px; }
+.atelier-brand > span { font-size:23px; }
+.atelier-brand svg { width:27px; height:32px; }
+.atelier-steps { gap:24px; }
+.atelier-steps button { font-size:11px; }
+.atelier-shell .guide-navigation { min-height:52px; padding:6px 16px; justify-content:flex-end; }
+.atelier-shell .guide-navigation-actions { gap:12px; }
+.atelier-shell .primary-button { min-height:40px; padding:10px 18px; font-size:11px; border-radius:4px; }
+.atelier-options { position:relative; }
+.atelier-options summary { display:grid; place-items:center; width:36px; height:36px; cursor:pointer; list-style:none; color:var(--muted); border-radius:4px; }
+.atelier-options summary::-webkit-details-marker { display:none; }
+.atelier-options summary:hover { background:var(--selection); }
+.atelier-options > div { position:absolute; right:0; top:42px; width:170px; z-index:20; padding:6px; background:#152c42; border:1px solid #ffffff24; border-radius:6px; box-shadow:0 14px 35px #0004; }
+.atelier-options button { display:block; width:100%; border:0; background:transparent; padding:12px 10px; text-align:left; font-size:11px; color:var(--ink); cursor:pointer; border-radius:3px; }
+.atelier-options button:hover { background:var(--selection); }
+.atelier-options summary:focus-visible, .atelier-options button:focus-visible { outline:2px solid var(--indigo); outline-offset:2px; }
+.atelier-shell .guide-content > .guide-description { display:none; }
+.atelier-shell .garment-step .guide-body { grid-template-columns:minmax(280px,340px) minmax(0,1fr); }
+.atelier-shell .guided-studio.garment-step .guide-content { padding:24px 20px; }
+.atelier-shell .garment-step .guide-content h1 { font-size:30px; max-width:none; line-height:1.15; margin:0 0 20px; }
+.atelier-shell .garment-step .wearer-toggle { margin:0 0 16px; padding:2px; }
+.atelier-shell .garment-step .wearer-toggle button { min-height:32px; padding:7px 18px; font-size:10px; }
+.atelier-shell .garment-categories { gap:15px; margin:0 0 16px; }
+.atelier-shell .garment-categories button { min-height:34px; padding:6px 0 10px; font-size:9px; }
+.atelier-shell .garment-step .garment-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px 10px; }
+.atelier-shell .garment-step .garment-grid img { height:92px; padding:6px 0; }
+.atelier-shell .garment-step .garment-grid strong { font-size:10px; padding:8px 0 0; }
+.atelier-shell .garment-grid button:not([aria-pressed=true]) .garment-card-choice { display:none; }
+.atelier-shell .garment-card-choice { width:18px; height:18px; font-size:10px; right:5px; bottom:5px; }
+.atelier-shell .garment-step .studio-disclosure { margin-top:24px; }
+.atelier-shell .garment-step .garment-fitting { margin:0 0 18px; padding:10px 0; border-bottom:1px solid var(--line); }
+.atelier-shell .studio-disclosure summary { font-size:11px; color:var(--muted); }
+.garment-cut-options { display:grid; gap:18px; margin-top:16px; }
+.garment-cut-options fieldset { margin:0; padding:0; border:0; min-width:0; }
+.garment-cut-options legend { font-size:10px; color:var(--muted); margin-bottom:8px; }
+.garment-cut-options fieldset > div { display:flex; gap:6px; }
+.garment-cut-options button { border:1px solid var(--line); border-radius:4px; color:var(--muted); background:transparent; min-height:34px; padding:7px 10px; font-size:10px; cursor:pointer; }
+.garment-cut-options button[aria-pressed=true] { color:var(--ink); border-color:var(--indigo); background:#edc87e0b; }
+.garment-cut-options button:focus-visible { outline:2px solid var(--indigo); outline-offset:3px; }
+.garment-placement-options button { flex:1; min-width:0; padding:4px; }
+.garment-placement-options img { display:block; width:100%; height:70px; object-fit:contain; background:#f0e9d8; border-radius:2px; }
+.garment-placement-options span { display:block; padding:7px 0 2px; font-size:9px; }
+.atelier-shell .cloth-choices h2 { font:400 22px/1.2 var(--serif); margin-bottom:12px; }
+.atelier-shell .cloth-choices .guide-motifs img { height:clamp(90px,17vh,170px); }
+.atelier-shell .cloth-choices .guide-motifs button > span { font-size:10px; }
+.atelier-shell .preview-studio { grid-template-columns:minmax(0,1fr) 260px; }
+.premium-preview { background:radial-gradient(ellipse at 50% 40%,#fcf5e5,#e4dece); padding:24px; }
+.atelier-shell .preview-settings { padding:28px 24px; gap:24px; }
+.atelier-shell .atelier-preview-intro h1 { font-size:32px; max-width:none; color:var(--ink); }
+.atelier-shell .preview-settings .studio-disclosure { margin:0; padding-top:16px; }
+.atelier-shell .preview-settings .preview-adjustment-fields { margin-top:16px; display:grid; gap:16px; }
+.atelier-shell .preview-next { margin-top:auto; }
+.atelier-shell .preview-next .text-button { font-size:11px; }
+.atelier-shell .guided-photo-empty { border:0; background:none; }
+.atelier-shell .guided-photo-empty h3 { font-size:clamp(36px,4.2vw,60px); max-width:none; }
+.atelier-shell .photo-step-toolbar { padding:18px 24px; }
+.atelier-shell .photo-step-toolbar h2 { font-size:24px; }
+.guided-photo:has(.guided-photo-empty) > .photo-step-toolbar { display:none; }
+.atelier-shell .photo-choice-buttons button { min-height:42px; padding:10px 18px; font-size:11px; }
+.atelier-shell .guided-photo-empty > .text-button { font-size:10px; }
+.atelier-shell .premium-photo-preview { padding:24px; background:radial-gradient(ellipse at 50% 40%,#fcf5e5,#e4dece); display:flex; flex-direction:column; min-height:0; }
+.atelier-shell .photo-edit-link { font-size:10px; color:#546a70; align-self:center; margin-top:12px; }
+.atelier-shell .photo-step-footer { padding:14px 24px; }
+.atelier-shell .photo-generation-copy p { font-size:11px; }
+.atelier-shell .photo-generation-copy small { font-size:9px; }
+.atelier-shell .reveal-details h2 { font-size:clamp(36px,4vw,58px); }
+.atelier-shell .reveal-details { padding:36px; gap:20px; }
+.atelier-shell .source-pattern .eyebrow { display:none; }
+.camera-close { font-size:26px; width:40px; height:40px; padding:0; }
+.camera-dialog .camera-toolbar { padding:16px 20px; }
+.camera-dialog .camera-toolbar strong { font-size:14px; }
+.camera-dialog .camera-setup { padding:24px; }
+.camera-dialog .camera-setup ol { gap:22px; }
+.camera-dialog .camera-setup li strong { font-size:16px; }
+.camera-dialog .camera-setup li span { font-size:12px; line-height:1.6; }
+.intro-description { max-width:28ch; }
+@media (max-width:700px) {
+ .atelier-shell { --atelier-height:94px; }
+ .atelier-header { height:var(--atelier-height); padding:12px 16px 0; }
+ .atelier-brand > span { font-size:22px; }
+ .atelier-steps { justify-content:space-between; gap:18px; }
+ .atelier-steps button { min-height:34px; }
+ .atelier-shell .guide-navigation { min-height:46px; padding:4px 12px; }
+ .atelier-shell .guide-navigation-actions { width:auto; }
+ .atelier-shell .primary-button { min-height:36px; padding:8px 16px; }
+ .atelier-shell .garment-step .guide-body { display:flex; flex-direction:column-reverse; }
+ .atelier-shell .garment-step .guide-preview { height:175px; }
+ .atelier-shell .garment-step .live-garment-heading { width:42%; }
+ .atelier-shell .garment-step .live-garment-heading h2 { font-size:28px; }
+ .atelier-shell .guided-studio.garment-step .guide-content { padding:18px 16px; }
+ .atelier-shell .garment-step .guide-content h1 { font-size:24px; margin-bottom:16px; }
+ .atelier-shell .garment-step .garment-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px 10px; }
+ .atelier-shell .garment-step .garment-grid img { height:90px; }
+ .atelier-shell .garment-cut-options .garment-placement-options img { height:82px; }
+ .atelier-shell .cloth-choices .guide-motifs img { height:auto; aspect-ratio:1; object-fit:contain; }
+ .atelier-shell .preview-studio { display:flex; flex-direction:column; height:calc(100dvh - var(--atelier-height)); }
+ .premium-preview { padding:16px; flex:1; min-height:0; }
+ .premium-preview .live-garment-showroom { flex-direction:column; align-items:stretch; }
+ .premium-preview .live-garment-heading { width:100%; text-align:center; }
+ .premium-preview .live-garment-viewer { height:auto; }
+ .atelier-shell .preview-settings { padding:16px; max-height:38dvh; gap:14px; }
+ .atelier-preview-intro { display:none; }
+ .atelier-shell .preview-settings .studio-disclosure { padding-top:10px; }
+ .atelier-shell .preview-next { flex-direction:row; align-items:center; justify-content:space-between; }
+ .atelier-shell .premium-photo-preview { padding:12px; min-height:175px; }
+ .premium-photo-preview .live-garment-heading { width:45%; }
+ .atelier-shell .photo-step-footer { padding:12px 16px; }
+ .atelier-shell .reveal-details { padding:24px; }
+}
+@media(min-width:701px) and (max-width:760px) {
+ .atelier-header { flex-wrap:nowrap; padding:0 20px; }
+ .atelier-steps { width:auto; height:100%; }
+}

@@ -1,3 +1,4 @@
+import { garmentInfo, type GarmentType } from '../src/garments.js';
 import { readFileSync } from 'node:fs';
 import { parseEnv } from 'node:util';
 import sharp from 'sharp';
@@ -15,13 +16,26 @@ export function configuration() {
   };
 }
 
-export const TRYON_PROMPT = `Create a realistic clothing try-on photograph.
-Image 1 is the person to edit. Image 2 is the exact shirt product design to put on that person.
-Change only the person's shirt to the exact garment in image 2. Match its sleeve length (including sleeveless), neckline or collar, and regular or relaxed silhouette.
-Preserve the identity, face, hair, skin, body proportions, hands, pose, trousers, background, framing and lighting of image 1.
-Faithfully reproduce the shirt's pattern: same motif shapes, palette, relative repeat size and arrangement, on the front, sleeves and collar. Do not invent a different batik design, add text or add accessories.
-Drape the shirt naturally, preserving plausible seams, buttons and folds. The pattern should follow the fabric without being replaced or blurred. Keep the person's natural body shape.
+export function tryOnPrompt(garment: GarmentType = 'shirt') {
+  const info = garmentInfo(garment);
+  const change = info.region === 'lower'
+    ? "Replace only the person's lower garment. Preserve their existing upper garment."
+    : info.region === 'full'
+      ? "Replace the person's upper and lower clothing only as needed for this single one-piece garment."
+      : garment === 'blazer' || garment === 'jacket'
+        ? "Put this outer jacket over the person's existing inner top. Preserve their lower clothing."
+        : "Replace only the person's upper garment. Preserve their lower clothing.";
+  return `Create a realistic clothing try-on photograph.
+Image 1 is the person to edit. Image 2 is the exact batik garment product design to put on that person.
+The selected garment is: ${info.label}. ${info.hint}.
+${change}
+Match the silhouette, garment length, sleeve length, neckline, seams and closures shown in image 2. A sarong is wrapped cloth; palazzo pants have two distinct wide legs. A kebaya-inspired blouse is lined and opaque.
+Preserve the identity, age, face, hair, skin, body proportions, hands, pose, shoes, background, framing and lighting of image 1. Never make an adult look like a child or a child look like an adult. Adapt the garment to the existing person without changing their body.
+Faithfully reproduce the garment's pattern: same motif shapes, palette, relative repeat size, arrangement and border or panel placement. Do not invent a different batik design, add text or add accessories.
+Drape the garment naturally, preserving plausible seams, buttons and folds. The pattern should follow the fabric without being replaced or blurred. Keep the person fully clothed with opaque fabric.
 Return one photograph only. No comparison panels, borders, captions, swatches or watermark.`;
+}
+export const TRYON_PROMPT = tryOnPrompt();
 
 export async function normalizeImage(value: unknown, label: string): Promise<string> {
   if (typeof value !== 'string') throw new TryOnError(400, 'INVALID_IMAGE', `Choose a ${label} image first.`);
@@ -45,7 +59,7 @@ export async function normalizeImage(value: unknown, label: string): Promise<str
 
 export async function generateTryOn(
   personImage: string, garmentImage: string,
-  options: { apiKey: string; model: string; signal?: AbortSignal; fetcher?: typeof fetch },
+  options: { apiKey: string; model: string; garmentType?: GarmentType; outputFormat?: 'png' | 'jpeg'; signal?: AbortSignal; fetcher?: typeof fetch },
 ) {
   if (!options.apiKey) throw new TryOnError(503, 'NOT_CONFIGURED', 'Photo try-on is not connected yet. Add your OpenAI key to .env.local, then retry.');
   const started = Date.now();
@@ -57,7 +71,7 @@ export async function generateTryOn(
       signal: options.signal || AbortSignal.timeout(90_000),
       body: JSON.stringify({
         model: options.model, images: [{ image_url: personImage }, { image_url: garmentImage }],
-        prompt: TRYON_PROMPT, n: 1, size: '1024x1536', quality: 'medium', output_format: 'png',
+        prompt: tryOnPrompt(options.garmentType), n: 1, size: '1024x1536', quality: 'medium', output_format: options.outputFormat || 'png',
       }),
     });
   } catch (error) {
@@ -77,5 +91,5 @@ export async function generateTryOn(
   }
   const b64 = data?.data?.[0]?.b64_json;
   if (typeof b64 !== 'string' || !b64.length) throw new TryOnError(502, 'EMPTY_RESULT', 'No image was returned. Your design is saved in this session; please retry.');
-  return { image: `data:image/png;base64,${b64}`, model: options.model, durationMs: Date.now() - started };
+  return { image: `data:image/${options.outputFormat || 'png'};base64,${b64}`, model: options.model, durationMs: Date.now() - started };
 }

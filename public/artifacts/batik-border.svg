@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+<rect width="160" height="160" fill="#123f40"/>
+<g fill="none" stroke="#d8bd7e" stroke-width="1.2">
+<path d="M-20 150C35 120 5 48 80 20S155 65 180 10M-20 70C50 40 80 130 180 100"/>
+<path d="M35 102C8 91 10 69 35 73C42 80 42 93 35 102ZM114 112C140 89 156 111 141 129C131 133 120 126 114 112ZM87 34C79 9 96 1 109 16C109 27 99 33 87 34" fill="#53796d"/>
+<g transform="translate(70 81)"><path d="M0 0C-30-4-31-35-12-28C-3-24 0-10 0 0C-5-30 26-41 27-19C28-7 10-2 0 0C31-5 42 23 19 26C7 28 2 12 0 0C7 30-22 42-26 19C-29 7-11 1 0 0C-29 10-41-17-22-22C-10-25-3-10 0 0Z" fill="#b98257"/><path d="M-17-17L17 17M-8 19L13-17M0 0L-20 3"/><circle r="5" fill="#e8cd8b"/></g>
+<path d="M22 88L34 98M122 116L137 120M90 29L100 17"/>
+</g>
+<g fill="#e6cd97"><circle cx="19" cy="22" r="1.3"/><circle cx="27" cy="30" r="1"/><circle cx="35" cy="22" r="1.3"/><circle cx="120" cy="52" r="1"/><circle cx="129" cy="60" r="1.3"/><circle cx="138" cy="52" r="1"/><circle cx="58" cy="139" r="1.2"/><circle cx="66" cy="147" r="1"/><circle cx="74" cy="139" r="1.2"/></g></svg>

@@ -1,3 +1,4 @@
+import { garmentInfo, type GarmentType } from './garments';
 export type Motif = 'flower' | 'leaf' | 'flow' | 'orchid' | 'fan' | 'geometry';
 export type Stroke = {
   points: [number, number][]; color: string; width: number;
@@ -6,6 +7,8 @@ export type Stroke = {
   accent?: string; secondary?: string; wax?: string;
 };
 export type Design = {
+  garment: GarmentType;
+  wearer: 'male' | 'female';
   motif: Motif;
   background: string; foreground: string; accent: string; secondary: string; wax: string;
   scale: number; rotation: number; density: number;
@@ -33,7 +36,7 @@ export const MOTIFS = [
   { value: 'geometry', label: 'Pucuk', description: 'An original pointed, botanical border motif.' },
 ] as const;
 export const DEFAULT_DESIGN: Design = {
-  motif: 'flower', ...PALETTES[0], scale: 1.7, rotation: -15, density: 1,
+  garment: 'shirt', wearer: 'male', motif: 'flower', ...PALETTES[0], scale: 1.7, rotation: -15, density: 1,
   arrangement: 'staggered', texture: 'dots', placement: 'allover',
   mode: 'motifs', underlay: false, strokes: [], sleeve: 'short', collar: 'classic', fit: 'regular',
 };
@@ -104,17 +107,79 @@ export function fabricSvg(d: Design) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 480 480"><defs>${patternDef(d)}</defs><rect width="480" height="480" fill="url(#batik)"/>${placement}</svg>`;
 }
 
-export function shirtSvg(d: Design): string {
+/** Flat panel atlas for concept meshes; same repeat, marks and border artwork as the editor. */
+export function garmentPanelSvg(d: Design, width: number, height: number, part: 'body' | 'sleeve' | 'trim' | 'wrap') {
+  const w = width * 600, h = height * 600;
+  const placement = part !== 'body' && part !== 'wrap' ? '' : d.placement === 'hem' ? border(d, 0, Math.max(0, h - 82), w, 72)
+    : d.placement === 'panels' && part === 'wrap' ? [0.057, .503, .95].map(centre => `<rect x="${(centre-.085)*w}" width="${w*.17}" height="${h}" fill="${safeColor(d.background)}" stroke="${safeColor(d.wax)}" stroke-width="2"/>`).join('')
+    : d.placement === 'panels' ? `<rect x="${w*.32}" width="${w*.36}" height="${h}" fill="${safeColor(d.background)}"/><path d="M${w*.32} 0V${h}M${w*.68} 0V${h}" stroke="${safeColor(d.wax)}" stroke-width="2"/>` : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><defs>${patternDef(d)}</defs><rect width="${w}" height="${h}" fill="url(#batik)"/>${placement}</svg>`;
+}
+
+function topSvg(d: Design): string {
   const left = d.fit === 'relaxed' ? 193 : 207, right = 600 - left;
   const sleeves = d.sleeve === 'long' ? `L480 425L421 442L${right} 208` : d.sleeve === 'sleeveless' ? `L${right} 208` : `L486 207L421 250L${right} 208`;
   const otherSleeve = d.sleeve === 'long' ? 'L179 442L120 425' : d.sleeve === 'sleeveless' ? '' : 'L179 250L114 207';
-  const shape = `M192 98L245 72Q300 ${d.collar === 'round' ? 149 : 101} 355 72L408 98${sleeves}L${right} 503Q300 520 ${left} 503L${left} 208${otherSleeve}Z`;
+  const body = (d.garment === 'blouse' || d.wearer === 'female') ? `Q${right - 25} 345 ${right} 503Q300 520 ${left} 503Q${left + 25} 345 ${left} 208` : `L${right} 503Q300 520 ${left} 503L${left} 208`;
+  const shape = `M192 98L245 72Q300 ${d.collar === 'round' ? 149 : 101} 355 72L408 98${sleeves}${body}${otherSleeve}Z`;
   const collar = d.collar === 'classic' ? `<path d="M245 72L300 103L277 157L232 106ZM355 72L300 103L323 157L368 106Z" fill="url(#batik)" stroke="#252b35" stroke-opacity=".35" stroke-width="2"/>` : d.collar === 'mandarin' ? `<path d="M245 72Q300 101 355 72L355 91Q300 122 245 91Z" fill="url(#batik)" stroke="#252b35" stroke-opacity=".35" stroke-width="2"/>` : `<path d="M245 73Q300 149 355 73" fill="none" stroke="${safeColor(d.background)}" stroke-width="12"/>`;
   const seams = `M192 106L${left} 208M408 106L${right} 208${d.sleeve === 'short' ? 'M124 194L182 233M418 233L477 194' : ''}M${left + 2} 493Q300 507 ${right - 2} 493`;
   const placement = d.placement === 'hem' ? border(d, 180, 402, 240, 90) : d.placement === 'panels' ? `<rect x="257" y="100" width="86" height="420" fill="${safeColor(d.background)}"/><path d="M257 100V520M343 100V520" stroke="${safeColor(d.wax)}" stroke-width="2"/>` : '';
   const cuffs = d.sleeve === 'long' ? '<path d="M123 409L178 425M422 425L477 409" stroke="#252b35" stroke-opacity=".35" stroke-width="3"/>' : '';
   return `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 600 600"><defs>${patternDef(d)}<clipPath id="shirt"><path d="${shape}"/></clipPath><linearGradient id="shade"><stop stop-color="#000" stop-opacity=".14"/><stop offset=".25" stop-color="#fff" stop-opacity=".08"/><stop offset=".53" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient><filter id="shadow"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-opacity=".1"/></filter></defs><rect width="600" height="600" fill="#f5f2ea"/><path d="${shape}" fill="url(#batik)" filter="url(#shadow)"/><g clip-path="url(#shirt)">${placement}<rect x="100" y="60" width="400" height="480" fill="url(#shade)"/><path d="M300 106V513" stroke="${safeColor(d.background)}" stroke-width="16"/><path d="M307 109V509" stroke="#252b35" stroke-opacity=".2"/><path d="${seams}" fill="none" stroke="#252b35" stroke-opacity=".27" stroke-width="2"/></g>${collar}${cuffs}${d.collar !== 'round' ? '<path d="M245 73Q300 103 355 73L300 104Z" fill="#232b3a" fill-opacity=".35"/>' : ''}${[171, 226, 281, 336, 391, 446].map(y => `<circle cx="300" cy="${y}" r="3.3" fill="#f8f5e9" stroke="#353744" stroke-width=".8"/>`).join('')}</svg>`;
 }
+
+/** One garment renderer is used by thumbnails, the live preview and photo try-on. */
+export function garmentSvg(d: Design): string {
+  if (d.garment === 'shirt' || d.garment === 'blouse') return topSvg(d);
+  const info = garmentInfo(d.garment);
+  const lower = info.region === 'lower';
+  const isDress = ['gown', 'dress', 'maxi', 'kids-dress'].includes(d.garment);
+  const kids = info.group === 'kids';
+  const relaxed = d.fit === 'relaxed';
+  const left = relaxed ? 212 : 225, right = 600 - left;
+  const top = lower ? 105 : 70;
+  const hem = d.garment === 'skirt' ? 493 : d.garment === 'dress' ? 455 : d.garment === 'kids-dress' ? 470 : d.garment === 'kids-shirt' ? 420 : d.garment === 'romper' ? 460 : ['blazer','jacket'].includes(d.garment) ? 450 : 535;
+  const waist = kids ? 245 : isDress ? 265 : 320;
+  const sleeve = info.sleeves.includes(d.sleeve) ? d.sleeve : info.sleeve;
+  const collar = info.collars.includes(d.collar) ? d.collar : info.collar;
+  const neck = collar === 'round' ? 130 : 102;
+  const shoulders = `M250 70Q300 ${neck} 350 70L405 103`;
+  const rightSleeve = sleeve === 'long' ? `L474 365L426 384L${right} 205` : sleeve === 'short' ? `L461 195L415 225L${right} 195` : `L${right} 195`;
+  const leftSleeve = sleeve === 'long' ? 'L174 384L126 365L195 103Z' : sleeve === 'short' ? 'L185 225L139 195L195 103Z' : 'L195 103Z';
+  let shape: string;
+  let detail = '';
+  const bg = safeColor(d.background), wax = safeColor(d.wax);
+  if (d.garment === 'sarong') {
+    shape = 'M195 105H405L416 535Q300 550 184 535Z';
+    detail = '<path d="M195 123H405M365 125L344 527M205 134L198 515M386 136L398 518"/>';
+  } else if (d.garment === 'skirt') {
+    shape = `M${left} 105H${right}L454 493Q300 526 146 493Z`;
+    detail = `<path d="M${left} 125H${right}M245 137L202 490M300 138V503M355 137L398 490"/>`;
+  } else if (d.garment === 'palazzo') {
+    shape = `M${left} 105H${right}L430 535H316L300 267L284 535H170Z`;
+    detail = `<path d="M${left} 126H${right}M300 127V267M249 140L228 518M351 140L372 518M174 519H284M316 519H426"/>`;
+  } else {
+    const sides = isDress
+      ? `Q${relaxed ? right : 334} 240 ${relaxed ? right : 337} ${waist}L${d.garment === 'gown' ? 464 : 438} ${hem}Q300 ${hem + 20} ${d.garment === 'gown' ? 136 : 162} ${hem}L${relaxed ? left : 263} ${waist}Q${relaxed ? left : 266} 240 ${left} 195`
+      : d.garment === 'romper' ? `L390 460H315L300 351L285 460H210L${left} 195`
+      : d.garment === 'kebaya' ? `Q338 295 381 488L327 529L300 481L273 529L219 488Q262 295 ${left} 195`
+      : `L${right} ${hem}Q300 ${hem + 12} ${left} ${hem}L${left} 195`;
+    shape = shoulders + rightSleeve + sides + leftSleeve;
+    detail = `<path d="M195 110L${left} 195M405 110L${right} 195"/>`;
+    if (isDress) detail += `<path d="M${relaxed ? left : 263} ${waist}Q300 ${waist + 9} ${relaxed ? right : 337} ${waist}M275 ${waist + 16}L236 ${hem-12}M325 ${waist + 16}L364 ${hem-12}"/>`;
+    if (d.garment === 'blazer') detail += `<path d="M250 70L300 250L350 70L371 151L337 174L348 193L300 270L252 193L263 174L229 151Z" fill="${bg}"/><path d="M300 250V450M238 347H280M320 347H362"/><circle cx="309" cy="305" r="4" fill="${wax}"/>`;
+    else if (d.garment === 'kebaya') detail += `<path d="M250 70L300 218L350 70M300 218V481"/><path d="M273 529L300 481L327 529" stroke="${wax}" stroke-width="6"/>`;
+    else if (!isDress) detail += `<path d="M300 110V${d.garment === 'romper' ? 352 : hem}" stroke="${bg}" stroke-width="10"/><path d="M303 110V${d.garment === 'romper' ? 352 : hem}"/>`;
+    if (d.garment === 'jacket') detail += `<path d="M${left} ${hem-14}H${right}M129 351L176 369M424 369L471 351" stroke="${bg}" stroke-width="19"/><path d="M295 128V${hem}" stroke="${wax}" stroke-width="2"/>`;
+    if (info.collars.length && collar === 'classic') detail += `<path d="M250 70L300 102L278 144L238 102ZM350 70L300 102L322 144L362 102Z" fill="${bg}"/>`;
+    if (info.collars.length && collar === 'mandarin') detail += `<path d="M250 70Q300 102 350 70V88Q300 120 250 88Z" fill="${bg}"/>`;
+    if (d.garment === 'kids-shirt') detail += [162,212,262,312,362].map(y => `<circle cx="300" cy="${y}" r="3" fill="${wax}"/>`).join('');
+  }
+  const placement = d.placement === 'hem' ? border(d, 100, hem - 79, 400, 70) : d.placement === 'panels' ? `<rect x="263" y="${top}" width="74" height="490" fill="${bg}"/><path d="M263 ${top}V560M337 ${top}V560" stroke="${wax}" stroke-width="2"/>` : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 600 600"><defs>${patternDef(d)}<clipPath id="garment"><path d="${shape}"/></clipPath><linearGradient id="garment-shade"><stop stop-color="#000" stop-opacity=".13"/><stop offset=".45" stop-color="#fff" stop-opacity=".06"/><stop offset="1" stop-color="#000" stop-opacity=".15"/></linearGradient></defs><rect width="600" height="600" fill="#f5f2ea"/><path d="${shape}" fill="url(#batik)" stroke="${bg}" stroke-width="2"/><g clip-path="url(#garment)">${placement}<rect x="100" y="60" width="400" height="500" fill="url(#garment-shade)"/><g fill="none" stroke="#252b35" stroke-opacity=".45" stroke-width="2" stroke-linejoin="round">${detail}</g></g></svg>`;
+}
+export const shirtSvg = garmentSvg;
 
 export const svgUrl = (svg: string) => `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 

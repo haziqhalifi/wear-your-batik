@@ -17,6 +17,24 @@ Open http://127.0.0.1:5180. The key is read on each request, so adding it does n
 
 The editor works without an API key. Personal images are held in session memory and sent to OpenAI only on explicit generation. The app writes no uploaded photos to disk. OpenAI's own retention policies apply. The included sample person is synthetic, created with the built-in image generation tool. No real person's photo was used to create it.
 
+## Vercel deployment
+
+The Vercel project is `haziqhalifis-projects/wear-your-story`. Deploy the current workspace with `vercel deploy --prod`. Vite serves the studio and `api/[...path].ts` serves the Express API. Hosted requests retain the same-origin check; local development retains its localhost restriction.
+
+Configure `OPENAI_API_KEY` as a sensitive production environment variable in Vercel, then redeploy to enable photo generation. Local `.env` files and development artifacts are excluded from deployment. Images are resized and compressed before upload to fit the hosted payload limit; hosted results use JPEG. The in-memory generation lock applies within one function instance, not across every Vercel instance.
+
+## Guided creation
+
+The default experience starts with a welcome, then shows one screen at a time for male/female style, pattern, colours, garment, and review. Each step includes a live garment preview, Back/Continue controls, and ready-made choices. Review links let you change earlier choices. Open full studio provides painting and detailed settings; returning brings the same design into review. The photo step keeps photo selection and generation in a compact layout. Designs and wizard progress stay in this session when moving between steps.
+
+## Interactive 3D preview
+
+The design flow now includes **3D preview** before photo try-on. Shirt, A-line dress and sarong have original procedural concept meshes. The viewer supports front/back/side/close-up cameras, mouse/touch orbit and zoom, zoom buttons, a removable tailor’s form, and optional slow rotation. Live motif, palette, repeat size, drawing, border/panel placement, sleeve and neckline changes update the preview. The other garment types keep their 2D preview without substituting another garment.
+
+Three.js loads only when opening a supported 3D view. Rendering stops while idle, offscreen or in a hidden tab; dragging stops optional rotation. The viewer caps pixel density, releases GPU resources on exit, and provides a 2D fallback if loading or WebGL2 fails. No uploaded photo, paid image generation or network model asset is needed for 3D.
+
+These are illustrative shapes, not pattern-based product models or fit simulations. Drape, seam matching, colour and sizing are not validated for purchasing. See [the product asset handoff](artifacts/3d-preview/ASSET-HANDOFF.md) for replacing the concepts with actual garment GLBs. Checkout and personal sizing are not implemented.
+
 ## Design and camera controls
 
 The workshop includes six original botanical motifs (Bunga raya, Daun tropika, Orkid, Sulur, Kipas daun and Pucuk) informed by the user's Malaysian batik visual references. These are digital interpretations, not reproductions of specific artisan textiles.
@@ -25,12 +43,15 @@ The workshop includes six original botanical motifs (Bunga raya, Daun tropika, O
 - **Colours:** six palettes and separate cloth, petal, highlight, leaf and wax-outline colours.
 - **Layout:** repeat size, starter angle/fullness, straight or half-drop repeat, and plain, wax-dot or crackle detail.
 - **Paint & stamp:** freehand dye, wax-colour lines, dotted strokes, botanical stamps, partial erasing, undo/redo, left/right or four-way symmetry. Stamps have size and rotation controls; the centre-placement button also works without a pointer.
-- **Shirt:** short/long/sleeveless, classic/Mandarin/round neck, regular/relaxed fit, all-over pattern, a hem border or side panels.
-- **Exports:** PNG repeat tile or full cloth including border/panel placement. The shirt image used for try-on includes the same drawing and placement.
+- **Garment:** 15 choices in both guided creation and the full studio. Traditional/formal: sarong/kain, a lined kebaya-inspired blouse, baju/tunic, formal gown, tailored blazer. Everyday: office/dress shirt, blouse/top, knee-length A-line dress, maxi dress, midi skirt, palazzo pants, bomber jacket. Kids: shirt, dress, romper. Available sleeve, neckline and fit controls depend on the garment. Every garment supports all-over pattern, hem borders and side panels.
+- **Photo try-on:** the selected garment type controls which clothing is changed. Lower garments preserve the top; dresses/rompers replace the relevant upper and lower clothing; jackets layer over the inner top. The prompt preserves the person's age and proportions. The cropped adult sample is offered only for adult upper garments; other choices require a suitable uploaded or camera photo. Photo framing and age are guided, not automatically detected. These are illustrative silhouettes, not sewing patterns, material simulation or sizing models. New garment types have automated rendering/payload checks; live generation fidelity has not yet been checked.
+- **Exports:** PNG repeat tile or full cloth including border/panel placement. The garment image used for try-on includes the same drawing and placement.
 
 Palette changes recolour the starter; previously added marks keep their chosen ink. Erasing removes added marks and reveals the starter/cloth. Blank cloth removes the starter and added marks, and can be undone. Designs are session-only and reset on page reload.
 
-On **Try on**, select **Use camera**, allow browser camera access, frame your upper body and take a photo. You can switch front/back cameras, retake, or use device-camera capture on supported phones. Upload and synthetic sample remain available. Camera tracks stop when the camera panel closes or you leave the step. Camera capture requires localhost or HTTPS. Real camera hardware and phone camera behavior still need a device check.
+On **Try on**, upload a full-body photo or select **Use camera**. The camera first explains stable phone placement, stepping back about 2–3 metres, good light, and a natural stance. **Open camera** starts the live preview with a head-to-shoes silhouette guide. Choose a 5- or 10-second timer (10 by default), then **Start timer**. The timer can be cancelled and stops when you leave the screen or close/switch the camera. The visual guide does not automatically detect whether your full body is visible.
+
+After capture, review the photo and select **Use this photo** or **Retake**. Camera tracks stop during review and on close. Front/back switching, upload and the synthetic sample remain available. Device-camera fallback uses the device camera’s own timer; set that to 10 seconds. Camera access requires localhost or HTTPS. A complete full-body photo capture still needs an actual device/pose check; browser verification exercised the live countdown cancellation and fixture-based review/retake.
 
 ## Check
 

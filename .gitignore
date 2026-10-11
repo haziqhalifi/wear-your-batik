@@ -5,3 +5,6 @@ dist/
 .env.*.local
 artifacts/private/
 .DS_Store
+.vercel/
+.vercel
+.env*

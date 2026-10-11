@@ -61,3 +61,17 @@ test('mirrored strokes keep matching geometry and stamps appear in the rendered 
   const blank = await sharp(Buffer.from(patternTileSvg({ ...DEFAULT_DESIGN, mode:'draw', underlay:false, strokes:[] }))).png().toBuffer();
   assert.notDeepEqual(withStamp,blank);
 });
+
+test('female blouse has a shaped waist while preserving the selected artwork', async () => {
+  async function waist(wearer: 'male' | 'female') {
+    const { data, info } = await sharp(Buffer.from(shirtSvg({ ...DEFAULT_DESIGN, wearer }))).resize(600,600).removeAlpha().raw().toBuffer({ resolveWithObject:true });
+    const offset = (340 * info.width + 212) * info.channels;
+    return [...data.subarray(offset,offset+3)];
+  }
+  const male = await waist('male'), female = await waist('female');
+  assert.ok(female[0] > male[0] + 30, 'Female waist should expose the light background outside the shaped garment');
+  for (const sleeve of ['short','long','sleeveless'] as const) {
+    const png = await sharp(Buffer.from(shirtSvg({ ...DEFAULT_DESIGN, wearer:'female', sleeve, collar:'round', placement:'panels' }))).png().toBuffer();
+    assert.ok(png.length > 1000);
+  }
+});

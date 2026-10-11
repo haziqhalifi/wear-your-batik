@@ -1,0 +1,5 @@
+.env*
+!.env.example
+artifacts/
+tests/
+.DS_Store

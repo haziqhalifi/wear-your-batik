@@ -1,0 +1,1 @@
+Every choice updates the cloth and garment preview immediately.

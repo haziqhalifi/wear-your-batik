@@ -115,3 +115,24 @@
  .atelier-header { flex-wrap:nowrap; padding:0 20px; }
  .atelier-steps { width:auto; height:100%; }
 }
+
+/* User-owned credentials stay beside the explicit generation action. */
+.atelier-shell .api-key-panel { flex-shrink:0; padding:16px 24px; background:var(--paper); border-top:1px solid var(--line); }
+.api-key-panel label { display:flex; flex-wrap:wrap; gap:8px 16px; align-items:baseline; font-size:14px; font-weight:600; }
+.api-key-panel label span { color:var(--muted); font-size:12px; font-weight:400; }
+.api-key-controls { display:flex; gap:12px; align-items:center; margin-top:10px; }
+.api-key-controls input { min-width:0; flex:1; width:100%; min-height:44px; border:1px solid var(--muted); border-radius:6px; background:var(--surface); color:var(--ink); padding:10px 12px; font-size:16px; }
+.api-key-controls input::placeholder { color:var(--muted); }
+.api-key-controls .text-button { flex-shrink:0; min-height:44px; }
+.api-key-panel p { font-size:12px; line-height:1.6; margin-top:8px; color:var(--muted); max-width:100ch; }
+.api-key-panel a { text-decoration:underline; text-underline-offset:3px; }
+.api-key-panel [aria-invalid=true] { border-color:#f4b29c; }
+.api-key-panel #api-key-feedback { color:var(--ink); }
+.atelier-shell .photo-wizard { height:auto; min-height:calc(100dvh - var(--atelier-height)); max-height:none; }
+.atelier-shell .photo-wizard-body { min-height:360px; }
+.camera-is-open .api-key-panel { display:none; }
+@media(max-width:600px) {
+ .atelier-shell .api-key-panel { padding:14px 16px; }
+ .api-key-controls { flex-wrap:wrap; gap:4px 16px; }
+ .api-key-controls input { flex-basis:100%; }
+}

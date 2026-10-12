@@ -8,7 +8,7 @@ import { createGarmentModel, disposeModel, type GarmentModel } from './garmentGe
 export type ViewAngle = 'three-quarter' | 'front' | 'back' | 'side' | 'detail';
 export function createGarmentScene(host: HTMLDivElement, onInteraction: (view?: ViewAngle) => void, onError: () => void, options: { garmentOnly?: boolean } = {}) {
   const renderer = new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true,powerPreference:'low-power'});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.75));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
   renderer.outputColorSpace=THREE.SRGBColorSpace;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure=1;
@@ -30,7 +30,7 @@ export function createGarmentScene(host: HTMLDivElement, onInteraction: (view?: 
   for (const [position,intensity] of [[[2.5,4,3],2.2],[[-3,1,2],1.05],[[1,2,-3],1.4]] as const) {
     const light=new THREE.DirectionalLight('#ffffff',intensity);light.position.set(position[0],position[1],position[2]);scene.add(light);
     if(position[1]===4) {
-      light.castShadow=true;light.shadow.mapSize.set(1024,1024);light.shadow.camera.left=-2;light.shadow.camera.right=2;
+      light.castShadow=true;light.shadow.mapSize.set(2048,2048);light.shadow.camera.left=-2;light.shadow.camera.right=2;
       light.shadow.camera.top=2;light.shadow.camera.bottom=-2;light.shadow.camera.near=.1;light.shadow.camera.far=12;
       light.shadow.normalBias=.006;light.shadow.bias=-.0002;light.shadow.radius=4;
     }
@@ -41,8 +41,7 @@ export function createGarmentScene(host: HTMLDivElement, onInteraction: (view?: 
   const yarn=new Uint8Array(64*64*4);
   for(let y=0;y<64;y++)for(let x=0;x<64;x++) {
     const i=(y*64+x)*4, warp=Math.cos(x*Math.PI/2),weft=Math.cos(y*Math.PI/2);
-    const irregular=Math.sin(x*12.9898+y*78.233)*6;
-    const value=Math.round(220+14*warp+11*weft+5*warp*weft+irregular);
+    const value=Math.round(225+7*warp+6*weft+3*warp*weft);
     yarn[i]=yarn[i+1]=yarn[i+2]=value;yarn[i+3]=255;
   }
   let model: GarmentModel | null=null, frame=0, disposed=false, version=0, spinning=false, visible=true, last=0, showHuman=!options.garmentOnly;
@@ -105,13 +104,12 @@ export function createGarmentScene(host: HTMLDivElement, onInteraction: (view?: 
           const ctx=canvas.getContext('2d');if(!ctx) throw new Error('Texture canvas unavailable');
           ctx.drawImage(img,0,0,canvas.width,canvas.height);
           const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;
-          texture.anisotropy=Math.min(4,renderer.capabilities.getMaxAnisotropy());
+          texture.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
           const weave=new THREE.DataTexture(yarn,64,64,THREE.RGBAFormat);
           weave.wrapS=weave.wrapT=THREE.RepeatWrapping;weave.repeat.set(part.width*12,part.height*12);
           weave.magFilter=THREE.LinearFilter;weave.minFilter=THREE.LinearMipmapLinearFilter;weave.generateMipmaps=true;
           weave.anisotropy=texture.anisotropy;weave.needsUpdate=true;
-          part.mesh.material.bumpMap=weave;part.mesh.material.bumpScale=.00065;
-          part.mesh.material.roughnessMap=weave;
+          part.mesh.material.bumpMap=weave;part.mesh.material.bumpScale=.00025;
           part.mesh.material.map=texture;part.mesh.material.color.set('#ffffff');part.mesh.material.needsUpdate=true;
         }));
         if(results.some(r=>r.status==='rejected')) throw new Error('Texture could not be prepared');

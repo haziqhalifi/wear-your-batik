@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import sharp from 'sharp';
+import { configuration } from '../server/tryon.ts';
 import { DEFAULT_DESIGN, shirtSvg, type Design } from '../src/patterns.ts';
 
 // An explicit live smoke test against the same endpoint as the UI.
@@ -13,7 +14,8 @@ const name = process.argv[2] || 'leaf';
 if (!variants[name]) throw new Error('Choose leaf, flower or flow.');
 const base = 'http://127.0.0.1:5180';
 const status = await fetch(`${base}/api/status`).then(r => r.json());
-if (!status.configured) { console.error('OpenAI key is not configured in .env.local. No API request made.'); process.exit(2); }
+const { apiKey } = configuration();
+if (!apiKey) { console.error('OpenAI key is not configured in .env.local. No API request made.'); process.exit(2); }
 const person = await readFile('public/sample-person.png');
 const garment = await sharp(Buffer.from(shirtSvg(variants[name]))).resize(1024, 1024, { fit: 'contain', background: '#f5f0e7' }).png().toBuffer();
 const out = `artifacts/tryon/${name}`;
@@ -21,7 +23,7 @@ await mkdir(out, { recursive: true });
 await writeFile(`${out}/shirt.png`, garment);
 const started = Date.now();
 const response = await fetch(`${base}/api/try-on`, {
-  method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(95_000),
+  method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` }, signal: AbortSignal.timeout(95_000),
   body: JSON.stringify({ personImage: `data:image/png;base64,${person.toString('base64')}`, garmentImage: `data:image/png;base64,${garment.toString('base64')}`, designVersion: `smoke-${name}` }),
 });
 const data = await response.json();

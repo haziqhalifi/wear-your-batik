@@ -25,11 +25,15 @@ export function createApp(deps: {
     next();
   });
   app.get('/api/status', (_req, res) => {
-    const { apiKey, model } = getConfig();
-    res.json({ configured: Boolean(apiKey), provider: 'OpenAI', model });
+    const { model } = getConfig();
+    res.json({ configured: true, requiresApiKey: true, provider: 'OpenAI', model });
   });
   app.post('/api/try-on', express.json({ limit: '29mb' }), async (req, res) => {
     if (!req.is('application/json')) { res.status(415).json({ code: 'JSON_REQUIRED', error: 'Send the photo through the studio.' }); return; }
+    const authorization = req.headers.authorization || '';
+    const apiKey = /^Bearer ([^\s]+)$/i.exec(authorization)?.[1] || '';
+    if (!apiKey) { res.status(401).json({ code: 'API_KEY_REQUIRED', error: 'Enter your own OpenAI API key to create a try-on.' }); return; }
+    if (!/^sk-[A-Za-z0-9_-]+$/.test(apiKey) || apiKey.length > 512) { res.status(400).json({ code: 'API_KEY_INVALID', error: 'Enter a valid OpenAI API key starting with sk-.' }); return; }
     if (busy) { res.status(429).json({ code: 'BUSY', error: 'A preview is already being made. Please wait for it to finish.' }); return; }
     const version = req.body?.designVersion;
     if (typeof version !== 'string' || !version.length || version.length > 3000) { res.status(400).json({ code: 'INVALID_DESIGN', error: 'Please choose a pattern first.' }); return; }
@@ -41,10 +45,9 @@ export function createApp(deps: {
     const abort = () => { if (!res.writableEnded) controller.abort(); };
     res.on('close', abort);
     try {
-      const config = getConfig();
-      if (!config.apiKey) throw new TryOnError(503, 'NOT_CONFIGURED', 'Photo try-on is not connected yet. Add your OpenAI key to .env.local, then retry.');
+      const { model } = getConfig();
       const [person, garment] = await Promise.all([normalizeImage(req.body?.personImage, 'Photo'), normalizeImage(req.body?.garmentImage, 'Garment')]);
-      const result = await (deps.generate || generateTryOn)(person, garment, { ...config, garmentType, outputFormat: deps.hosted ? 'jpeg' : 'png', signal: controller.signal });
+      const result = await (deps.generate || generateTryOn)(person, garment, { apiKey, model, garmentType, outputFormat: deps.hosted ? 'jpeg' : 'png', signal: controller.signal });
       if (!res.destroyed) res.json({ ...result, designVersion: version });
     } catch (error) {
       const err = error instanceof TryOnError ? error : new TryOnError(500, 'INTERNAL_ERROR', 'The preview could not be completed. Please try again.');

@@ -1,0 +1,145 @@
+{
+ "voice": "voice-scratch",
+ "sentences": [
+  {
+   "line": 0,
+   "index": 0,
+   "text": "Before a pattern, there is a line.",
+   "caption": "Before a pattern, there is a line.",
+   "start": 0.8,
+   "end": 2.76,
+   "target": 0.8,
+   "late": 0
+  },
+  {
+   "line": 1,
+   "index": 0,
+   "text": "Wax meets cloth.",
+   "caption": "Wax meets cloth.",
+   "start": 6.4,
+   "end": 7.46,
+   "target": 6.4,
+   "late": 0
+  },
+  {
+   "line": 1,
+   "index": 1,
+   "text": "Colour finds its way.",
+   "caption": "Colour finds its way.",
+   "start": 8,
+   "end": 9.43,
+   "target": 8,
+   "late": 0
+  },
+  {
+   "line": 1,
+   "index": 2,
+   "text": "A living art begins to bloom.",
+   "caption": "A living art begins to bloom.",
+   "start": 9.7,
+   "end": 11.39,
+   "target": 9.7,
+   "late": 0
+  },
+  {
+   "line": 2,
+   "index": 0,
+   "text": "Inspired by batik, rooted in culture, and open to your imagination.",
+   "caption": "Inspired by batik, rooted in culture,\nand open to your imagination.",
+   "start": 14.8,
+   "end": 18.95,
+   "target": 14.8,
+   "late": 0
+  },
+  {
+   "line": 3,
+   "index": 0,
+   "text": "With Wear Your Batik, discover botanical motifs.",
+   "caption": "With Wear Your Batik,\ndiscover botanical motifs.",
+   "start": 22.6,
+   "end": 25.71,
+   "target": 22.6,
+   "late": 0
+  },
+  {
+   "line": 3,
+   "index": 1,
+   "text": "Choose your colours.",
+   "caption": "Choose your colours.",
+   "start": 26,
+   "end": 27.07,
+   "target": 26,
+   "late": 0
+  },
+  {
+   "line": 3,
+   "index": 2,
+   "text": "Draw a little of yourself into every detail.",
+   "caption": "Draw a little of yourself\ninto every detail.",
+   "start": 27.9,
+   "end": 30.38,
+   "target": 27.9,
+   "late": 0
+  },
+  {
+   "line": 4,
+   "index": 0,
+   "text": "Watch your cloth become a garment.",
+   "caption": "Watch your cloth become a garment.",
+   "start": 34.3,
+   "end": 36.09,
+   "target": 34.3,
+   "late": 0
+  },
+  {
+   "line": 4,
+   "index": 1,
+   "text": "Explore its shape, then preview your look.",
+   "caption": "Explore its shape,\nthen preview your look.",
+   "start": 37.9,
+   "end": 40.39,
+   "target": 37.9,
+   "late": 0
+  },
+  {
+   "line": 5,
+   "index": 0,
+   "text": "From one unfolding story to a world of expression, make something that feels like you.",
+   "caption": "From one unfolding story to a world of expression,\nmake something that feels like you.",
+   "start": 45.4,
+   "end": 50.07,
+   "target": 45.4,
+   "late": 0
+  },
+  {
+   "line": 6,
+   "index": 0,
+   "text": "Wear Your Batik.",
+   "caption": "Wear Your Batik.",
+   "start": 55,
+   "end": 55.92,
+   "target": 55,
+   "late": 0
+  },
+  {
+   "line": 6,
+   "index": 1,
+   "text": "Design your cloth.",
+   "caption": "Design your cloth.",
+   "start": 56.2,
+   "end": 57.32,
+   "target": 56.2,
+   "late": 0
+  },
+  {
+   "line": 6,
+   "index": 2,
+   "text": "Wear your story.",
+   "caption": "Wear your story.",
+   "start": 57.52,
+   "end": 58.45,
+   "target": 57.4,
+   "late": 0.12
+  }
+ ]
+}

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import sharp from 'sharp';
+import { Vector3 } from 'three';
 import { DEFAULT_DESIGN, garmentPanelSvg } from '../src/patterns.ts';
 import { GARMENTS, garmentDefaults, garmentInfo } from '../src/garments.ts';
 import { PREVIEW_GARMENTS, supports3D } from '../src/previewGarments.ts';
@@ -90,4 +91,42 @@ test('texture UVs preserve motif scale across the narrow waist and wide gown hem
   }
   assert.ok(maxWidth>minWidth*1.6,'hem needs more UV width than waist, rather than stretching the same repeat');
   disposeModel(model);
+});
+
+test('joined body panels and closed sleeves have continuous shading at their UV seams',()=>{
+  for(const garment of ['shirt','gown','dress','jacket','kids-shirt'] as const) {
+    const model=createGarmentModel({...DEFAULT_DESIGN,...garmentDefaults(garment)});
+    const front=model.parts.find(p=>p.mesh.name==='front-panel')!.mesh.geometry;
+    const back=model.parts.find(p=>p.mesh.name==='back-panel')!.mesh.geometry;
+    const {cols,rows}=front.userData.grid;
+    for(let row=1;row<rows;row++) for(const col of [0,cols]) {
+      const index=row*(cols+1)+col;
+      const a=new Vector3().fromBufferAttribute(front.getAttribute('normal'),index);
+      const b=new Vector3().fromBufferAttribute(back.getAttribute('normal'),index);
+      assert.ok(a.dot(b)>.9999,`${garment}: visible shading split at side seam row ${row}`);
+    }
+    for(const part of model.parts.filter(p=>p.placement==='sleeve')) {
+      const g=part.mesh.geometry,{cols,rows}=g.userData.grid;
+      for(let row=1;row<rows;row++) {
+        const a=row*(cols+1),b=a+cols;
+        assert.ok(new Vector3().fromBufferAttribute(g.getAttribute('position'),a).distanceTo(new Vector3().fromBufferAttribute(g.getAttribute('position'),b))<1e-6);
+        assert.ok(new Vector3().fromBufferAttribute(g.getAttribute('normal'),a).dot(new Vector3().fromBufferAttribute(g.getAttribute('normal'),b))>.9999,`${garment}: sleeve shading seam`);
+      }
+    }
+    disposeModel(model);
+  }
+});
+
+test('raised collars form a continuous band instead of two exposed pointed strips',()=>{
+  for(const collar of ['classic','mandarin'] as const) {
+    const model=createGarmentModel({...DEFAULT_DESIGN,collar});
+    const band=model.parts.find(p=>p.mesh.name==='neckband');
+    assert.ok(band,'collar should wrap around the complete neck opening');
+    const g=band.mesh.geometry,{cols,rows}=g.userData.grid;
+    for(let row=0;row<=rows;row++) {
+      const p=g.getAttribute('position'),a=new Vector3().fromBufferAttribute(p,row*(cols+1)),b=new Vector3().fromBufferAttribute(p,row*(cols+1)+cols);
+      assert.ok(a.distanceTo(b)<1e-6,'collar loop must close');
+    }
+    disposeModel(model);
+  }
 });

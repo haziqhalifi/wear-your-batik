@@ -67,14 +67,17 @@ function strokeShape(stroke: Stroke, color: string) {
   const dots = stroke.kind === 'dots' ? ` stroke-dasharray=".01 ${width * 2}"` : '';
   return points.length === 1 ? `<circle cx="${points[0][0]}" cy="${points[0][1]}" r="${width / 2}" fill="${color}"/>` : `<path d="M${points.map(p => p.join(' ')).join('L')}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"${dots}/>`;
 }
+export function stampTransform(stroke: Stroke) {
+  const [x, y] = stroke.points[0] || [50, 50];
+  return `translate(${n(x)} ${n(y)}) scale(${stroke.flipX ? -1 : 1} ${stroke.flipY ? -1 : 1}) rotate(${n(stroke.rotation || 0)}) scale(${n(stroke.size || 30) / 100}) translate(-50 -50)`;
+}
 export function marksArtwork(strokes: Stroke[], prefix = 'ink') {
   let art = '';
   strokes.forEach((stroke, i) => {
     if (stroke.kind === 'erase') {
       art = `<defs><mask id="${prefix}-${i}" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="white"/>${strokeShape(stroke, 'black')}</mask></defs><g mask="url(#${prefix}-${i})">${art}</g>`;
     } else if (stroke.kind === 'stamp') {
-      const [x,y] = stroke.points[0] || [50,50];
-      art += `<g transform="translate(${n(x)} ${n(y)}) scale(${stroke.flipX ? -1 : 1} ${stroke.flipY ? -1 : 1}) rotate(${n(stroke.rotation || 0)}) scale(${n(stroke.size || 30) / 100}) translate(-50 -50)">${motifArtwork(stroke.stamp || 'flower', { foreground: stroke.color, accent: stroke.accent || stroke.color, secondary: stroke.secondary || stroke.color, wax: stroke.wax || '#fff0ce' })}</g>`;
+      art += `<g transform="${stampTransform(stroke)}">${motifArtwork(stroke.stamp || 'flower', { foreground: stroke.color, accent: stroke.accent || stroke.color, secondary: stroke.secondary || stroke.color, wax: stroke.wax || '#fff0ce' })}</g>`;
     } else art += strokeShape(stroke, safeColor(stroke.color));
   });
   return art;

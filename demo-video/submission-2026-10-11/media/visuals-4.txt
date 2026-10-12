@@ -1,0 +1,5 @@
+file '/Users/haziqhalifi/Documents/ChatGPT/batik/demo-video/submission-2026-10-11/media/tryon-transition.png'
+duration 2
+file '/Users/haziqhalifi/Documents/ChatGPT/batik/demo-video/submission-2026-10-11/media/tryon-comparison.png'
+duration 23
+file '/Users/haziqhalifi/Documents/ChatGPT/batik/demo-video/submission-2026-10-11/media/tryon-comparison.png'

@@ -27,6 +27,30 @@ function surface(cols: number, rows: number, at: Point, reverse = false) {
   return geometry;
 }
 
+// UV islands need separate vertices, but a sewn surface should still share its
+// lighting normal. Only join coincident boundary vertices; preserve sharp folds
+// and leave overlapping trims, seams and the sarong's open wrap edge separate.
+function smoothClothJoins(parts: ClothPart[]) {
+  const joins=new Map<string,{geometry:THREE.BufferGeometry;index:number;normal:THREE.Vector3}[]>();
+  for(const {mesh} of parts) {
+    const geometry=mesh.geometry,grid=geometry.userData.grid;
+    if(!grid)continue;
+    const {cols,rows}=grid,position=geometry.getAttribute('position'),normal=geometry.getAttribute('normal');
+    for(let row=0;row<=rows;row++)for(let col=0;col<=cols;col++) {
+      if(row!==0&&row!==rows&&col!==0&&col!==cols)continue;
+      const index=row*(cols+1)+col;
+      const key=[position.getX(index),position.getY(index),position.getZ(index)].map(v=>Math.round(v*1e5)).join(',');
+      const entries=joins.get(key)??[];
+      entries.push({geometry,index,normal:new THREE.Vector3().fromBufferAttribute(normal,index)});joins.set(key,entries);
+    }
+  }
+  for(const entries of joins.values())if(entries.length>1)for(const entry of entries) {
+    const normal=new THREE.Vector3();
+    for(const other of entries)if(entry.geometry===other.geometry||entry.normal.dot(other.normal)>.25)normal.add(other.normal);
+    normal.normalize();entry.geometry.getAttribute('normal').setXYZ(entry.index,normal.x,normal.y,normal.z);
+  }
+}
+
 // Monotone cubic tangents keep a continuous silhouette through the waist and
 // hips. Easing every segment to zero used to create stacked, rigid-looking bulges.
 function profileAt(profile: Profile, y: number): [number, number] {
@@ -85,7 +109,7 @@ export function createGarmentModel(design: Design): GarmentModel {
       width=maxLength;if(placement==='body')height=bounds.max.y-bounds.min.y;
     }
     const fineCloth=kind==='gown'||kind==='kebaya';
-    const material = new THREE.MeshPhysicalMaterial({color:design.background,roughness:fineCloth?.66:.87,metalness:0,side:THREE.DoubleSide,sheen:fineCloth?.42:.24,sheenRoughness:.72,sheenColor:'#ddd4c5',specularIntensity:.3});
+    const material = new THREE.MeshPhysicalMaterial({color:design.background,roughness:fineCloth?.76:.9,metalness:0,side:THREE.DoubleSide,sheen:fineCloth?.3:.18,sheenRoughness:.85,sheenColor:'#ddd4c5',specularIntensity:.22});
     const mesh = new THREE.Mesh(geometry, material); mesh.name = name; mesh.castShadow = true; mesh.receiveShadow = true;
     group.add(mesh); parts.push({mesh,width,height,placement}); return mesh;
   }
@@ -118,7 +142,7 @@ export function createGarmentModel(design: Design): GarmentModel {
     const wrap=kind==='sarong', top=.24, length=top-bottom;
     const point: Point = (u,v) => {
       const angle=u*Math.PI*(wrap?2.22:2)-(wrap?.38:0), t=1-v;
-      const fold=(wrap?.023:.065)*(Math.sin(angle*(wrap?6:8)+t*.5)+.28*Math.sin(angle*13-t*.7))*Math.pow(t,.75);
+      const fold=(wrap?.016:.038)*(Math.sin(angle*6+t*.5)+.18*Math.sin(angle*10-t*.7))*THREE.MathUtils.smootherstep(t,0,1);
       const radius=wrap ? .365+.052*Math.sin(v*Math.PI)+.025*t : .30+.34*Math.pow(t,.8);
       const depth=wrap ? .23+.025*Math.sin(v*Math.PI) : .19+.23*Math.pow(t,.8);
       const overlap=wrap ? u*.017 : 0;
@@ -187,15 +211,16 @@ export function createGarmentModel(design: Design): GarmentModel {
       if(kind==='romper')curve=lerp(Math.sqrt(Math.max(0,1-(2*Math.abs(s)-1)**2)),curve,THREE.MathUtils.smoothstep(v,0,.22));
       const skirtAmount=dress?THREE.MathUtils.smoothstep(waist-y,0,waist-bottom):0;
       const angle=Math.asin(s);
-      const vertical=(.008+.052*skirtAmount)*(Math.sin(angle*8+y*.8)+.26*Math.sin(angle*13-y*.7));
+      const vertical=(.004+.030*skirtAmount)*(Math.sin(angle*6+y*.6)+.18*Math.sin(angle*10-y*.5));
       // Broad folds hang from the waist; small diagonal creases gather near it.
       const gathered=Math.exp(-(((y-waist+.05)/.20)**2));
-      const tension=(.003+.010*gathered)*Math.sin(y*16+Math.abs(s)*7+.35)*Math.sin(v*Math.PI);
+      const tension=(.002+.005*gathered)*Math.sin(y*12+Math.abs(s)*5+.35)*Math.sin(v*Math.PI);
       const bust=front&&!child&&!bomber?.012*Math.exp(-(((y-.23)/.18)**2)):0;
       return new THREE.Vector3(s*(width+.018*skirtAmount*Math.sin(angle*14+y*.9))*relaxed,y,(front?1:-1)*(depth+vertical+tension+bust)*curve);
     };
     for(const front of [true,false]) {
-      const at:Point=(u,v)=>panel(u,v,front);
+      // Even angular spacing keeps the curved sides as smooth as the centre.
+      const at:Point=(u,v)=>panel((1+Math.sin((u-.5)*Math.PI))/2,v,front);
       cloth(front?'front-panel':'back-panel',surface(80,72,at,!front),shoulderWidth*2.8*relaxed,top-torsoBottom);
       edge(at,.01,`hem-${front}`,.0022);
       seam(Array.from({length:49},(_,i)=>panel((1-neckFraction)/2+neckFraction*i/48,1,front)),`neck-${front}`,.002);
@@ -220,15 +245,18 @@ export function createGarmentModel(design: Design): GarmentModel {
       if(sleeve!=='sleeveless') {
         const long=sleeve==='long', length=(long?.72:.29)*(child?.74:1);
         const origin=new THREE.Vector3(side*shoulderWidth*.91*relaxed,.32,0);
-        const axis=new THREE.Vector3(side*.38,-.925,0).normalize(), tangent=new THREE.Vector3(side*.925,.38,0).normalize();
+        const axis=new THREE.Vector3(side*.5,-.866,0).normalize(), tangent=new THREE.Vector3(side*.866,.5,0).normalize();
         const sleevePoint:Point=(u,v)=>{
-          const theta=.85+u*Math.PI*2, radius=lerp(child?.105:.125,long?.071:child?.098:.118,v);
+          const start=root(u),relative=start.clone().sub(origin);
+          // Carry each armhole point into the same direction at the cuff. A
+          // fixed angular phase twisted the front and back into pinched ridges.
+          const theta=Math.atan2(relative.z,relative.dot(tangent));
+          const radius=lerp(child?.105:.125,long?.071:child?.098:.118,v);
           const elbow=Math.exp(-(((v-.56)/.19)**2));
-          const fold=((long?.013:.006)*Math.sin(v*19+Math.cos(theta)*1.6)*elbow+.004*Math.sin(theta*3+v*2))*Math.sin(v*Math.PI);
+          const fold=((long?.008:.003)*Math.sin(v*14+Math.cos(theta)*1.6)*elbow+.002*Math.sin(theta*3+v*2))*Math.sin(v*Math.PI);
           const ring=origin.clone().addScaledVector(axis,length*v).addScaledVector(tangent,Math.cos(theta)*(radius+fold)).add(new THREE.Vector3(0,0,Math.sin(theta)*(radius+fold)));
-          const blend=THREE.MathUtils.smoothstep(v,0,.36);
-          const start=root(u).addScaledVector(axis,length*v);
-          return start.lerp(ring,blend);
+          const blend=THREE.MathUtils.smootherstep(v,0,.6);
+          return start.addScaledVector(axis,length*v).lerp(ring,blend);
         };
         cloth(`sleeve-${side}`,surface(64,40,sleevePoint,side<0),child?.67:.88,length,'sleeve');
         edge(sleevePoint,.985,`cuff-${side}`,.0025);
@@ -264,16 +292,27 @@ export function createGarmentModel(design: Design): GarmentModel {
       }
       for(let y=blazer?-.30:-.20;y<.04;y+=.12)button(blazer?.04:0,y,frontZ(0,y)+.01,`fastening-${y}`,blazer?.012:.008);
     } else if(design.collar!=='round'||bomber) {
-      for(const front of [true,false]) {
-        ribbon(`neckband-${front}`,(u,v)=>{
-          const p=panel((1-neckFraction)/2+neckFraction*u,1,front);p.y+=v*(design.collar==='mandarin'||bomber?.053:.032);return p;
-        },.40,.055,bomber);
-      }
+      const neckPoint=(u:number)=>{
+        const left=(1-neckFraction)/2,right=(1+neckFraction)/2;
+        if(u<=.4)return panel(lerp(left,right,u/.4),1,true);
+        if(u<=.5)return panel(right,1,true).lerp(panel(right,1,false),(u-.4)/.1);
+        if(u<=.9)return panel(lerp(right,left,(u-.5)/.4),1,false);
+        return panel(left,1,false).lerp(panel(left,1,true),(u-.9)/.1);
+      };
+      const neckCurve=new THREE.CatmullRomCurve3(Array.from({length:40},(_,i)=>neckPoint(i/40)),true);
+      const neckband:Point=(u,v)=>{
+        const p=neckCurve.getPoint(u),height=design.collar==='mandarin'||bomber?.045:.025;
+        p.y+=height*v;p.x*=1-.035*v;p.z*=1-.035*v;
+        return p;
+      };
+      cloth('neckband',surface(120,8,neckband),1,.055,'trim');
+      edge(neckband,1,'neckband-topstitch',.0015);
       if(design.collar==='classic'&&!bomber)for(const side of [-1,1]) {
         const collar:Point=(u,v)=>{
-          const a=new THREE.Vector3(side*.15,.55,.14).lerp(new THREE.Vector3(side*.02,.40,.215),u);
-          const b=new THREE.Vector3(side*.23,.425,.19).lerp(new THREE.Vector3(side*.115,.285,.25),u);
-          const p=a.lerp(b,v);p.z+=Math.sin(v*Math.PI)*.015;return p;
+          const neckU=side<0?lerp(0,.19,u):lerp(.4,.21,u);
+          const a=neckband(neckU,.8);
+          const b=new THREE.Vector3(side*lerp(.21,.09,u),lerp(.43,.31,u),lerp(.205,.25,u));
+          const p=a.lerp(b,v);p.z+=Math.sin(v*Math.PI)*.012;return p;
         };
         ribbon(`collar-${side}`,collar,.24,.22);edge(collar,1,`collar-topstitch-${side}`);
       }
@@ -330,6 +369,7 @@ export function createGarmentModel(design: Design): GarmentModel {
       object.geometry.computeVertexNormals();
     }
   }
+  smoothClothJoins(parts);
   // Materials shared by details may be unused for simple separates.
   const used=new Set<THREE.Material>();group.traverse(o=>{if(o instanceof THREE.Mesh)for(const m of Array.isArray(o.material)?o.material:[o.material])used.add(m);});
   for(const m of [seamMaterial,trimMaterial,metalMaterial])if(!used.has(m))m.dispose();

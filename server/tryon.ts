@@ -61,7 +61,7 @@ export async function generateTryOn(
   personImage: string, garmentImage: string,
   options: { apiKey: string; model: string; garmentType?: GarmentType; outputFormat?: 'png' | 'jpeg'; signal?: AbortSignal; fetcher?: typeof fetch },
 ) {
-  if (!options.apiKey) throw new TryOnError(503, 'NOT_CONFIGURED', 'Photo try-on is not connected yet. Add your OpenAI key to .env.local, then retry.');
+  if (!options.apiKey) throw new TryOnError(401, 'API_KEY_REQUIRED', 'Enter your own OpenAI API key to create a try-on.');
   const started = Date.now();
   let response: Response;
   try {
@@ -83,7 +83,7 @@ export async function generateTryOn(
   const data = await response.json().catch(() => null);
   if (!response.ok) {
     const code = data?.error?.code;
-    if (response.status === 401) throw new TryOnError(503, 'API_KEY_INVALID', 'The OpenAI API key was not accepted. Check the key in .env.local.');
+    if (response.status === 401) throw new TryOnError(401, 'API_KEY_INVALID', 'Your OpenAI API key was not accepted. Replace it with a valid key and try again.');
     if (response.status === 403) throw new TryOnError(503, 'MODEL_ACCESS', 'This OpenAI project cannot use the selected image model. Check model access or organization verification.');
     if (response.status === 429) throw new TryOnError(429, 'PROVIDER_LIMIT', 'OpenAI has reached a usage, credit, or rate limit. Check the project billing and try again later.');
     if (code === 'moderation_blocked' || code === 'content_policy_violation') throw new TryOnError(422, 'IMAGE_NOT_ACCEPTED', 'This image could not be processed. Try a different clear, fully clothed photo.');

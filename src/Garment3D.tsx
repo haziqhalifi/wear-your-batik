@@ -24,8 +24,8 @@ export default function Garment3D({design,onFallback,compact=false,detail=false}
   },[]);
   function view(value:ViewAngle) {scene.current?.setAngle(value);setAngle(value);setSpinning(false);}
   return <div className={`garment-3d${compact ? ' garment-3d-compact' : ''}`}>
-    <div className="three-stage" tabIndex={detail ? 0 : undefined} aria-label={detail ? 'Rotate garment with left and right arrow keys. Use plus and minus to zoom.' : undefined} onKeyDown={event => {
-      if (!detail) return;
+    <div className="three-stage" tabIndex={compact ? 0 : undefined} aria-label={compact ? 'Drag to rotate garment, or use left and right arrow keys. Use plus and minus to zoom.' : undefined} onKeyDown={event => {
+      if (!compact) return;
       if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); scene.current?.rotate(event.key === 'ArrowLeft' ? -.2 : .2); }
       if (event.key === '+' || event.key === '=') { event.preventDefault(); scene.current?.zoom(.8); }
       if (event.key === '-') { event.preventDefault(); scene.current?.zoom(1.25); }

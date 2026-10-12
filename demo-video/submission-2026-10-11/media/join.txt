@@ -1,0 +1,7 @@
+file '/Users/haziqhalifi/Documents/ChatGPT/batik/demo-video/submission-2026-10-11/media/scene-01.mp4'
+file '/Users/haziqhalifi/Documents/ChatGPT/batik/demo-video/submission-2026-10-11/media/scene-02.mp4'
+file '/Users/haziqhalifi/Documents/ChatGPT/batik/demo-video/submission-2026-10-11/media/scene-03.mp4'
+file '/Users/haziqhalifi/Documents/ChatGPT/batik/demo-video/submission-2026-10-11/media/scene-04.mp4'
+file '/Users/haziqhalifi/Documents/ChatGPT/batik/demo-video/submission-2026-10-11/media/scene-05.mp4'
+file '/Users/haziqhalifi/Documents/ChatGPT/batik/demo-video/submission-2026-10-11/media/scene-06.mp4'
+file '/Users/haziqhalifi/Documents/ChatGPT/batik/demo-video/submission-2026-10-11/media/scene-07.mp4'

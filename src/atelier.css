@@ -216,8 +216,11 @@
 .live-garment-flat { width:100%; height:100%; min-height:0; object-fit:contain; }
 .garment-3d-compact { width:100%; min-width:0; min-height:0; }
 .atelier-shell .garment-3d-compact .three-stage { min-height:0; }
-.live-garment-expand { position:absolute; inset:0; width:100%; border:0; background:transparent; cursor:zoom-in; color:#29444e; }
-.live-garment-expand > svg { position:absolute; top:12px; right:0; width:20px; height:20px; opacity:.6; transition:opacity .2s; }
+.live-garment-expand { position:absolute; top:0; right:0; width:44px; height:44px; display:grid; place-items:center; border:0; background:transparent; cursor:zoom-in; color:#29444e; }
+.live-garment-expand > svg { width:20px; height:20px; opacity:.6; transition:opacity .2s; }
+.live-garment-viewer .three-canvas canvas { cursor:grab; }
+.live-garment-viewer .three-canvas canvas:active { cursor:grabbing; }
+.live-garment-viewer .three-stage:focus-visible { outline:1px solid #233c4840; outline-offset:-2px; }
 .live-garment-expand:hover > svg { opacity:1; }
 .live-garment-expand:focus-visible { outline:2px solid #29444e; outline-offset:2px; }
 .garment-detail-dialog { position:fixed; inset:0; width:100vw; height:100dvh; max-width:none; max-height:none; margin:0; padding:0; border:0; color:#233c48; background:radial-gradient(ellipse at 50% 40%,#fcf5e5,#e4dece); overflow:hidden; }
@@ -244,7 +247,7 @@
  .live-garment-heading { width:60%; text-align:left; padding:0; }
  .live-garment-heading h2 { font-size:22px; }
  .live-garment-viewer { height:100%; }
- .live-garment-expand > svg { width:16px; height:16px; top:6px; right:0; }
+ .live-garment-expand > svg { width:16px; height:16px; }
  .garment-detail-dialog header { padding:16px; }
  .garment-detail-body { inset:56px 0 64px; }
  .garment-detail-hint { font-size:10px; }

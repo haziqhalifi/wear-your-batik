@@ -20,7 +20,7 @@ Culture × Tech; Best Use of Tech
 
 ## Your project overview
 
-Wear Your Batik turns appreciation of batik into a personal creative experience. Inspired by Malaysian botanical batik, it invites people who have never designed textiles to choose motifs, mix colours and add their own digital marks. Their pattern becomes a garment preview, with an AI photo try-on to help them imagine wearing it. The idea is to make cultural expression participatory: a visitor moves from admiring a finished textile to creating something of their own. These are original contemporary batik-inspired designs, not reproductions of artisan textiles or a simulation of traditional wax-resist production.
+Wear Your Batik turns appreciation of batik into a personal creative experience. Inspired by batik from Singapore, Malaysia and Indonesia, it invites people who have never designed textiles to choose motifs, mix colours and add their own digital marks. Their pattern becomes a garment preview, with an AI photo try-on to help them imagine wearing it. The idea is to make cultural expression participatory: a visitor moves from admiring a finished textile to creating something of their own. These are original contemporary batik-inspired designs, not reproductions of artisan textiles or a simulation of traditional wax-resist production.
 
 ## Your build
 

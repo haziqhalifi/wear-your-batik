@@ -1,0 +1,36 @@
+{
+  "verifiedOn": "2026-10-11",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "r_frame_rate": "30/1",
+        "duration": "115.000000",
+        "nb_frames": "3450"
+      },
+      {
+        "codec_name": "aac",
+        "r_frame_rate": "0/0",
+        "duration": "115.000000",
+        "nb_frames": "5401"
+      }
+    ],
+    "format": {
+      "duration": "115.000000",
+      "size": "13267808"
+    }
+  },
+  "videoSha256": "b99e10a143f5e7709ccd3b8202b2a6e9b56788482a747e9fa65b8fa305839fe6",
+  "sourceImageSha256": {
+    "artifacts/tryon/leaf/shirt.png": "709b29e0ab96af9eeb9784196fc4967bcadda1f1f9865814b0a343df1b15a549",
+    "artifacts/tryon/leaf/result.png": "eca14e6f70644b345f3a87f46e423b9001efa89950ff5d6a9fc28353338f7c15",
+    "public/sample-person.png": "a7aa78631298a4007e57c7fefcd77c8935c7df00fb6d3896be3ef756639d1b89"
+  },
+  "fullDecode": "Passed ffmpeg decoding of all video and audio",
+  "subtitles": "Burned in and supplied as SRT",
+  "judgeAccessibleUrl": "Pending upload and signed-out link check"
+}

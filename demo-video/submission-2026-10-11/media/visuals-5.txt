@@ -1,0 +1,5 @@
+file '/Users/haziqhalifi/Documents/ChatGPT/batik/demo-video/submission-2026-10-11/media/credits.png'
+duration 13
+file '/Users/haziqhalifi/Documents/ChatGPT/batik/demo-video/submission-2026-10-11/media/learning.png'
+duration 7
+file '/Users/haziqhalifi/Documents/ChatGPT/batik/demo-video/submission-2026-10-11/media/learning.png'

@@ -33,8 +33,6 @@
 .intro-art-caption div>span { font-size:10px; color:#c0c9ce; }
 .intro-art-caption strong { display:block; font:30px/1.3 var(--serif); margin:4px 0; }
 .intro-art-caption p { font-size:11px; line-height:1.65; color:#b4c5cd; }
-.intro-motion { position:absolute; right:4.5%; bottom:13px; border:0; background:transparent; color:#c3cbd1; font-size:10px; min-height:36px; display:flex; align-items:center; gap:8px; }
-.intro-motion>span { font-size:12px; }
 .intro-collection { padding:28px 4.5% 30px; background:#12243c; border-top:1px solid #f8edcf22; position:relative; }
 .intro-collection-heading { display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:22px; }
 .intro-collection h2 { font:400 29px/1.2 var(--serif); letter-spacing:-.015em; }
@@ -51,10 +49,6 @@
 .intro-swatch-label small { display:block; color:#99aeba; font-size:10px; margin-top:5px; }
 .intro-swatch-progress { position:absolute; bottom:-1px; left:0; height:2px; background:var(--gold); width:100%; transform:scaleX(0); transform-origin:left; }
 .intro-swatch[aria-pressed=true] .intro-swatch-progress { animation:collection-time 8.5s linear both; }
-.is-paused .intro-swatch[aria-pressed=true] .intro-swatch-progress { transform:scaleX(1); animation:none; }
-.is-paused .intro-art *, .is-paused .intro-swatch-progress { animation-play-state:paused; }
-/* Selecting a motif reveals its finished artwork even while the exhibition is paused. */
-.is-paused .intro-botanical path, .is-paused .intro-botanical circle, .is-paused .intro-fabric { animation:none; }
 .intro-footer { display:flex; align-items:flex-start; justify-content:space-between; gap:25px; padding:22px 4.5%; color:#99aeba; font-size:10px; line-height:1.8; }
 .intro-footer details { max-width:430px; text-align:right; }
 .intro-footer summary { cursor:pointer; min-height:28px; color:#c5d0d5; }
@@ -71,7 +65,7 @@
 @media(max-width:650px) {
   .intro-header { padding:18px 22px; }.intro-brand { font-size:23px; }.intro-brand small { font-size:9px; }.intro-brand svg { width:31px; }.intro-explore { font-size:0; gap:0; }.intro-explore span { font-size:25px; }
   .intro-stage { height:auto; min-height:840px; }.intro-copy-block { width:100%; padding:35px 25px 0; }.intro-invitation { font-size:10px; margin-bottom:22px; }.batik-intro h1 { font-size:76px; max-width:360px; }.intro-description { font-size:12px; margin:22px 0; }.intro-primary { min-height:50px; }.intro-actions { gap:11px; }
-  .botanical-main { width:370px; height:370px; right:-45px; top:auto; bottom:50px; }.botanical-echo { width:190px; height:190px; right:auto; left:-58px; bottom:0; top:auto; }.intro-fabric { inset:43% -10% -10% -15%; background-size:460px; mask-image:linear-gradient(transparent,#000); }.intro-orbit { width:350px; height:350px; right:-22px; top:auto; bottom:70px; }.orbit-two { bottom:50px; right:-50px; }.intro-art-caption { left:25px; right:auto; bottom:35px; gap:10px; max-width:210px; }.intro-art-caption p { display:none; }.intro-art-caption strong { font-size:24px; }.intro-caption-mark { font-size:30px; }.intro-motion { bottom:16px; right:20px; }
+  .botanical-main { width:370px; height:370px; right:-45px; top:auto; bottom:50px; }.botanical-echo { width:190px; height:190px; right:auto; left:-58px; bottom:0; top:auto; }.intro-fabric { inset:43% -10% -10% -15%; background-size:460px; mask-image:linear-gradient(transparent,#000); }.intro-orbit { width:350px; height:350px; right:-22px; top:auto; bottom:70px; }.orbit-two { bottom:50px; right:-50px; }.intro-art-caption { left:25px; right:auto; bottom:35px; gap:10px; max-width:210px; }.intro-art-caption p { display:none; }.intro-art-caption strong { font-size:24px; }.intro-caption-mark { font-size:30px; }
   .intro-collection { padding:27px 23px; }.intro-collection-heading { align-items:flex-start; flex-direction:column; gap:17px; }.intro-collection h2 { font-size:28px; }.intro-collection-heading p { font-size:10px; }.intro-use { width:100%; justify-content:space-between; }.intro-swatches { grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px 14px; }.intro-swatch-image { height:115px; }.intro-footer { padding:20px 23px; flex-direction:column; gap:10px; }.intro-footer details { text-align:left; }.intro-footer nav { justify-content:flex-start; }
 }
 @media(max-width:360px) { .batik-intro h1 { font-size:65px; }.intro-copy-block { padding-left:20px; padding-right:20px; }.intro-invitation { font-size:9px; }.intro-description { font-size:11px; }.intro-stage { min-height:810px; } }

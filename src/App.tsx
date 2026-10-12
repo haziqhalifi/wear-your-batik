@@ -62,6 +62,9 @@ export default function App() {
   const [cameraOpen, setCameraOpen] = useState(false);
   const [photo, setPhoto] = useState<Photo | null>(null);
   const [result, setResult] = useState<Result | null>(null);
+  const [apiKey, setApiKey] = useState('');
+  const [showApiKey, setShowApiKey] = useState(false);
+  const keyReady = /^sk-[A-Za-z0-9_-]+$/.test(apiKey.trim()) && apiKey.trim().length <= 512;
   const [status, setStatus] = useState<Status | null>(null);
   const [statusError, setStatusError] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -141,7 +144,7 @@ export default function App() {
     finally { if (id === photoReadId.current) setPhotoBusy(false); }
   }
   async function generate() {
-    if (!photo || sampleMismatch || generationLock.current || photoBusy || !status?.configured) return;
+    if (!photo || sampleMismatch || generationLock.current || photoBusy || !status?.configured || !keyReady) return;
     generationLock.current = true;
     const snapshot = { ...design }, inputPhoto = { ...photo }, id = ++requestId.current;
     const capturedVersion = version(snapshot), abort = new AbortController();
@@ -155,7 +158,7 @@ export default function App() {
       const [personUpload, garmentUpload] = await Promise.all([uploadImage(inputPhoto.image), uploadImage(garmentImage)]);
       if (id !== requestId.current) return;
       const response = await fetch('/api/try-on', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: abort.signal,
+        method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey.trim()}` }, signal: abort.signal,
         body: JSON.stringify({ personImage: personUpload, garmentImage: garmentUpload, garmentType: snapshot.garment, designVersion: requestVersion }),
       });
       const data = await response.json();
@@ -176,6 +179,7 @@ export default function App() {
   function startAgain() {
     requestId.current++; photoReadId.current++; controller.current?.abort(); controller.current = null;
     generationLock.current = false; setBusy(false); setPhotoBusy(false); setPhoto(null); setResult(null); setCameraOpen(false);
+    setApiKey(''); setShowApiKey(false);
     setGuidedStep(0); setCreationSession(current => current + 1);
     setDesign({ ...BLANK_DESIGN }); setError(''); setNotice(''); setShowOriginal(false); setStage('create');
     if (fileInput.current) fileInput.current.value = '';
@@ -205,10 +209,20 @@ export default function App() {
           </section>
           <aside className="photo-design-preview premium-photo-preview"><LiveGarmentPreview design={design} shirt={shirt}/><button className="text-button photo-edit-link" onClick={() => { setGuidedStep(1); navigate('create'); }}>Edit cloth</button></aside>
         </div>
-        {(photo || busy || statusError || (status && !status.configured)) && <footer className="photo-step-footer">
-          <div className="photo-generation-copy">{busy ? <p role="status">Creating your preview. {elapsed}s elapsed.<br/>This can take up to 90 seconds.</p> : <><p>{sampleMismatch ? 'Replace the sample with a suitable full-body photo for this garment.' : !photo ? 'Add a photo to continue.' : 'Your photo and design are sent to OpenAI.'}</p><small>AI appearance preview. Pattern details may vary. Fit is not guaranteed.</small></>}{(statusError || status && !status.configured) && <p className="photo-service-note" role="status">{statusError ? 'The preview service is unavailable.' : 'Live try-on is not connected yet.'} <button className="text-button" onClick={() => void checkStatus()}>Check again</button></p>}</div>
-          <button className="primary-button" onClick={() => void generate()} disabled={cameraOpen || !photo || sampleMismatch || busy || photoBusy || !status?.configured}>{busy ? <><span className="spinner"/> Creating…</> : <>Try on <span aria-hidden="true">→</span></>}</button>
-        </footer>}
+        <section className="api-key-panel" aria-labelledby="api-key-title">
+          <label id="api-key-title" htmlFor="openai-api-key">Your OpenAI API key <span>Required for AI try-on</span></label>
+          <div className="api-key-controls">
+            <input id="openai-api-key" type={showApiKey ? 'text' : 'password'} value={apiKey} onChange={event => { setApiKey(event.target.value); setError(''); }} placeholder="sk-…" autoComplete="off" autoCapitalize="none" spellCheck={false} disabled={busy} aria-describedby="api-key-help api-key-feedback" aria-invalid={Boolean(apiKey.trim() && !keyReady)} />
+            <button className="text-button" disabled={busy} aria-pressed={showApiKey} onClick={() => setShowApiKey(value => !value)}>{showApiKey ? 'Hide key' : 'Show key'}</button>
+            <button className="text-button" disabled={busy || !apiKey} onClick={() => { setApiKey(''); setShowApiKey(false); setError(''); }}>Clear key</button>
+          </div>
+          <p id="api-key-help">Kept only in this page until you reload, restart, or clear it. Sent through our server to OpenAI when you try on. Generation is charged to your OpenAI account. <a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer">Get an API key ↗</a></p>
+          <p id="api-key-feedback" role="status">{apiKey.trim() && !keyReady ? 'Enter an OpenAI API key starting with sk-, without spaces.' : keyReady ? 'Key added. OpenAI will check it when you generate.' : 'Add your key to enable AI try-on.'}</p>
+        </section>
+        <footer className="photo-step-footer">
+          <div className="photo-generation-copy">{busy ? <p role="status">Creating your preview. {elapsed}s elapsed.<br/>This can take up to 90 seconds.</p> : <><p>{sampleMismatch ? 'Replace the sample with a suitable full-body photo for this garment.' : !photo ? 'Add a photo to continue.' : 'Your photo and design are sent to OpenAI.'}</p><small>AI appearance preview. Pattern details may vary. Fit is not guaranteed.</small></>}{(statusError || status && !status.configured) && <p className="photo-service-note" role="status">{statusError ? 'The preview service is unavailable.' : 'The preview service is unavailable.'} <button className="text-button" onClick={() => void checkStatus()}>Check again</button></p>}</div>
+          <button className="primary-button" onClick={() => void generate()} disabled={cameraOpen || !photo || sampleMismatch || busy || photoBusy || !status?.configured || !keyReady}>{busy ? <><span className="spinner"/> Creating…</> : <>Try on <span aria-hidden="true">→</span></>}</button>
+        </footer>
       </section>}
 
       {stage === 'reveal' && result && <><div className="reveal-layout"><section className="result-card"><div className="result-toolbar"><span className="eyebrow">{showOriginal ? 'Original photograph' : 'Your batik wearing preview'}</span><div className="segmented" role="group" aria-label="Compare original and generated preview"><button aria-pressed={showOriginal} onClick={() => setShowOriginal(true)}>Original</button><button aria-pressed={!showOriginal} onClick={() => setShowOriginal(false)}>Your look</button></div></div><img className="result-image" src={showOriginal ? result.photo.image : result.image} alt={showOriginal ? 'Original photo used for this preview' : 'AI-generated appearance preview wearing your batik-inspired garment'}/><p className="result-caption">{showOriginal ? result.photo.sample ? 'Synthetic demo model · Original image' : 'Your original photo' : 'AI appearance preview. Pattern details may vary. Fit is not guaranteed.'}</p></section><aside className="reveal-details"><h2>Your look.</h2>{stale && <div className="message stale-message" role="status"><strong>A previous design.</strong> You’ve changed your pattern since this preview. Generate again to see your latest creation.<button className="text-button" onClick={() => navigate('try-on')}>Try on the latest design ↗</button></div>}<div className="source-pattern"><img src={svgUrl(fabricSvg(result.design))} alt="Exact source pattern used to generate this preview"/><div><span className="eyebrow">Source cloth</span><p>Your original design.</p></div></div><button className="primary-button" onClick={() => { download(result.image, 'wear-your-batik-look.png'); setNotice('Your wearing preview has been downloaded.'); }}>Save look <span aria-hidden="true">↓</span></button><button className="secondary-button" onClick={() => void exportPattern(result.design)}>Save pattern</button><button className="text-button" onClick={() => { setGuidedStep(1); navigate('create'); }}>Edit cloth</button></aside></div></>}

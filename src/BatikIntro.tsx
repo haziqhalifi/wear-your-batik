@@ -8,16 +8,14 @@ const collection = MOTIFS.map((motif, index) => {
 
 export default function BatikIntro({ onStart, onChoose }: { onStart: () => void; onChoose: (design: Design) => void }) {
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
   const [replay, setReplay] = useState(0);
   const selected = collection[active];
   useEffect(() => {
-    if (paused) return;
     const timer = window.setInterval(() => setActive(index => (index + 1) % collection.length), 8500);
     return () => window.clearInterval(timer);
-  }, [paused, active]);
-  function choose(index: number) { setActive(index); setPaused(true); setReplay(value => value + 1); }
-  return <div className={`batik-intro ${paused ? 'is-paused' : ''}`} style={{ '--textile': selected.design.background } as CSSProperties}>
+  }, [active, replay]);
+  function choose(index: number) { setActive(index); setReplay(value => value + 1); }
+  return <div className="batik-intro" style={{ '--textile': selected.design.background } as CSSProperties}>
     <header className="intro-header">
       <a className="intro-brand" href="#" aria-label="Wear Your Batik home"><svg viewBox="0 0 100 110" aria-hidden="true" dangerouslySetInnerHTML={{ __html: collection[0].artwork }}/><span>Wear Your Batik<small>A digital batik atelier</small></span></a>
       <a className="intro-explore" href="#batik-collection">Collection <span aria-hidden="true">↙</span></a>
@@ -36,7 +34,6 @@ export default function BatikIntro({ onStart, onChoose }: { onStart: () => void;
         <div className="intro-actions"><button className="intro-primary" onClick={onStart}>Create my batik <span aria-hidden="true">↗</span></button></div>
       </div>
       <div className="intro-art-caption"><span className="intro-caption-mark" aria-hidden="true">✳</span><div><span>On the cloth</span><strong>{selected.label}</strong></div></div>
-      <button className="intro-motion" onClick={() => setPaused(value => !value)} aria-label={paused ? 'Play motion' : 'Pause motion'} aria-pressed={paused}><span aria-hidden="true">{paused ? '▶' : 'Ⅱ'}</span>{paused ? 'Play motion' : 'Pause motion'}</button>
     </section>
     <section id="batik-collection" className="intro-collection" aria-labelledby="collection-title">
       <div className="intro-collection-heading"><div><h2 id="collection-title">One cloth. Endless expressions.</h2></div><button className="intro-use" onClick={() => onChoose(selected.design)}>Create with {selected.label} <span aria-hidden="true">↗</span></button></div>

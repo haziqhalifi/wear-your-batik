@@ -1,0 +1,44 @@
+[
+  {
+    "scene": 1,
+    "duration": 10,
+    "voiceTempo": 1.1128892070484582,
+    "voiceEnd": 9.579501
+  },
+  {
+    "scene": 2,
+    "duration": 20,
+    "voiceTempo": 1,
+    "voiceEnd": 14.979686999999998
+  },
+  {
+    "scene": 3,
+    "duration": 15,
+    "voiceTempo": 1,
+    "voiceEnd": 12.206209
+  },
+  {
+    "scene": 4,
+    "duration": 15,
+    "voiceTempo": 1,
+    "voiceEnd": 11.755188
+  },
+  {
+    "scene": 5,
+    "duration": 25,
+    "voiceTempo": 1,
+    "voiceEnd": 19.910251
+  },
+  {
+    "scene": 6,
+    "duration": 20,
+    "voiceTempo": 1,
+    "voiceEnd": 19.059688
+  },
+  {
+    "scene": 7,
+    "duration": 10,
+    "voiceTempo": 1,
+    "voiceEnd": 9.346104
+  }
+]

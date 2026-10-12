@@ -8,3 +8,4 @@ artifacts/private/
 .vercel/
 .vercel
 .env*
+.gstack/

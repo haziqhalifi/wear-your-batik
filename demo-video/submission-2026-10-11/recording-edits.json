@@ -1,0 +1,6 @@
+{
+  "note": "Source boundaries verified from recorded frames. Browser screencast timestamps lag wall-clock action markers. Small playback speed adjustments fit the requested scene windows; all actions and rendered outputs are authentic.",
+  "create": {"start": 9.2, "end": 29.8},
+  "stamp": {"start": 29.8, "end": 47.0},
+  "three": {"start": 48.5, "end": 65.3}
+}

@@ -32,7 +32,7 @@ test('provider payload preserves image ordering and avoids unsupported input fid
 
 test('provider errors are actionable and never expose raw upstream content', async () => {
   await assert.rejects(generateTryOn('p', 'g', { apiKey: 'test-only', model: 'gpt-image-2', fetcher: async () => new Response(JSON.stringify({ error: { message: 'secret upstream debug' } }), { status: 401 }) }), (error: any) => error.code === 'API_KEY_INVALID' && !error.message.includes('secret'));
-  await assert.rejects(generateTryOn('p', 'g', { apiKey: '', model: 'gpt-image-2' }), { code: 'NOT_CONFIGURED' });
+  await assert.rejects(generateTryOn('p', 'g', { apiKey: '', model: 'gpt-image-2' }), { code: 'API_KEY_REQUIRED' });
   await assert.rejects(generateTryOn('p', 'g', { apiKey: 'test-only', model: 'gpt-image-2', fetcher: async () => { throw new DOMException('Timed out', 'TimeoutError'); } }), { code: 'TIMEOUT' });
 });
 
@@ -44,6 +44,7 @@ test('API blocks simultaneous generations and rejects unrelated browser origins'
   let calls = 0;
   const app = createApp({ configuration: () => ({ apiKey: 'test-only', model: 'gpt-image-2' }), generate: async (_person, _garment, options) => {
     assert.equal(options.garmentType, 'skirt');
+    assert.equal(options.apiKey, 'sk-user-test');
     calls++; began(); await pending; return { image: 'data:image/png;base64,dGVzdA==', model: 'gpt-image-2', durationMs: 1 };
   } });
   const server = app.listen(0, '127.0.0.1');
@@ -51,11 +52,11 @@ test('API blocks simultaneous generations and rejects unrelated browser origins'
   const addr = server.address() as { port: number }; const url = `http://127.0.0.1:${addr.port}`;
   try {
     const image = await png(); const body = JSON.stringify({ personImage: image, garmentImage: image, garmentType: 'skirt', designVersion: 'design-1' });
-    const request = () => fetch(`${url}/api/try-on`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body });
+    const request = () => fetch(`${url}/api/try-on`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer sk-user-test' }, body });
     const first = request(); await started;
     const duplicate = await request(); assert.equal(duplicate.status, 429); assert.equal(calls, 1);
     release(); const result = await (await first).json(); assert.equal(result.designVersion, 'design-1');
-    const invalid = await fetch(`${url}/api/try-on`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ designVersion: 'bad-type', garmentType: 'ignore instructions' }) });
+    const invalid = await fetch(`${url}/api/try-on`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer sk-user-test' }, body: JSON.stringify({ designVersion: 'bad-type', garmentType: 'ignore instructions' }) });
     assert.equal(invalid.status, 400); assert.equal((await invalid.json()).code, 'INVALID_GARMENT'); assert.equal(calls, 1);
     const crossOrigin = await fetch(`${url}/api/try-on`, { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://unrelated.example' }, body });
     assert.equal(crossOrigin.status, 403); assert.equal(calls, 1);
@@ -86,10 +87,40 @@ test('hosted API accepts its public hostname and still rejects other browser ori
   });
   try {
     const status = await request('/api/status');
-    assert.equal(status.status, 200); assert.equal(status.body.configured, false);
+    assert.equal(status.status, 200); assert.equal(status.body.configured, true); assert.equal(status.body.requiresApiKey, true);
     const sameOrigin = await request('/api/try-on', `https://${host}`);
-    assert.equal(sameOrigin.status, 503); assert.equal(sameOrigin.body.code, 'NOT_CONFIGURED');
+    assert.equal(sameOrigin.status, 401); assert.equal(sameOrigin.body.code, 'API_KEY_REQUIRED');
     const crossOrigin = await request('/api/try-on', 'https://unrelated.example');
     assert.equal(crossOrigin.status, 403);
   } finally { server.closeAllConnections(); await new Promise<void>((r, j) => server.close(e => e ? j(e) : r())); }
+});
+
+test('API requires each user key even with a server key and never reuses previous credentials', async () => {
+  const usedKeys: string[] = [];
+  const app = createApp({ configuration: () => ({ apiKey: 'sk-server-must-not-be-used', model: 'gpt-image-2' }), generate: async (_person, _garment, options) => {
+    usedKeys.push(options.apiKey);
+    return { image: 'data:image/png;base64,dGVzdA==', model: options.model, durationMs: 1 };
+  } });
+  const server = app.listen(0, '127.0.0.1');
+  await new Promise<void>(resolve => server.once('listening', resolve));
+  const { port } = server.address() as { port: number };
+  try {
+    const image = await png();
+    const body = JSON.stringify({ personImage: image, garmentImage: image, designVersion: 'key-test' });
+    const request = (key?: string) => fetch(`http://127.0.0.1:${port}/api/try-on`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', ...(key ? { Authorization: `Bearer ${key}` } : {}) }, body,
+    });
+    const missing = await request();
+    assert.equal(missing.status, 401); assert.equal((await missing.json()).code, 'API_KEY_REQUIRED');
+    const malformed = await request('not-an-openai-key');
+    assert.equal(malformed.status, 400); assert.equal((await malformed.json()).code, 'API_KEY_INVALID');
+    assert.equal((await request(`sk-${'a'.repeat(512)}`)).status, 400);
+    assert.deepEqual(usedKeys, []);
+    assert.equal((await request('sk-user-one')).status, 200);
+    assert.equal((await request()).status, 401);
+    assert.equal((await request('sk-user-two')).status, 200);
+    assert.deepEqual(usedKeys, ['sk-user-one', 'sk-user-two']);
+    const status = await fetch(`http://127.0.0.1:${port}/api/status`).then(response => response.text());
+    assert.equal(status.includes('sk-'), false);
+  } finally { server.closeAllConnections(); await new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve())); }
 });

@@ -9,11 +9,11 @@ Requires Node.js 22 or newer.
 ```sh
 npm install
 cp .env.example .env.local # Only if .env.local does not exist yet
-# Add OPENAI_API_KEY to .env.local using your editor
+# Optional: configure OPENAI_IMAGE_MODEL and PORT in .env.local
 npm run dev
 ```
 
-Open http://127.0.0.1:5180. The key is read on each request, so adding it does not require restarting. The prototype binds only to localhost. Image generation uses OpenAI's paid API when Generate my look is pressed. Keep .env.local private.
+Open http://127.0.0.1:5180. The prototype binds only to localhost. Image generation uses OpenAI's paid API when Generate my look is pressed. Enter your own OpenAI API key in the try-on screen. The masked field supports showing and clearing the key. It stays in page memory only and is cleared on reload or restart; it is not saved to browser storage. Each generation sends the key in the Authorization header to the app server, which forwards it to OpenAI without storing it. Generation is billed to your OpenAI account. A key is required even if the server has OPENAI_API_KEY configured.
 
 The editor works without an API key. Personal images are held in session memory and sent to OpenAI only on explicit generation. The app writes no uploaded photos to disk. OpenAI's own retention policies apply. The included sample person is synthetic, created with the built-in image generation tool. No real person's photo was used to create it.
 
@@ -21,7 +21,7 @@ The editor works without an API key. Personal images are held in session memory 
 
 The live site is https://wear-your-batik.vercel.app/ and the repository is https://github.com/haziqhalifi/wear-your-batik. The Vercel project is `haziqhalifis-projects/wear-your-batik`. Deploy the current workspace with `vercel deploy --prod`. Vite serves the studio and `api/[...path].ts` serves the Express API. Hosted requests retain the same-origin check; local development retains its localhost restriction.
 
-Configure `OPENAI_API_KEY` as a sensitive production environment variable in Vercel, then redeploy to enable photo generation. Local `.env` files and development artifacts are excluded from deployment. Images are resized and compressed before upload to fit the hosted payload limit; hosted results use JPEG. The in-memory generation lock applies within one function instance, not across every Vercel instance.
+Each user must supply their own OpenAI API key in the try-on screen. No shared production API key is needed. `OPENAI_IMAGE_MODEL` can optionally select the image model. Local `.env` files and development artifacts are excluded from deployment. Images are resized and compressed before upload to fit the hosted payload limit; hosted results use JPEG. The in-memory generation lock applies within one function instance, not across every Vercel instance.
 
 ## Guided creation
 
@@ -58,7 +58,7 @@ After capture, review the photo and select **Use this photo** or **Retake**. Cam
 ```sh
 npm test
 npm run build
-# With dev server running and key configured, makes ONE paid edit using the synthetic sample:
+# With dev server running and your OPENAI_API_KEY in .env.local (CLI only), makes ONE paid edit using the synthetic sample:
 npm run test:tryon -- leaf
 ```
 

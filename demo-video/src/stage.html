@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wear Your Batik — Malam</title>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<style>
+  :root {
+    --navy: #0e1a2c; --ink: #13233d; --cream: #f9e6b8; --paper: #f4efe3;
+    --gold: #efbd66; --coral: #ef785c; --teal: #479c96;
+    --serif: 'Libre Caslon Display', Georgia, serif; --sans: 'DM Sans', sans-serif;
+  }
+  html, body { margin: 0; background: var(--navy); overflow: hidden; }
+  #root { position: relative; overflow: hidden; background: var(--navy); font-family: var(--sans); color: var(--cream); }
+  .abs { position: absolute; }
+  .fill { position: absolute; inset: 0; }
+  svg { display: block; }
+  img { display: block; }
+
+  /* Kinetic word: each glyph rises out of its own mask, like wax lifting off cloth */
+  .word { position: absolute; font-family: var(--serif); line-height: .86; white-space: nowrap; letter-spacing: -.01em; color: var(--cream); }
+  .word .m { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0 .02em .12em; margin: 0 -.02em -.12em; }
+  .word .c { display: inline-block; will-change: transform; }
+  .word .dot { color: var(--gold); }
+  .cap { position: absolute; font-weight: 450; letter-spacing: .005em; color: rgba(249, 230, 184, .82); }
+  .label { position: absolute; }
+  .label .eyebrow { display: block; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+  .label .name { display: block; font-family: var(--serif); color: var(--cream); margin-top: .25em; }
+  .rule { position: absolute; height: 2px; background: var(--gold); transform-origin: left center; }
+
+  #brand { display: flex; align-items: center; }
+  #brand span { font-family: var(--serif); color: var(--cream); white-space: nowrap; }
+  #index { font-weight: 600; letter-spacing: .2em; color: rgba(249, 230, 184, .7); text-align: right; white-space: nowrap; }
+  #index b { color: var(--gold); font-weight: 600; }
+
+  #phone { position: absolute; background: #070d18; box-shadow: 0 40px 90px rgba(0,0,0,.55), inset 0 0 0 1.5px rgba(249,230,184,.16); }
+  #phone .screen { position: absolute; overflow: hidden; background: #13203a; }
+  #phone .screen img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  #pointer { position: absolute; border-radius: 50%; background: rgba(255,255,255,.92); box-shadow: 0 0 0 6px rgba(255,255,255,.22), 0 8px 18px rgba(0,0,0,.35); transform: translate(-50%, -50%); }
+  .ripple { position: absolute; border-radius: 50%; border: 3px solid var(--cream); transform: translate(-50%, -50%); }
+
+  #garments .disc { position: absolute; border-radius: 50%; background: radial-gradient(circle at 50% 42%, #fbf7ec, #ece4d1 72%); }
+  #garments .ring { position: absolute; border-radius: 50%; border: 1.5px solid rgba(239, 189, 102, .55); }
+  #garments img { position: absolute; }
+
+  #card { position: absolute; overflow: hidden; background: #f2ecdf; box-shadow: 0 40px 90px rgba(0,0,0,.45); }
+  #card img { position: absolute; left: 0; width: 100%; }
+  #card .badge { position: absolute; background: rgba(255,255,255,.75); color: #293344; font-weight: 550; border-radius: 999px; white-space: nowrap; }
+
+  #tryon .frame { position: absolute; overflow: hidden; background: #bdbab4; box-shadow: 0 40px 90px rgba(0,0,0,.5); }
+  #tryon .frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  #tryon .wax { position: absolute; left: -2%; width: 104%; background: #fff3d2; box-shadow: 0 0 18px 6px rgba(255, 214, 140, .75), 0 0 60px 18px rgba(239, 189, 102, .35); }
+  #chip { position: absolute; background: #f5f2ea; box-shadow: 0 24px 50px rgba(0,0,0,.45); overflow: hidden; }
+  #chip img { width: 100%; }
+  #chip span { position: absolute; left: 0; right: 0; bottom: 0; text-align: center; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #293344; background: rgba(245,242,234,.92); }
+
+  #endType { text-align: center; }
+  #endType .mark { font-family: var(--serif); white-space: nowrap; color: var(--cream); }
+  #endType .sub { font-weight: 600; letter-spacing: .32em; text-transform: uppercase; color: var(--gold); }
+  #endType .tag { font-family: var(--serif); color: rgba(249, 230, 184, .92); }
+  #endType .url { font-weight: 500; letter-spacing: .06em; color: rgba(249, 230, 184, .7); }
+
+  #grain { position: absolute; inset: -64px; mix-blend-mode: overlay; opacity: .09; pointer-events: none; }
+  #vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(5, 10, 20, .55) 100%); }
+  #fade { position: absolute; inset: 0; background: var(--navy); pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="../assets/generated/manifest.js"></script>
+<script src="timeline.js"></script>
+<script src="stage.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "markers": {
+    "intro": 2.6113057499999996,
+    "create": 6.938154708,
+    "stamp": 27.123059375,
+    "stampEnd": 42.40473725,
+    "three": 44.15226325,
+    "threeEnd": 59.516049583
+  },
+  "viewport": {
+    "width": 1600,
+    "height": 750
+  },
+  "date": "2026-10-11",
+  "proof": "Actual localhost app. No generation call. Editorial recording cursor."
+}

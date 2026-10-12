@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wear Your Batik — The line that becomes a story</title>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<script type="importmap">{ "imports": { "three": "/node_modules/three/build/three.module.js", "three/addons/": "/node_modules/three/examples/jsm/" } }</script>
+<style>
+  :root {
+    --indigo: #101F36; --ivory: #F8EDCF; --gold: #EDC87E; --wax: #f9e6b8;
+    --serif: 'Libre Caslon Display', Georgia, serif; --sans: 'DM Sans', sans-serif;
+  }
+  html, body { margin: 0; background: var(--indigo); overflow: hidden; }
+  #root { position: relative; overflow: hidden; background: var(--indigo); font-family: var(--sans); color: var(--ivory); }
+  .layer { position: absolute; inset: 0; pointer-events: none; }
+  canvas.layer, svg.layer { width: 100%; height: 100%; }
+  svg { display: block; overflow: visible; }
+  img { display: block; }
+  #weaveTop { mix-blend-mode: soft-light; }
+  .shot { position: absolute; overflow: hidden; will-change: transform, opacity; box-shadow: 0 30px 80px rgba(3, 10, 22, .55); }
+  .shot img { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+  #touch { position: absolute; left: 0; top: 0; width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 50%;
+    border: 2.5px solid rgba(248, 237, 207, .95); background: rgba(248, 237, 207, .16); box-shadow: 0 6px 18px rgba(6, 14, 28, .35); }
+  #ripple { position: absolute; left: 0; top: 0; width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 50%; border: 2px solid rgba(248, 237, 207, .9); }
+  #fingertip { position: absolute; left: 0; top: 0; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,250,236,.95) 0 38%, rgba(248,237,207,.35) 58%, rgba(248,237,207,0) 72%); }
+  .title { position: absolute; font-family: var(--serif); font-weight: 400; color: var(--ivory); white-space: nowrap; letter-spacing: -.035em; }
+  .line { display: block; }
+  .line > span { display: inline-block; }
+  .label { position: absolute; white-space: nowrap; }
+  .label b { display: block; font-family: var(--serif); font-weight: 400; color: var(--ivory); letter-spacing: -.01em; }
+  .label i { display: block; font-style: normal; font-family: var(--sans); color: var(--gold); letter-spacing: .16em; text-transform: uppercase; }
+  .label .rule { display: block; height: 1.5px; background: var(--gold); transform-origin: left center; }
+  #cta { position: absolute; display: flex; align-items: center; justify-content: space-between; background: var(--ivory); color: #14273b; border-radius: 3px; font-weight: 550; }
+  #subs { position: absolute; left: 0; right: 0; bottom: auto; display: flex; justify-content: center; align-items: flex-start; }
+  #subs span { display: inline-block; text-align: center; font-family: var(--sans); font-weight: 500; color: #fffaf0;
+    background: rgba(9, 18, 33, .66); border-radius: 14px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .caption-chip { position: absolute; font-family: var(--sans); font-weight: 500; letter-spacing: .04em; color: var(--ivory); background: rgba(9, 18, 33, .62); border-radius: 999px; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div id="root">
+  <canvas id="weave" class="layer"></canvas>
+  <div id="glow" class="layer"></div>
+  <img id="introFabric" class="layer" alt="">
+  <svg id="orbits" class="layer"></svg>
+  <canvas id="gl" class="layer"></canvas>
+  <svg id="art" class="layer"></svg>
+  <svg id="cloth" class="layer"></svg>
+  <div id="ui" class="layer"></div>
+  <svg id="rosette" class="layer"></svg>
+  <svg id="emblem" class="layer"></svg>
+  <canvas id="weaveTop" class="layer"></canvas>
+  <div id="type" class="layer"></div>
+  <div id="fx" class="layer"></div>
+  <canvas id="grain" class="layer"></canvas>
+  <div id="subs" class="layer"></div>
+</div>
+<script type="module" src="stage.js"></script>
+</body>
+</html>
